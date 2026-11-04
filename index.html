@@ -2,1259 +2,809 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ХимОГЭ — тренажёр по химии 8–9 класс</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>ХимОГЭ — Профи Тренажёр</title>
 <style>
-:root{--bg-1:#0d1020;--bg-2:#1a1440;--card:#1b1f38;--card-2:#232847;--accent:#8b6bff;--accent-2:#4dd6c1;--ok:#3ddc97;--err:#ff5a6e;--text:#eef0ff;--muted:#9aa0c4;--radius:18px}
-[data-theme="light"]{--bg-1:#f4f5fb;--bg-2:#e6e9f7;--card:#fff;--card-2:#eef1fb;--text:#1a1d2e;--muted:#5a6080}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;background:radial-gradient(1200px 600px at 10% -10%,#2a1b54 0%,transparent 60%),radial-gradient(900px 500px at 100% 0%,#123a3a 0%,transparent 55%),linear-gradient(160deg,var(--bg-1),var(--bg-2));color:var(--text);min-height:100vh;padding:18px;line-height:1.5;transition:background .3s,color .3s}
-[data-theme="light"] body{background:radial-gradient(1200px 600px at 10% -10%,#dcd6ff 0%,transparent 60%),radial-gradient(900px 500px at 100% 0%,#c8f0e6 0%,transparent 55%),linear-gradient(160deg,var(--bg-1),var(--bg-2))}
-body[data-font="large"] .app{zoom:1.12}body[data-font="xl"] .app{zoom:1.24}
-.app{max-width:1000px;margin:0 auto}
-header{text-align:center;padding:8px 0 4px}
-header h1{font-size:26px;font-weight:800;letter-spacing:-.5px;background:linear-gradient(90deg,#a88cff,#4dd6c1);-webkit-background-clip:text;background-clip:text;color:transparent}
-header p{color:var(--muted);font-size:12px;margin-top:2px}
-nav{display:flex;gap:5px;justify-content:center;flex-wrap:wrap;margin:14px 0 18px}
-nav button{background:var(--card);color:var(--muted);border:none;cursor:pointer;padding:8px 11px;border-radius:10px;font-size:12px;font-weight:600;font-family:inherit;transition:all .2s}
-nav button:hover{color:var(--text);background:var(--card-2)}
-nav button.active{background:linear-gradient(135deg,var(--accent),#6f4ce0);color:#fff;box-shadow:0 4px 14px rgba(139,107,255,.3)}
-.screen{display:none;animation:fade .3s ease}.screen.active{display:block}
-@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-.hero{text-align:center;padding:4px 0 12px}
-.hero h2{font-size:26px;font-weight:800;letter-spacing:-1px}
-.hero p{color:var(--muted);margin-top:4px;font-size:13px}
-.stats-row{display:flex;gap:8px;justify-content:center;margin:14px 0 16px;flex-wrap:wrap}
-.stat{background:var(--card);border-radius:12px;padding:10px 16px;text-align:center;min-width:80px;border:1px solid rgba(139,107,255,.12)}
-.stat-val{font-size:20px;font-weight:800;background:linear-gradient(90deg,#a88cff,#4dd6c1);-webkit-background-clip:text;background-clip:text;color:transparent}
-.stat-lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-top:2px}
-.section-title{font-size:16px;font-weight:800;margin:20px 0 10px;display:flex;align-items:center;gap:8px}
-.mode-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
-.mode-card{background:linear-gradient(160deg,var(--card),var(--card-2));border:1px solid rgba(139,107,255,.1);border-radius:14px;padding:14px;text-align:left;cursor:pointer;color:var(--text);font-family:inherit;transition:all .2s;position:relative;overflow:hidden}
-.mode-card:hover{transform:translateY(-2px);border-color:rgba(139,107,255,.4);box-shadow:0 10px 24px rgba(0,0,0,.25)}
-.mode-emoji{font-size:22px;margin-bottom:4px}
-.mode-title{font-size:14px;font-weight:700;margin-bottom:1px}
-.mode-desc{font-size:11px;color:var(--muted);line-height:1.3}
-.progress-map{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-bottom:8px}
-.pm-item{background:var(--card);border-radius:12px;padding:10px 12px;border:1px solid rgba(139,107,255,.1)}
-.pm-top{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:4px}
-.pm-name{font-weight:700;color:var(--text);font-size:12px}
-.pm-bar{height:5px;background:rgba(139,107,255,.15);border-radius:99px;overflow:hidden}
-.pm-bar>div{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:99px}
-.toolbar{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
-.toolbar input,.toolbar select,.toolbar button{background:var(--card);border:1px solid rgba(139,107,255,.15);color:var(--text);padding:9px 12px;border-radius:10px;font-size:13px;font-family:inherit;outline:none;flex:1;min-width:120px}
-.toolbar input:focus{border-color:var(--accent)}
-.toolbar button{cursor:pointer;font-weight:700;flex:0 0 auto;min-width:0;background:linear-gradient(135deg,var(--accent),#6f4ce0);color:#fff;border:none}
-.theory-card{display:flex;gap:10px;background:var(--card);border-radius:12px;padding:10px 12px;margin-bottom:7px;border:1px solid rgba(139,107,255,.08)}
-.t-swatch{width:34px;height:34px;border-radius:9px;flex:none;border:1px solid rgba(139,107,255,.2)}
-.t-body{flex:1;min-width:0}
-.t-top{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
-.t-formula{font-size:15px;font-weight:800}
-.t-color{font-size:11px;color:var(--accent-2);font-weight:600}
-.t-reaction{font-size:12px;color:var(--muted);margin-top:2px;font-family:ui-monospace,monospace}
-.t-note{font-size:11px;color:var(--muted);margin-top:3px}
-.empty{text-align:center;color:var(--muted);padding:30px;font-size:13px}
-.mnemonic{background:linear-gradient(135deg,rgba(139,107,255,.12),rgba(77,214,193,.08));border-radius:12px;padding:12px 14px;margin-bottom:8px;border-left:3px solid var(--accent)}
-.mnemonic b{color:var(--accent-2)}
-.flash-wrap{max-width:520px;margin:0 auto}
-.flash-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;color:var(--muted);font-size:11px;flex-wrap:wrap;gap:6px}
-.progress{height:5px;background:rgba(139,107,255,.15);border-radius:99px;overflow:hidden;margin-bottom:14px}
-.progress>div{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2));width:0;transition:width .3s;border-radius:99px}
-.flashcard{perspective:1200px;height:310px;cursor:pointer;margin-bottom:12px;position:relative}
-.flashcard-inner{position:relative;width:100%;height:100%;transition:transform .6s cubic-bezier(.2,.8,.2,1);transform-style:preserve-3d}
-.flashcard.flipped .flashcard-inner{transform:rotateY(180deg)}
-.flashcard-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:20px;padding:20px;text-align:center;background:linear-gradient(160deg,var(--card),var(--card-2));border:1px solid rgba(139,107,255,.12);box-shadow:0 14px 36px rgba(0,0,0,.3)}
-.flashcard-back{transform:rotateY(180deg)}
-.fc-formula{font-size:34px;font-weight:800;letter-spacing:-1px;word-break:break-word}
-.fc-hint{color:var(--muted);font-size:11px;margin-top:10px}
-.fc-swatch{width:74px;height:74px;border-radius:18px;margin-bottom:8px;border:1px solid rgba(139,107,255,.2)}
-.fc-color{font-size:18px;font-weight:700;margin-bottom:8px}
-.fc-reaction{font-size:12px;color:var(--muted);font-family:ui-monospace,monospace;margin-bottom:5px}
-.fc-note{font-size:11px;color:var(--muted);max-width:320px}
-.flash-controls{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
-.btn{background:linear-gradient(135deg,var(--accent),#6f4ce0);color:#fff;border:none;padding:10px 16px;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit;transition:all .18s;box-shadow:0 6px 16px rgba(139,107,255,.22)}
-.btn:hover{transform:translateY(-1px)}
-.btn.ghost{background:var(--card-2);box-shadow:none;color:var(--text)}
-.btn.ok{background:linear-gradient(135deg,#2fbf78,#3ddc97)}
-.btn.err{background:linear-gradient(135deg,#e04352,#ff5a6e)}
-.btn.small{padding:6px 11px;font-size:11px;border-radius:8px}
-.quiz-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:12px;color:var(--muted);flex-wrap:wrap;gap:6px}
-.quiz-stats{display:flex;gap:12px}.quiz-stats b{color:var(--text)}
-.quiz-q{background:linear-gradient(160deg,var(--card),var(--card-2));border-radius:18px;padding:22px 18px;text-align:center;margin-bottom:12px;border:1px solid rgba(139,107,255,.1)}
-.q-formula{font-size:30px;font-weight:800;letter-spacing:-1px;margin-bottom:6px;word-break:break-word}
-.q-text{font-size:15px;color:var(--text);line-height:1.45}
-.q-text .hl{color:var(--accent-2);font-weight:700}
-.swatch.big{width:70px;height:70px;border-radius:18px;margin:0 auto 12px;display:block;border:1px solid rgba(139,107,255,.25)}
-.options{display:grid;gap:7px;margin-bottom:12px}
-.opt{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid rgba(139,107,255,.1);border-radius:11px;padding:11px 14px;color:var(--text);font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;text-align:left;transition:all .15s;width:100%}
-.opt:hover:not(.disabled){border-color:var(--accent);background:var(--card-2)}
-.opt.disabled{cursor:default}
-.opt.correct{border-color:var(--ok);background:rgba(61,220,151,.14)}
-.opt.wrong{border-color:var(--err);background:rgba(255,90,110,.14)}
-.swatch{width:18px;height:18px;border-radius:50%;flex:none;border:1px solid rgba(139,107,255,.25)}
-.feedback{background:var(--card);border-radius:11px;padding:12px;margin-bottom:10px;border-left:3px solid var(--ok);display:none}
-.feedback.show{display:block;animation:fade .2s}
-.fb-title{font-weight:800;font-size:13px;margin-bottom:3px}
-.fb-reaction{font-size:13px;font-weight:600}
-.fb-eq{font-size:12px;color:var(--muted);font-family:ui-monospace,monospace;margin-top:2px}
-.fb-note{font-size:11px;color:var(--muted);margin-top:5px}
-.result-box{background:linear-gradient(160deg,var(--card),var(--card-2));border-radius:20px;padding:28px 18px;text-align:center;max-width:480px;margin:0 auto;border:1px solid rgba(139,107,255,.12)}
-.res-score{font-size:44px;font-weight:800;letter-spacing:-2px;background:linear-gradient(90deg,#a88cff,#4dd6c1);-webkit-background-clip:text;background-clip:text;color:transparent}
-.res-msg{color:var(--muted);margin:6px 0 16px;font-size:14px}
-.res-details{display:flex;justify-content:center;gap:20px;margin-bottom:18px;flex-wrap:wrap}
-.res-details div{text-align:center}.res-details b{display:block;font-size:18px}
-.res-details span{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
-.chain-step{background:var(--card);border-radius:12px;padding:12px;margin-bottom:8px;border-left:3px solid var(--accent)}
-.chain-eq{font-size:15px;font-weight:700;margin-bottom:6px}
-.chain-opts{display:flex;gap:6px;flex-wrap:wrap}
-.chain-opts button{background:var(--card-2);color:var(--text);border:1px solid rgba(139,107,255,.15);padding:6px 11px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit}
-.chain-opts button:hover{border-color:var(--accent)}
-.chain-opts button.correct{border-color:var(--ok);background:rgba(61,220,151,.15)}
-.chain-opts button.wrong{border-color:var(--err);background:rgba(255,90,110,.15)}
-.balance-eq{font-size:20px;font-weight:800;text-align:center;margin-bottom:12px;font-family:ui-monospace,monospace;word-break:break-word}
-.palette-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px}
-.pal-item{border-radius:12px;padding:8px;text-align:center;cursor:pointer;border:1px solid rgba(139,107,255,.15);background:var(--card);transition:transform .15s}
-.pal-item:hover{transform:scale(1.04)}
-.pal-swatch{width:100%;height:56px;border-radius:8px;margin-bottom:4px;border:1px solid rgba(139,107,255,.2)}
-.pal-label{font-size:10px;font-weight:700;color:var(--text);line-height:1.2}
-.bookmark-btn{background:none;border:none;font-size:20px;cursor:pointer;padding:4px;filter:grayscale(1);opacity:.5;transition:all .2s;position:absolute;top:8px;right:8px;z-index:5}
-.bookmark-btn.active{filter:grayscale(0);opacity:1}
-.settings-row{display:flex;justify-content:space-between;align-items:center;background:var(--card);border-radius:12px;padding:12px 14px;margin-bottom:8px;border:1px solid rgba(139,107,255,.1)}
-.settings-row .lbl{font-size:13px;font-weight:600}
-.settings-row .sub{font-size:11px;color:var(--muted)}
-.switch{position:relative;width:44px;height:24px;background:var(--card-2);border-radius:99px;cursor:pointer;transition:background .2s;border:1px solid rgba(139,107,255,.2)}
-.switch::after{content:'';position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:var(--muted);transition:all .2s}
-.switch.on{background:rgba(61,220,151,.25)}.switch.on::after{left:22px;background:var(--ok)}
-.checklist-item{display:flex;align-items:center;gap:10px;background:var(--card);border-radius:10px;padding:10px 12px;margin-bottom:6px;cursor:pointer;border:1px solid rgba(139,107,255,.1)}
-.checklist-item.done{border-color:var(--ok);background:rgba(61,220,151,.08)}
-.checklist-item input{width:18px;height:18px;accent-color:var(--ok)}
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--card);color:var(--text);padding:10px 18px;border-radius:12px;font-size:13px;font-weight:700;box-shadow:0 10px 30px rgba(0,0,0,.4);border:1px solid var(--ok);transition:transform .3s;z-index:999}
-.toast.show{transform:translateX(-50%) translateY(0)}
-.precip-anim{animation:precipDrop .7s ease}
-@keyframes precipDrop{0%{transform:translateY(-20px);opacity:0}60%{transform:translateY(4px);opacity:1}100%{transform:translateY(0)}}
-.duel-score{display:flex;justify-content:center;gap:20px;margin-bottom:12px}
-.duel-side{background:var(--card);border-radius:12px;padding:10px 18px;text-align:center;border:1px solid rgba(139,107,255,.15);min-width:90px}
-.duel-side.me{border-color:var(--accent-2)}.duel-side.bot{border-color:var(--err)}
-.duel-num{font-size:24px;font-weight:800}
-.duel-lbl{font-size:10px;color:var(--muted);text-transform:uppercase}
-.blitz-timer{font-size:28px;font-weight:800;text-align:center;margin-bottom:8px;background:linear-gradient(90deg,#a88cff,#4dd6c1);-webkit-background-clip:text;background-clip:text;color:transparent}
-.blitz-timer.warn{background:linear-gradient(90deg,#ff5a6e,#ffb347);-webkit-background-clip:text;background-clip:text;color:transparent}
-.formula-card{background:var(--card);border-radius:16px;padding:18px;margin-bottom:12px;border:1px solid rgba(139,107,255,.12)}
-.formula-title{font-size:16px;font-weight:800;margin-bottom:8px;color:var(--text)}
-.formula-main{font-size:22px;font-weight:800;text-align:center;padding:14px;background:linear-gradient(135deg,rgba(139,107,255,.15),rgba(77,214,193,.08));border-radius:12px;margin-bottom:12px;font-family:ui-monospace,monospace;color:var(--accent-2);word-break:break-word;line-height:1.4}
-.formula-symbols{display:grid;gap:6px;margin-bottom:12px}
-.formula-symbols div{font-size:13px;color:var(--muted);display:flex;gap:8px}
-.formula-symbols b{color:var(--text);font-family:ui-monospace,monospace;min-width:70px;font-weight:800}
-.formula-explain{font-size:13px;line-height:1.55;margin-bottom:10px;color:var(--text)}
-.formula-example{background:rgba(77,214,193,.08);border-left:3px solid var(--accent-2);padding:10px 12px;border-radius:8px;font-size:12px;font-family:ui-monospace,monospace;white-space:pre-wrap;line-height:1.6;margin-bottom:10px;color:var(--text)}
-.formula-tips{background:rgba(255,90,110,.06);border-left:3px solid var(--err);padding:10px 12px;border-radius:8px;font-size:12px;color:var(--muted);line-height:1.55}
-.formula-tips::before{content:'💡 ';font-weight:800;color:var(--err)}
-.reaction-card{background:var(--card);border-radius:12px;padding:12px 14px;margin-bottom:8px;border-left:3px solid var(--accent)}
-.reaction-eq{font-size:14px;font-weight:700;font-family:ui-monospace,monospace;color:var(--accent-2);margin-bottom:3px}
-.reaction-note{font-size:12px;color:var(--muted)}
-.lab-stage{display:flex;justify-content:center;align-items:flex-end;gap:12px;margin-bottom:8px;flex-wrap:wrap}
-.lab-beaker{display:flex;flex-direction:column;align-items:center;gap:8px;flex:1;max-width:150px}
-.lab-beaker select{background:var(--card);color:var(--text);border:1px solid rgba(139,107,255,.25);padding:6px 8px;border-radius:8px;font-family:inherit;font-size:12px;width:100%;max-width:140px}
-.lab-liquid{width:90px;height:110px;border:3px solid rgba(139,107,255,.35);border-top:none;border-radius:0 0 14px 14px;position:relative;overflow:hidden;background:var(--card-2);transition:background .3s}
-.lab-fill{position:absolute;bottom:0;left:0;right:0;height:65%;transition:background .4s}
-.lab-name{font-size:12px;font-weight:800;color:var(--text);text-align:center;max-width:120px;word-break:break-word}
-.lab-plus{font-size:28px;font-weight:800;color:var(--accent);padding-bottom:60px}
-.lab-result{background:linear-gradient(160deg,var(--card),var(--card-2));border-radius:18px;padding:22px;text-align:center;border:1px solid rgba(139,107,255,.15);margin-top:6px}
-.lab-result-title{font-size:18px;font-weight:800;margin-bottom:8px}
-.lab-result-eq{font-size:15px;font-weight:700;font-family:ui-monospace,monospace;color:var(--accent-2);margin-bottom:10px}
-.lab-result-note{font-size:13px;color:var(--muted);line-height:1.55;max-width:420px;margin:0 auto}
-.lab-precip-show{width:60px;height:60px;border-radius:50%;margin:0 auto 12px;animation:precipFall 1s ease;border:2px solid rgba(255,255,255,.35)}
-@keyframes precipFall{0%{transform:translateY(-40px) scale(.6);opacity:0}70%{transform:translateY(4px) scale(1.05);opacity:1}100%{transform:translateY(0) scale(1);opacity:1}}
-.lab-gas-show{font-size:42px;margin-bottom:12px;display:inline-block;animation:gasRise 1.4s ease}
-@keyframes gasRise{0%{transform:translateY(0) scale(.7);opacity:0}30%{transform:translateY(-6px) scale(1);opacity:1}70%{transform:translateY(-10px) scale(1.05);opacity:1}100%{transform:translateY(-18px) scale(.9);opacity:.6}}
-.lab-none-show{font-size:42px;margin-bottom:10px;display:inline-block;opacity:.6}
-.element-chips{display:flex;gap:6px;overflow-x:auto;padding:6px 0;margin-bottom:12px;scrollbar-width:thin}
-.element-chip{flex:none;min-width:46px;padding:7px 10px;background:var(--card);border:1px solid rgba(139,107,255,.15);border-radius:9px;color:var(--text);font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;transition:all .15s}
-.element-chip:hover{border-color:var(--accent);transform:translateY(-1px)}
-.element-chip.active{background:linear-gradient(135deg,var(--accent),#6f4ce0);color:#fff;border-color:transparent;box-shadow:0 6px 16px rgba(139,107,255,.35)}
-.atom-wrap{position:relative;width:100%;max-width:340px;height:340px;margin:6px auto 18px;perspective:900px}
-.atom-3d{position:absolute;inset:0;transform-style:preserve-3d;animation:atomSpin 24s linear infinite}
-@keyframes atomSpin{from{transform:rotateX(-15deg) rotateY(0deg)}to{transform:rotateX(-15deg) rotateY(360deg)}}
-.nucleus-3d{position:absolute;top:50%;left:50%;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#ffe07a,#c4451e 70%,#7a2010);box-shadow:0 0 30px rgba(255,120,50,.65),0 0 60px rgba(255,100,50,.35),inset 0 0 14px rgba(255,255,200,.55);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.6);transform-style:preserve-3d;z-index:10}
-.shell-wrap-3d{position:absolute;top:50%;left:50%;transform-style:preserve-3d}
-.shell-ring-3d{position:relative;width:100%;height:100%;border-radius:50%;border:1.5px dashed rgba(139,107,255,.5);transform-style:preserve-3d;animation:ringSpin var(--dur,10s) linear infinite;box-sizing:border-box}
-@keyframes ringSpin{to{transform:rotateZ(360deg)}}
-.electron-3d{position:absolute;width:11px;height:11px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#bfe9ff,#4dd6c1 70%,#2a9a88);box-shadow:0 0 10px rgba(77,214,193,.85),0 0 20px rgba(77,214,193,.4);transform-style:preserve-3d}
-.atom-info-head{text-align:center;margin-bottom:16px}
-.atom-symbol{font-size:52px;font-weight:800;line-height:1;background:linear-gradient(90deg,#a88cff,#4dd6c1);-webkit-background-clip:text;background-clip:text;color:transparent}
-.atom-name{font-size:17px;font-weight:700;margin-top:4px}
-.atom-sub{font-size:12px;color:var(--muted);margin-top:2px}
-.atom-info-section{background:var(--card);border-radius:14px;padding:14px;margin-bottom:10px;border:1px solid rgba(139,107,255,.1)}
-.atom-info-title{font-size:13px;font-weight:800;margin-bottom:10px;color:var(--accent-2);text-transform:uppercase;letter-spacing:.5px}
-.atom-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(105px,1fr));gap:8px}
-.atom-cell{background:var(--card-2);border-radius:9px;padding:8px 10px;display:flex;flex-direction:column;gap:3px}
-.atom-cell b{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;font-weight:700}
-.atom-cell span{font-size:15px;font-weight:800;font-family:ui-monospace,monospace}
-.atom-config{font-family:ui-monospace,monospace;font-size:18px;font-weight:800;text-align:center;padding:12px;background:linear-gradient(135deg,rgba(139,107,255,.15),rgba(77,214,193,.08));border-radius:10px;color:var(--accent-2);word-break:break-word}
-.atom-tips{list-style:none;padding:0}
-.atom-tips li{padding:9px 0 9px 26px;position:relative;font-size:13px;line-height:1.5;border-bottom:1px solid rgba(139,107,255,.08)}
-.atom-tips li:last-child{border-bottom:none}
-.atom-tips li::before{content:'💡';position:absolute;left:0;top:9px}
-.atom-fact{font-size:13px;color:var(--muted);line-height:1.55;font-style:italic}
-.atom-help{background:linear-gradient(135deg,rgba(139,107,255,.1),rgba(77,214,193,.05));border-radius:14px;padding:14px;margin-bottom:10px;border-left:3px solid var(--accent)}
-.atom-help-title{font-size:14px;font-weight:800;margin-bottom:8px;color:var(--accent-2)}
-.atom-help-body{font-size:13px;line-height:1.65}
-.atom-help-body ol,.atom-help-body ul{padding-left:20px}
-.atom-help-body li{margin-bottom:5px}.atom-help-body b{color:var(--text)}
-.v3-tabs{display:flex;gap:6px;overflow-x:auto;padding:4px 0 8px;margin-bottom:8px;scrollbar-width:thin}
-.v3-tabs button{flex:none;padding:7px 13px;background:var(--card);border:1px solid rgba(139,107,255,.15);border-radius:9px;color:var(--muted);font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s}
-.v3-tabs button:hover{border-color:var(--accent);color:var(--text)}
-.v3-tabs button.active{background:linear-gradient(135deg,var(--accent),#6f4ce0);color:#fff;border-color:transparent;box-shadow:0 6px 16px rgba(139,107,255,.35)}
-.v3-stage{width:100%;max-width:400px;aspect-ratio:1;margin:0 auto 12px;background:radial-gradient(circle at 50% 40%,rgba(139,107,255,.15),rgba(13,16,32,.6) 70%);border-radius:20px;border:1px solid rgba(139,107,255,.2);position:relative;overflow:hidden;touch-action:none;cursor:grab}
-.v3-stage:active{cursor:grabbing}
+:root{--bg-1:#0a0c16;--bg-2:#12152b;--card:rgba(27,31,56,0.7);--card-border:rgba(139,107,255,0.2);--accent:#8b6bff;--accent-2:#4dd6c1;--ok:#3ddc97;--err:#ff5a6e;--text:#eef0ff;--muted:#9aa0c4;--glass:blur(12px);--radius:16px}
+[data-theme="light"]{--bg-1:#eef0f8;--bg-2:#e2e6f5;--card:rgba(255,255,255,0.8);--card-border:rgba(139,107,255,0.3);--text:#1a1d2e;--muted:#5a6080;--glass:blur(10px)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif}
+body{background:radial-gradient(1000px 500px at 10% -10%,#1f1840 0%,transparent 70%),radial-gradient(800px 400px at 100% 100%,#10303a 0%,transparent 70%),linear-gradient(160deg,var(--bg-1),var(--bg-2));color:var(--text);min-height:100vh;line-height:1.5;overflow-x:hidden;padding-bottom:80px;padding-top:10px;transition:background .3s}
+[data-theme="light"] body{background:radial-gradient(1000px 500px at 10% -10%,#dcd6ff 0%,transparent 70%),radial-gradient(800px 400px at 100% 100%,#c8f0e6 0%,transparent 70%),linear-gradient(160deg,var(--bg-1),var(--bg-2))}
+.app{max-width:900px;margin:0 auto;padding:0 16px}
+header{text-align:center;padding:12px 0 8px}
+header h1{font-size:22px;font-weight:800;background:linear-gradient(90deg,#a88cff,#4dd6c1);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:-0.5px}
+.screen{display:none;animation:fadeUp .3s ease}.screen.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.section-title{font-size:16px;font-weight:800;margin:16px 0 12px;display:flex;align-items:center;gap:8px;color:var(--text)}
+.glass-card{background:var(--card);backdrop-filter:var(--glass);-webkit-backdrop-filter:var(--glass);border:1px solid var(--card-border);border-radius:var(--radius);padding:16px;box-shadow:0 8px 32px rgba(0,0,0,0.2);margin-bottom:12px}
+.btn{background:linear-gradient(135deg,var(--accent),#6f4ce0);color:#fff;border:none;padding:12px 18px;border-radius:12px;font-weight:700;font-size:14px;cursor:pointer;transition:transform .1s,opacity .2s;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.btn:active{transform:scale(.96)}.btn.ghost{background:var(--card);color:var(--text);border:1px solid var(--card-border)}.btn.small{padding:8px 12px;font-size:12px;border-radius:8px}.btn.ok{background:linear-gradient(135deg,#2fbf78,#3ddc97)}.btn.err{background:linear-gradient(135deg,#e04352,#ff5a6e)}
+/* Bottom Nav */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--card);backdrop-filter:var(--glass);-webkit-backdrop-filter:var(--glass);border-top:1px solid var(--card-border);display:flex;justify-content:space-around;padding:8px 0 calc(8px + env(safe-area-inset-bottom));z-index:1000}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;color:var(--muted);font-size:10px;font-weight:700;cursor:pointer;transition:color .2s;width:60px}
+.nav-item .icon{font-size:20px;line-height:1}.nav-item.active{color:var(--accent-2)}
+/* Grid Layouts */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+/* 3D Stage */
+.v3-stage{width:100%;aspect-ratio:1;background:radial-gradient(circle at 50% 50%,rgba(139,107,255,0.1),rgba(0,0,0,0.4));border-radius:var(--radius);border:1px solid var(--card-border);position:relative;overflow:hidden;touch-action:none}
 .v3-stage svg{width:100%;height:100%;display:block}
-.v3-info{background:var(--card);border-radius:14px;padding:14px;margin-bottom:10px;border:1px solid rgba(139,107,255,.1)}
-.v3-info-title{font-size:14px;font-weight:800;margin-bottom:6px;color:var(--accent-2)}
-.v3-info-body{font-size:13px;line-height:1.6;color:var(--text)}
-.v3-info-formula{font-family:ui-monospace,monospace;font-size:18px;font-weight:800;text-align:center;padding:10px;margin-bottom:8px;background:linear-gradient(135deg,rgba(139,107,255,.15),rgba(77,214,193,.08));border-radius:10px;color:var(--accent-2)}
-.v3-info-tips{list-style:none;padding:0;margin-top:8px}
-.v3-info-tips li{padding:6px 0 6px 24px;position:relative;font-size:12px;line-height:1.5;border-bottom:1px solid rgba(139,107,255,.08)}
-.v3-info-tips li:last-child{border-bottom:none}
-.v3-info-tips li::before{content:'💡';position:absolute;left:0;top:6px}
-.book-card{background:var(--card);border-radius:14px;padding:16px;margin-bottom:10px;border-left:4px solid var(--accent-2);transition:all .2s;cursor:pointer}
-.book-card:hover{background:var(--card-2)}
-.book-card h3{font-size:15px;font-weight:800;margin-bottom:6px;color:var(--text)}
-.book-card p{font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:6px}
-.book-card .sub{font-size:11px;font-weight:800;color:var(--accent)}
-.orbital-btn{padding:8px 14px;background:var(--card);border:1px solid var(--accent);border-radius:10px;color:var(--text);font-weight:800;cursor:pointer;font-family:inherit;transition:all .2s}
-.orbital-btn.active{background:var(--accent);color:#fff}
-@media (max-width:500px){body{padding:12px}header h1{font-size:22px}.hero h2{font-size:22px}.q-formula{font-size:24px}.fc-formula{font-size:28px}.flashcard{height:280px}.balance-eq{font-size:16px}}
+/* Periodic Table */
+.periodic-wrap{overflow-x:auto;padding-bottom:10px;border-radius:12px}
+.periodic-grid{display:grid;grid-template-columns:repeat(18,1fr);gap:2px;min-width:600px}
+.p-cell{aspect-ratio:1;background:rgba(255,255,255,0.05);border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;position:relative;transition:all .2s;border:1px solid transparent}
+.p-cell:hover{transform:scale(1.15);z-index:10;box-shadow:0 0 15px var(--accent);border-color:var(--accent)}
+.p-cell .sym{font-size:10px;font-weight:800}.p-cell .num{font-size:7px;color:var(--muted);position:absolute;top:2px;left:2px}
+.p-cell[data-cat="met"]{background:rgba(77,214,193,0.15)}.p-cell[data-cat="nonmet"]{background:rgba(255,90,110,0.15)}.p-cell[data-cat="trans"]{background:rgba(242,208,36,0.15)}.p-cell[data-cat="lan"]{background:rgba(168,140,255,0.15)}
+/* Solubility Table */
+.sol-table{width:100%;border-collapse:collapse;font-size:11px;text-align:center;margin-top:10px;border-radius:8px;overflow:hidden}
+.sol-table th,.sol-table td{border:1px solid rgba(255,255,255,0.1);padding:4px 2px;cursor:pointer;transition:background .2s}
+.sol-table th{background:rgba(139,107,255,0.2);font-weight:800}
+.sol-table td:hover{background:rgba(255,255,255,0.1)}
+/* Detective */
+.test-tube{width:50px;height:120px;border:3px solid #aaa;border-top:none;border-radius:0 0 25px 25px;margin:0 auto;position:relative;overflow:hidden;background:rgba(255,255,255,0.1);transition:background .3s;cursor:pointer}
+.test-tube .liquid{position:absolute;bottom:0;width:100%;height:70%;background:rgba(200,230,255,0.3);transition:all .4s}
+/* Builder */
+.builder-area{width:100%;height:300px;background:rgba(0,0,0,0.2);border:2px dashed var(--card-border);border-radius:var(--radius);position:relative;overflow:hidden;touch-action:none}
+.atom-node{position:absolute;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;cursor:grab;transform:translate(-50%,-50%);box-shadow:0 4px 10px rgba(0,0,0,0.3);border:2px solid rgba(255,255,255,0.4);user-select:none}
+.atom-node:active{cursor:grabbing;z-index:100}
+.bond-line{position:absolute;height:4px;background:rgba(255,255,255,0.4);transform-origin:0 0;border-radius:2px;pointer-events:none}
+/* Scales */
+.scale-container{display:flex;justify-content:center;align-items:flex-end;height:100px;margin-bottom:20px}
+.scale-beam{width:200px;height:6px;background:#888;border-radius:3px;position:relative;transition:transform .4s ease-out}
+.scale-pan{position:absolute;top:6px;width:60px;height:40px;border:2px dashed #888;border-bottom-left-radius:20px;border-bottom-right-radius:20px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;transition:all .4s}
+/* Inputs */
+input[type="range"]{width:100%;accent-color:var(--accent)}
+select{background:var(--card);color:var(--text);border:1px solid var(--card-border);padding:10px;border-radius:10px;font-family:inherit;font-weight:600;outline:none}
+/* Modal */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(5px);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px}
+.modal.show{display:flex;animation:fadeUp .2s}
+.modal-box{background:var(--card);border-radius:20px;padding:24px;max-width:500px;width:100%;max-height:85vh;overflow-y:auto;position:relative;border:1px solid var(--accent);box-shadow:0 20px 50px rgba(0,0,0,0.5)}
+.modal-close{position:absolute;top:15px;right:15px;background:none;border:none;color:var(--muted);font-size:24px;cursor:pointer}
 </style>
 </head>
-<body data-theme="dark" data-font="normal">
-<div class="app">
-<header><h1>🧪 ХимОГЭ</h1><p>Тренажёр по химии 8–9 класс • ОГЭ</p></header>
+<body data-theme="dark">
 
-<nav id="nav">
-<button data-screen="home" class="active">🏠 Главная</button>
-<button data-screen="textbook">📖 Учебник</button>
-<button data-screen="theory">📚 Шпаргалки</button>
-<button data-screen="quiz">🎯 Тест</button>
-<button data-screen="formulas">📐 Формулы</button>
-<button data-screen="reactions">⚗️ Реакции</button>
-<button data-screen="lab">🧪 Лаборатория</button>
-<button data-screen="atom">⚛️ Атом 3D</button>
-<button data-screen="orbital3d">🌌 Орбитали 3D</button>
-<button data-screen="electrolysis3d">⚡ Электролиз 3D</button>
-<button data-screen="formulas3d">📦 Формулы 3D</button>
-<button data-screen="molecules3d">🔬 Молекулы 3D</button>
-<button data-screen="crystals3d">💎 Кристаллы 3D</button>
-<button data-screen="stats">📈 Статистика</button>
-<button data-screen="settings">⚙️ Настройки</button>
+<div class="app">
+  <header><h1>🧪 ХимОГЭ Профи</h1></header>
+
+  <!-- ЭКРАНЫ -->
+  <section id="home" class="screen active">
+    <div class="section-title">📚 Учёба</div>
+    <div class="grid-2">
+      <div class="glass-card" style="text-align:center;cursor:pointer" onclick="go('periodic')">
+        <div style="font-size:32px;margin-bottom:8px">⚛️</div>
+        <div style="font-weight:800">Таблица</div>
+        <div style="font-size:11px;color:var(--muted)">118 элементов</div>
+      </div>
+      <div class="glass-card" style="text-align:center;cursor:pointer" onclick="go('solubility')">
+        <div style="font-size:32px;margin-bottom:8px">🧪</div>
+        <div style="font-weight:800">Растворимость</div>
+        <div style="font-size:11px;color:var(--muted)">Цвета осадков</div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:20px">🔬 3D Мир</div>
+    <div class="grid-2">
+      <div class="glass-card" style="text-align:center;cursor:pointer" onclick="go('r3d')">
+        <div style="font-size:32px;margin-bottom:8px">⚗️</div>
+        <div style="font-weight:800">Реакции</div>
+        <div style="font-size:11px;color:var(--muted)">Механизмы</div>
+      </div>
+      <div class="glass-card" style="text-align:center;cursor:pointer" onclick="go('builder')">
+        <div style="font-size:32px;margin-bottom:8px">🧬</div>
+        <div style="font-weight:800">Конструктор</div>
+        <div style="font-size:11px;color:var(--muted)">Собери молекулу</div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:20px">🧠 Практика</div>
+    <div class="grid-2">
+      <div class="glass-card" style="text-align:center;cursor:pointer" onclick="go('detective')">
+        <div style="font-size:32px;margin-bottom:8px">🕵️</div>
+        <div style="font-weight:800">Детектив</div>
+        <div style="font-size:11px;color:var(--muted)">Найди вещество</div>
+      </div>
+      <div class="glass-card" style="text-align:center;cursor:pointer" onclick="go('scales')">
+        <div style="font-size:32px;margin-bottom:8px">⚖️</div>
+        <div style="font-weight:800">Весы</div>
+        <div style="font-size:11px;color:var(--muted)">Коэффициенты</div>
+      </div>
+    </div>
+    
+    <div class="grid-2" style="margin-top:10px">
+      <div class="glass-card" style="text-align:center;cursor:pointer" onclick="go('indicators')">
+        <div style="font-size:32px;margin-bottom:8px">🎨</div>
+        <div style="font-weight:800">Индикаторы</div>
+        <div style="font-size:11px;color:var(--muted)">Цвета среды</div>
+      </div>
+      <div class="glass-card" style="text-align:center;cursor:pointer" onclick="go('settings')">
+        <div style="font-size:32px;margin-bottom:8px">⚙️</div>
+        <div style="font-weight:800">Настройки</div>
+        <div style="font-size:11px;color:var(--muted)">Тема, сброс</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ПЕРИОДИЧЕСКАЯ ТАБЛИЦА -->
+  <section id="periodic" class="screen">
+    <div class="section-title">⚛️ Таблица Менделеева</div>
+    <div style="display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;padding-bottom:4px">
+      <button class="btn small active" onclick="setPeriodicMode('standard',this)">Стандарт</button>
+      <button class="btn small ghost" onclick="setPeriodicMode('radius',this)">Радиус</button>
+      <button class="btn small ghost" onclick="setPeriodicMode('electro',this)">Электроотрицательность</button>
+    </div>
+    <div class="periodic-wrap"><div class="periodic-grid" id="periodicGrid"></div></div>
+  </section>
+
+  <!-- РАСТВОРИМОСТЬ -->
+  <section id="solubility" class="screen">
+    <div class="section-title">🧪 Таблица растворимости</div>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:8px">Нажми на ячейку, чтобы узнать цвет осадка.</p>
+    <div class="glass-card" style="padding:8px;overflow-x:auto">
+      <table class="sol-table" id="solTable"></table>
+    </div>
+  </section>
+
+  <!-- 3D РЕАКЦИИ -->
+  <section id="r3d" class="screen">
+    <div class="section-title">⚗️ Механизмы реакций</div>
+    <div style="display:flex;gap:6px;overflow-x:auto;margin-bottom:12px;padding-bottom:4px" id="r3dTabs"></div>
+    <div class="v3-stage" id="r3dStage" style="max-width:100%"><svg id="r3dSVG" viewBox="0 0 400 400"></svg></div>
+    <div class="glass-card" id="r3dInfo" style="text-align:center;margin-top:12px"></div>
+    <button class="btn" style="width:100%" onclick="playR3D()">▶ Воспроизвести</button>
+  </section>
+
+  <!-- КОНСТРУКТОР -->
+  <section id="builder" class="screen">
+    <div class="section-title">🧬 Конструктор молекул</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <select id="targetMol" onchange="clearBuilder()">
+        <option value="H2O">Вода (H₂O)</option>
+        <option value="CO2">Углекислый газ (CO₂)</option>
+        <option value="CH4">Метан (CH₄)</option>
+        <option value="NH3">Аммиак (NH₃)</option>
+      </select>
+      <button class="btn small ghost" onclick="clearBuilder()">🗑️ Очистить</button>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:10px;justify-content:center" id="builderAtoms"></div>
+    <div class="builder-area" id="builderArea"></div>
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <button class="btn" style="flex:1" onclick="checkMolecule()">✅ Проверить</button>
+    </div>
+    <div id="builderResult" style="text-align:center;font-weight:800;margin-top:12px;font-size:14px"></div>
+  </section>
+
+  <!-- ДЕТЕКТИВ -->
+  <section id="detective" class="screen">
+    <div class="section-title">🕵️ Химический детектив</div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:12px">В пробирках: NaCl, Na₂SO₄, Na₂CO₃ (в случайном порядке). Добавляй реагенты и выясни, где что!</p>
+    
+    <div style="display:flex;justify-content:space-around;margin-bottom:20px">
+      <div style="text-align:center"><div class="test-tube" id="tube0" onclick="detectiveUseReagent(0)"><div class="liquid" id="liq0"></div></div><b>Пробирка 1</b></div>
+      <div style="text-align:center"><div class="test-tube" id="tube1" onclick="detectiveUseReagent(1)"><div class="liquid" id="liq1"></div></div><b>Пробирка 2</b></div>
+      <div style="text-align:center"><div class="test-tube" id="tube2" onclick="detectiveUseReagent(2)"><div class="liquid" id="liq2"></div></div><b>Пробирка 3</b></div>
+    </div>
+
+    <div class="glass-card">
+      <div style="font-weight:800;margin-bottom:8px">Выбери реагент:</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn small" onclick="setReagent('AgNO3')">AgNO₃</button>
+        <button class="btn small" onclick="setReagent('BaCl2')">BaCl₂</button>
+        <button class="btn small" onclick="setReagent('HCl')">HCl</button>
+      </div>
+      <div style="margin-top:12px;font-size:13px;color:var(--muted)">Выбран: <b id="currentReagent" style="color:var(--accent-2)">AgNO₃</b></div>
+    </div>
+
+    <div class="glass-card" style="background:rgba(255,255,255,0.05)">
+      <div style="font-weight:800;margin-bottom:8px">📝 Блокнот детектива</div>
+      <div id="detectiveLog" style="font-size:13px;line-height:1.6;color:var(--muted);height:100px;overflow-y:auto"></div>
+    </div>
+    
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+      <button class="btn" style="flex:1" onclick="detectiveCheck()">Сделать вывод</button>
+      <button class="btn ghost" onclick="initDetective()">Новая партия</button>
+    </div>
+  </section>
+
+  <!-- ВЕСЫ -->
+  <section id="scales" class="screen">
+    <div class="section-title">⚖️ Химические весы</div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:12px;text-align:center">Подбери коэффициенты, чтобы уравнять атомы.</p>
+    
+    <div class="scale-container">
+      <div class="scale-beam" id="scaleBeam">
+        <div class="scale-pan" id="panLeft" style="left:-30px;background:rgba(77,214,193,0.1)">0</div>
+        <div class="scale-pan" id="panRight" style="right:-30px;background:rgba(255,90,110,0.1)">0</div>
+      </div>
+    </div>
+
+    <div class="glass-card" style="text-align:center;font-size:20px;font-weight:800;font-family:monospace" id="scaleEq">
+      <!-- Eq goes here -->
+    </div>
+
+    <div id="scaleInputs" style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:12px"></div>
+    <button class="btn" style="width:100%" onclick="checkScale()">Проверить</button>
+    <div id="scaleResult" style="text-align:center;font-weight:800;margin-top:12px"></div>
+  </section>
+
+  <!-- ИНДИКАТОРЫ -->
+  <section id="indicators" class="screen">
+    <div class="section-title">🎨 Симулятор индикаторов</div>
+    
+    <div style="display:flex;justify-content:center;margin-bottom:20px">
+      <div style="width:120px;height:160px;border:4px solid #aaa;border-top:none;border-radius:0 0 40px 40px;position:relative;overflow:hidden;background:var(--card)">
+        <div id="indLiquid" style="position:absolute;bottom:0;width:100%;height:70%;background:rgba(200,220,255,0.5);transition:background .5s"></div>
+      </div>
+    </div>
+
+    <div class="glass-card">
+      <div style="margin-bottom:10px"><b>1. Выбери среду:</b></div>
+      <div style="display:flex;gap:8px;margin-bottom:16px">
+        <button class="btn small ghost" onclick="setEnv('acid')">Кислота (HCl)</button>
+        <button class="btn small ghost" onclick="setEnv('base')">Щёлочь (NaOH)</button>
+        <button class="btn small ghost" onclick="setEnv('neutral')">Вода (H₂O)</button>
+      </div>
+      <div style="margin-bottom:10px"><b>2. Добавь индикатор:</b></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn small ghost" onclick="setInd('lakmus')">Лакмус</button>
+        <button class="btn small ghost" onclick="setInd('fenol')">Фенолфталеин</button>
+        <button class="btn small ghost" onclick="setInd('methyl')">Метилоранж</button>
+      </div>
+    </div>
+    <div class="glass-card" id="indResult" style="text-align:center;font-weight:700"></div>
+  </section>
+
+  <!-- НАСТРОЙКИ -->
+  <section id="settings" class="screen">
+    <div class="section-title">⚙️ Настройки</div>
+    <div class="glass-card" style="display:flex;justify-content:space-between;align-items:center">
+      <span>Тема оформления</span>
+      <button class="btn small" onclick="toggleTheme()">Переключить</button>
+    </div>
+    <div class="glass-card" style="display:flex;justify-content:space-between;align-items:center">
+      <span>Сброс данных</span>
+      <button class="btn small err" onclick="resetAll()">Сбросить</button>
+    </div>
+  </section>
+
+</div>
+
+<!-- МОДАЛКА -->
+<div id="modal" class="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box" id="modalBox"></div>
+</div>
+
+<!-- НИЖНЕЕ МЕНЮ -->
+<nav class="bottom-nav">
+  <button class="nav-item active" data-target="home" onclick="go('home',this)"><span class="icon">🏠</span>Главная</button>
+  <button class="nav-item" data-target="periodic" onclick="go('periodic',this)"><span class="icon">⚛️</span>Таблица</button>
+  <button class="nav-item" data-target="r3d" onclick="go('r3d',this)"><span class="icon">⚗️</span>3D</button>
+  <button class="nav-item" data-target="detective" onclick="go('detective',this)"><span class="icon">🕵️</span>Детектив</button>
+  <button class="nav-item" data-target="scales" onclick="go('scales',this)"><span class="icon">⚖️</span>Весы</button>
 </nav>
 
-<section id="home" class="screen active">
-<div class="hero"><h2>Погнали готовиться!</h2><p>Все темы ОГЭ + 3D-визуализация в одном месте</p></div>
-<div class="stats-row">
-<div class="stat"><div class="stat-val" id="homeBest">0</div><div class="stat-lbl">Рекорд</div></div>
-<div class="stat"><div class="stat-val" id="homeStreak">0</div><div class="stat-lbl">Дней подряд</div></div>
-<div class="stat"><div class="stat-val" id="homeProgress">0%</div><div class="stat-lbl">Готовность</div></div>
-</div>
-<div id="dailyBanner"></div>
-
-<div class="section-title">🎯 Тренажёры</div>
-<div class="mode-grid">
-<button class="mode-card" onclick="startQuiz('mix')"><div class="mode-emoji">🎯</div><div class="mode-title">Микс-тест</div><div class="mode-desc">10 вопросов из всех тем</div></button>
-<button class="mode-card" onclick="startQuiz('precipitate')"><div class="mode-emoji">🧪</div><div class="mode-title">Осадки</div><div class="mode-desc">Цвета и формулы</div></button>
-<button class="mode-card" onclick="startQuiz('oxide')"><div class="mode-emoji">🪨</div><div class="mode-title">Оксиды</div><div class="mode-desc">Классификация</div></button>
-<button class="mode-card" onclick="startQuiz('ionic')"><div class="mode-emoji">🧼</div><div class="mode-title">Ионные</div><div class="mode-desc">Сокращённые уравнения</div></button>
-<button class="mode-card" onclick="startQuiz('redox')"><div class="mode-emoji">🔁</div><div class="mode-title">ОВР</div><div class="mode-desc">Окислитель/восстановитель</div></button>
-<button class="mode-card" onclick="startQuiz('exception')"><div class="mode-emoji">⚠️</div><div class="mode-title">Исключения</div><div class="mode-desc">Амфотерные ловушки</div></button>
-<button class="mode-card" onclick="startChains()"><div class="mode-emoji">🧩</div><div class="mode-title">Цепочки</div><div class="mode-desc">12 цепочек превращений</div></button>
-<button class="mode-card" onclick="startBalance()"><div class="mode-emoji">⚖️</div><div class="mode-title">Коэффициенты</div><div class="mode-desc">Электронный баланс</div></button>
-<button class="mode-card" onclick="startTasks()"><div class="mode-emoji">📊</div><div class="mode-title">Задачи</div><div class="mode-desc">m, n, V, w</div></button>
-<button class="mode-card" onclick="startQualitative()"><div class="mode-emoji">🔍</div><div class="mode-title">Качественные</div><div class="mode-desc">Распознай вещество</div></button>
-<button class="mode-card" onclick="startOddOne()"><div class="mode-emoji">🎲</div><div class="mode-title">Что лишнее?</div><div class="mode-desc">Разминка</div></button>
-<button class="mode-card" onclick="startBlitz()"><div class="mode-emoji">⏱️</div><div class="mode-title">Блиц</div><div class="mode-desc">60 секунд</div></button>
-<button class="mode-card" onclick="startDuel()"><div class="mode-emoji">👥</div><div class="mode-title">Дуэль с ботом</div><div class="mode-desc">7 раундов</div></button>
-</div>
-
-<div class="section-title">🗺️ Карта прогресса</div>
-<div class="progress-map" id="progressMap"></div>
-</section>
-
-<section id="textbook" class="screen">
-<div class="section-title">📖 Учебник 8–9 класс</div>
-<p style="color:var(--muted);font-size:12px;margin-bottom:14px">Все основные темы и параграфы школьной программы с кратким конспектом.</p>
-<div class="v3-tabs" id="gradeTabs">
-<button data-g="8" class="active">8 класс</button>
-<button data-g="9">9 класс</button>
-</div>
-<div id="textbookList"></div>
-</section>
-
-<section id="theory" class="screen">
-<div class="section-title">📚 Шпаргалки</div>
-<div class="toolbar">
-<input id="theorySearch" type="text" placeholder="🔍 Поиск..." oninput="renderTheory()">
-<select id="theoryFilter" onchange="renderTheory()">
-<option value="all">Все темы</option>
-<option value="precipitate">Осадки</option>
-<option value="oxide">Оксиды</option>
-<option value="ionic">Ионные уравнения</option>
-<option value="redox">ОВР</option>
-<option value="exception">Исключения</option>
-</select>
-</div>
-<div id="theoryList"></div>
-</section>
-
-<section id="quiz" class="screen">
-<div class="quiz-head">
-<span id="quizCounter">Вопрос 1 / 10</span>
-<div class="quiz-stats"><span>Очки: <b id="quizScore">0</b></span><span>Серия: <b id="quizStreak">0</b></span></div>
-</div>
-<div class="progress"><div id="quizProgress"></div></div>
-<div class="quiz-q" id="quizQuestion"></div>
-<div class="options" id="quizOptions"></div>
-<div class="feedback" id="quizFeedback"></div>
-<div style="text-align:center"><button class="btn" id="nextBtn" style="display:none" onclick="nextQuestion()">Далее →</button></div>
-</section>
-
-<section id="chains" class="screen">
-<div class="quiz-head">
-<span id="chainCounter">Цепочка 1 / 1</span>
-<div class="quiz-stats"><span>Верно: <b id="chainScore">0</b></span></div>
-</div>
-<div id="chainBody"></div>
-<div style="text-align:center;margin-top:12px"><button class="btn" id="chainNext" style="display:none" onclick="nextChain()">Далее →</button></div>
-</section>
-
-<section id="balance" class="screen">
-<div class="quiz-head">
-<span id="balanceCounter">Уравнение 1 / 1</span>
-<div class="quiz-stats"><span>Верно: <b id="balanceScore">0</b></span></div>
-</div>
-<div class="quiz-q" id="balanceQuestion"></div>
-<div class="options" id="balanceOptions"></div>
-<div class="feedback" id="balanceFeedback"></div>
-<div style="text-align:center"><button class="btn" id="balanceNext" style="display:none" onclick="nextBalance()">Далее →</button></div>
-</section>
-
-<section id="tasks" class="screen">
-<div class="quiz-head">
-<span id="taskCounter">Задача 1 / 10</span>
-<div class="quiz-stats"><span>Верно: <b id="taskScore">0</b></span></div>
-</div>
-<div class="quiz-q" id="taskQuestion"></div>
-<div class="options" id="taskOptions"></div>
-<div class="feedback" id="taskFeedback"></div>
-<div style="text-align:center"><button class="btn" id="taskNext" style="display:none" onclick="nextTask()">Далее →</button></div>
-</section>
-
-<section id="qualitative" class="screen">
-<div class="quiz-head">
-<span id="qualCounter">Задание 1 / 1</span>
-<div class="quiz-stats"><span>Верно: <b id="qualScore">0</b></span></div>
-</div>
-<div class="quiz-q" id="qualQuestion"></div>
-<div class="options" id="qualOptions"></div>
-<div class="feedback" id="qualFeedback"></div>
-<div style="text-align:center"><button class="btn" id="qualNext" style="display:none" onclick="nextQual()">Далее →</button></div>
-</section>
-
-<section id="oddone" class="screen">
-<div class="quiz-head">
-<span id="oddCounter">Задание 1 / 1</span>
-<div class="quiz-stats"><span>Верно: <b id="oddScore">0</b></span></div>
-</div>
-<div class="quiz-q" id="oddQuestion"></div>
-<div class="options" id="oddOptions"></div>
-<div class="feedback" id="oddFeedback"></div>
-<div style="text-align:center"><button class="btn" id="oddNext" style="display:none" onclick="nextOdd()">Далее →</button></div>
-</section>
-
-<section id="blitz" class="screen">
-<div class="blitz-timer" id="blitzTimer">60</div>
-<div class="quiz-head"><span>Блиц</span><div class="quiz-stats"><span>Счёт: <b id="blitzScore">0</b></span></div></div>
-<div class="quiz-q" id="blitzQuestion"></div>
-<div class="options" id="blitzOptions"></div>
-</section>
-
-<section id="duel" class="screen">
-<div class="quiz-head"><span id="duelCounter">Раунд 1 / 7</span><div class="quiz-stats"><span>Раунд</span></div></div>
-<div class="duel-score">
-<div class="duel-side me"><div class="duel-num" id="duelMe">0</div><div class="duel-lbl">Ты</div></div>
-<div class="duel-side bot"><div class="duel-num" id="duelBot">0</div><div class="duel-lbl">Бот</div></div>
-</div>
-<div class="quiz-q" id="duelQuestion"></div>
-<div class="options" id="duelOptions"></div>
-<div class="feedback" id="duelFeedback"></div>
-<div style="text-align:center"><button class="btn" id="duelNext" style="display:none" onclick="nextDuel()">Далее →</button></div>
-</section>
-
-<section id="formulas" class="screen">
-<div class="section-title">📐 Формулы для задач</div>
-<p style="color:var(--muted);font-size:12px;margin-bottom:14px">Каждая формула с разбором и примером</p>
-<div id="formulasBody"></div>
-</section>
-
-<section id="reactions" class="screen">
-<div class="section-title">⚗️ Химические реакции</div>
-<div class="toolbar">
-<select id="reactionFilter" onchange="renderReactions()">
-<option value="all">Все типы</option>
-<option value="exchange">Обмен с осадком</option>
-<option value="gas">С выделением газа</option>
-<option value="neutral">Нейтрализация</option>
-<option value="redox">ОВР</option>
-<option value="decomp">Разложение</option>
-<option value="compound">Соединение</option>
-<option value="subst">Замещение</option>
-<option value="ampho">Амфотерные</option>
-</select>
-</div>
-<div id="reactionsBody"></div>
-</section>
-
-<section id="lab" class="screen">
-<div class="section-title">🧪 Виртуальная лаборатория</div>
-<p style="color:var(--muted);font-size:12px;margin-bottom:14px">Выбери два раствора и нажми «Смешать»</p>
-<div class="lab-stage">
-<div class="lab-beaker"><select id="labSolA" onchange="updateLab()"></select><div class="lab-liquid"><div class="lab-fill" id="labFillA"></div></div><div class="lab-name" id="labNameA">—</div></div>
-<div class="lab-plus">+</div>
-<div class="lab-beaker"><select id="labSolB" onchange="updateLab()"></select><div class="lab-liquid"><div class="lab-fill" id="labFillB"></div></div><div class="lab-name" id="labNameB">—</div></div>
-</div>
-<div style="text-align:center;margin:16px 0">
-<button class="btn" onclick="performLab()">🔬 Смешать</button>
-<button class="btn ghost" onclick="randomLab()">🎲 Случайно</button>
-</div>
-<div id="labResult"></div>
-</section>
-
-<section id="atom" class="screen">
-<div class="section-title">⚛️ Строение атома в 3D</div>
-<p style="color:var(--muted);font-size:12px;margin-bottom:12px">Атом вращается сам — крути его взглядом</p>
-<div class="element-chips" id="elementChips"></div>
-<div class="atom-wrap"><div class="atom-3d" id="atom3d"></div></div>
-<div id="atomInfo"></div>
-<div class="atom-help"><div class="atom-help-title">🧠 Как определить максимальную валентность</div><div class="atom-help-body"><ol>
-<li>Найди <b>номер группы</b> элемента</li>
-<li>I–VII группы главных подгрупп: <b>макс. валентность = номер группы</b></li>
-<li><b>Исключения:</b> O (II), F (I), благородные газы (0)</li>
-<li>Побочные подгруппы (Fe, Cu, Zn) — валентность <b>переменная</b></li>
-<li>Низшая валентность = <b>8 − номер группы</b> (для неметаллов IV–VII)</li>
-</ol></div></div>
-</section>
-
-<section id="orbital3d" class="screen">
-<div class="section-title">🌌 Электронные орбитали в 3D</div>
-<p style="color:var(--muted);font-size:12px;margin-bottom:10px">Крути модели пальцем. Видно форму облаков.</p>
-<div style="display:flex;gap:8px;justify-content:center;margin-bottom:12px">
-<button class="orbital-btn active" onclick="setOrbital('s',this)">s-орбиталь</button>
-<button class="orbital-btn" onclick="setOrbital('p',this)">p-орбиталь</button>
-<button class="orbital-btn" onclick="setOrbital('d',this)">d-орбиталь</button>
-</div>
-<div class="v3-stage" id="orbitalStage"><svg id="orbitalSVG" viewBox="0 0 400 400"></svg></div>
-<div id="orbitalInfo" class="v3-info">
-<div class="v3-info-title">s-орбиталь</div>
-<div class="v3-info-body">Форма — сфера. В ней помещается максимум 2 электрона. Это самая простая орбиталь, она есть у всех элементов (K-слой, L-слой и т.д.).</div>
-</div>
-</section>
-
-<section id="electrolysis3d" class="screen">
-<div class="section-title">⚡ Электролиз в 3D</div>
-<p style="color:var(--muted);font-size:12px;margin-bottom:10px">Смотри, как ионы движутся к электродам.</p>
-<div class="v3-stage" id="elecStage" style="max-width:100%;aspect-ratio:4/3"><svg id="elecSVG" viewBox="0 0 400 300"></svg></div>
-<div class="v3-info">
-<div class="v3-info-title">Принцип электролиза</div>
-<div class="v3-info-body">
-<b>Катод (—)</b>: сюда притягиваются положительные ионы (катионы, например Cu²⁺, H⁺). На катоде идёт процесс восстановления.<br><br>
-<b>Анод (+)</b>: сюда притягиваются отрицательные ионы (анионы, например Cl⁻, OH⁻). На аноде идёт процесс окисления.<br><br>
-В растворе ионы хаотично двигаются, но при подаче тока начинают упорядоченное движение.
-</div>
-</div>
-</section>
-
-<section id="formulas3d" class="screen">
-<div class="section-title">📦 3D-визуализация формул</div>
-<p style="color:var(--muted);font-size:12px;margin-bottom:10px">Крути модели пальцем</p>
-<div class="v3-tabs" id="formulaTabs">
-<button data-f="mass" class="active">m = n·M</button>
-<button data-f="volume">V = n·Vm</button>
-<button data-f="particles">N = n·Nᴀ</button>
-<button data-f="fraction">w = m₁/m₂</button>
-</div>
-<div class="v3-stage" id="formulaStage"><svg id="formulaSVG" viewBox="0 0 400 400"></svg></div>
-<div id="formulaInfo"></div>
-</section>
-
-<section id="molecules3d" class="screen">
-<div class="section-title">🔬 Молекулы в 3D</div>
-<p style="color:var(--muted);font-size:12px;margin-bottom:10px">Вращай молекулу пальцем</p>
-<div class="v3-tabs" id="moleculeTabs">
-<button data-m="H2O" class="active">H₂O</button>
-<button data-m="CO2">CO₂</button>
-<button data-m="NH3">NH₃</button>
-<button data-m="CH4">CH₄</button>
-<button data-m="HCl">HCl</button>
-<button data-m="O2">O₂</button>
-<button data-m="N2">N₂</button>
-<button data-m="SO2">SO₂</button>
-<button data-m="C6H6">C₆H₆</button>
-</div>
-<div class="v3-stage" id="moleculeStage"><svg id="moleculeSVG" viewBox="0 0 400 400"></svg></div>
-<div id="moleculeInfo"></div>
-</section>
-
-<section id="crystals3d" class="screen">
-<div class="section-title">💎 Кристаллические решётки</div>
-<p style="color:var(--muted);font-size:12px;margin-bottom:10px">Крути решётку пальцем</p>
-<div class="v3-tabs" id="crystalTabs">
-<button data-c="nacl" class="active">NaCl</button>
-<button data-c="diamond">Алмаз</button>
-<button data-c="graphite">Графит</button>
-<button data-c="metal">Металл</button>
-</div>
-<div class="v3-stage" id="crystalStage"><svg id="crystalSVG" viewBox="0 0 400 400"></svg></div>
-<div id="crystalInfo"></div>
-</section>
-
-<section id="stats" class="screen">
-<div class="section-title">📈 Статистика по темам</div>
-<div id="statsBody"></div>
-<div class="section-title">✅ Чек-лист готовности</div>
-<div id="checklistBody"></div>
-</section>
-
-<section id="settings" class="screen">
-<div class="section-title">⚙️ Настройки</div>
-<div class="settings-row"><div><div class="lbl">🌙 Тёмная тема</div><div class="sub">Переключить оформление</div></div><div class="switch" id="themeSwitch" onclick="toggleTheme()"></div></div>
-<div class="settings-row"><div><div class="lbl">🔤 Размер шрифта</div><div class="sub">Крупнее для телефона</div></div><div class="switch" id="fontSwitch" onclick="cycleFont()"></div></div>
-<div class="settings-row"><div><div class="lbl">🔊 Звуки</div><div class="sub">Пищалки на ответы</div></div><div class="switch" id="soundSwitch" onclick="toggleSound()"></div></div>
-<div class="settings-row"><div><div class="lbl">📳 Вибрация</div><div class="sub">Отклик на ответ</div></div><div class="switch" id="vibeSwitch" onclick="toggleVibe()"></div></div>
-<div class="section-title">💾 Прогресс</div>
-<div style="display:flex;gap:8px;flex-wrap:wrap">
-<button class="btn ghost small" onclick="exportProgress()">📤 Экспорт</button>
-<button class="btn ghost small" onclick="document.getElementById('importFile').click()">📥 Импорт</button>
-<button class="btn ghost small" onclick="shareResult()">🔗 Поделиться</button>
-<button class="btn err small" onclick="resetAll()">🗑️ Сбросить</button>
-</div>
-<input type="file" id="importFile" accept=".json" style="display:none" onchange="importProgress(event)">
-</section>
-
-<section id="result" class="screen">
-<div class="result-box">
-<div class="res-score" id="resScore">0 / 10</div>
-<div class="res-msg" id="resMsg"></div>
-<div class="res-details">
-<div><b id="resStreak">0</b><span>Лучшая серия</span></div>
-<div><b id="resBest">0</b><span>Рекорд</span></div>
-</div>
-<div class="flash-controls">
-<button class="btn ghost small" onclick="go('home')">🏠 Домой</button>
-<button class="btn small" id="resWrongBtn" style="display:none" onclick="startWrongReview()">🔁 Разбор ошибок</button>
-<button class="btn small" onclick="repeatQuiz()">🔄 Ещё раз</button>
-</div>
-</div>
-</section>
-</div>
-<div class="toast" id="toast"></div>
-
 <script>
-/* ============ ДАННЫЕ ============ */
-const TEXTBOOK=[
-{grade:8,chapters:[
-{title:"§ 1. Предмет химии. Вещества",desc:"Химия — наука о веществах, их свойствах и превращениях. Вещества бывают простые (состоят из атомов одного элемента, например O₂, Fe) и сложные (из разных элементов, например H₂O, NaCl)."},
-{title:"§ 2. Химические элементы. Знаки",desc:"Химический элемент — это вид атомов с одинаковым зарядом ядра. Знаки элементов (символы) придумал Берцелиус. Относительная атомная масса (Ar) берётся из таблицы Менделеева."},
-{title:"§ 3. Химические формулы",desc:"Формула показывает качественный и количественный состав. Например, H₂O — 2 атома водорода и 1 атом кислорода. Относительная молекулярная масса (Mr) — сумма Ar всех атомов."},
-{title:"§ 4. Валентность",desc:"Валентность — способность атома соединяться с определённым числом других атомов. У водорода всегда I, у кислорода II. Высшая валентность = номеру группы (для главных подгрупп)."},
-{title:"§ 5. Закон сохранения массы",desc:"Масса веществ, вступивших в реакцию, равна массе образовавшихся веществ. Это основа для составления химических уравнений. Число атомов каждого элемента до и после реакции должно быть одинаковым."},
-{title:"§ 6. Кислород. Горение",desc:"O₂ — газ без цвета и запаха, поддерживает горение. В лаборатории получают из H₂O₂ (кат. MnO₂) или KMnO₄. В природе — фотосинтез."},
-{title:"§ 7. Оксиды",desc:"Сложные вещества из двух элементов, один из которых кислород в степени окисления -2. Бывают основные (Na₂O, CaO), кислотные (CO₂, SO₃) и амфотерные (Al₂O₃, ZnO)."},
-{title:"§ 8. Водород",desc:"H₂ — самый лёгкий газ. В лаборатории получают реакцией цинка с соляной кислотой (Zn + 2HCl → ZnCl₂ + H₂↑). Восстановитель."},
-{title:"§ 9. Вода. Растворы",desc:"Вода — универсальный растворитель. Массовая доля растворённого вещества w = m(в-ва)/m(р-ра) × 100%. Растворы бывают насыщенные и ненасыщенные."},
-{title:"§ 10. Кислоты, основания, соли",desc:"Кислоты (HCl, H₂SO₄) реагируют с металлами, оксидами, основаниями. Основания (NaOH, Cu(OH)₂) — с кислотами и оксидами неметаллов. Соли — продукты замещения водорода металлом."},
-{title:"§ 11. Периодический закон",desc:"Свойства элементов и их соединений находятся в периодической зависимости от заряда ядра атомов. Д.И. Менделеев открыл его в 1869 году."},
-{title:"§ 12. Строение атома",desc:"Атом состоит из ядра (протоны + нейтроны) и электронной оболочки. Число протонов = номер элемента. Число нейтронов = Ar - Z. Электроны распределяются по слоям (2n²)."},
-{title:"§ 13. Химическая связь",desc:"Ковалентная (полярная и неполярная) — за счёт общих электронных пар. Ионная — между металлами и неметаллами (переход электронов). Металлическая — обобществлённые электроны."}
-]},
-{grade:9,chapters:[
-{title:"§ 1. Металлы. Положение в ПС",desc:"Металлы находятся в I–III группах, а также в побочных подгруппах. Самые активные — щелочные (Na, K) и щелочноземельные (Ca, Ba)."},
-{title:"§ 2. Химические свойства металлов",desc:"Реагируют с кислородом (оксиды), галогенами (соли), водой (щёлочи + H₂), кислотами (соль + H₂), солями менее активных металлов. Ряд активности металлов (Бекетова)."},
-{title:"§ 3. Оксиды и гидроксиды металлов",desc:"Основные оксиды (Na₂O) реагируют с кислотами и кислотными оксидами. Щёлочи (NaOH) — с кислотами, кислотными оксидами, солями. Амфотерные (Al₂O₃, Zn(OH)₂) — с кислотами и щелочами."},
-{title:"§ 4. Неметаллы. Галогены",desc:"F, Cl, Br, I. Типичные неметаллы. Активность падает от фтора к иоду. Cl₂ — жёлто-зелёный газ, Br₂ — жидкость, I₂ — твёрдый. Вытесняют друг друга из солей."},
-{title:"§ 5. Сера. Серная кислота",desc:"S — жёлтое твёрдое вещество. H₂SO₄ — сильная кислота, реагирует с металлами (кроме Au, Pt), оксидами, основаниями. Концентрированная H₂SO₄ — окислитель за счёт S⁺⁶."},
-{title:"§ 6. Азот. Аммиак. Азотная кислота",desc:"N₂ — инертный газ (тройная связь). NH₃ — газ с резким запахом, основание. HNO₃ — сильная кислота, реагирует с металлами с выделением NO, NO₂ и др."},
-{title:"§ 7. Фосфор. Удобрения",desc:"P — белый (ядовит, светится) и красный. P₂O₅ — кислотный оксид. H₃PO₄ — фосфорная кислота. Удобрения: фосфорные (Ca₃(PO₄)₂), азотные (KNO₃, NH₄NO₃)."},
-{title:"§ 8. Углерод",desc:"C — алмаз (твёрдый) и графит (мягкий). CO₂ — кислотный оксид, CO — угарный газ. H₂CO₃ — слабая кислота. Карбонаты (CaCO₃) и гидрокарбонаты."},
-{title:"§ 9. Кремний",desc:"Si — полупроводник. SiO₂ — песок, кислотный оксид. H₂SiO₃ — кремниевая кислота (нерастворима). Силикаты (Na₂SiO₃) — стекло."}
-]}
+/* ==================== ДАННЫЕ ==================== */
+const ELEMENTS = [
+['H','Водород',1,1.008,1,1],['He','Гелий',2,4.0026,18,1],
+['Li','Литий',3,6.94,1,2],['Be','Бериллий',4,9.0122,2,2],['B','Бор',5,10.81,13,2],['C','Углерод',6,12.011,14,2],['N','Азот',7,14.007,15,2],['O','Кислород',8,15.999,16,2],['F','Фтор',9,18.998,17,2],['Ne','Неон',10,20.180,18,2],
+['Na','Натрий',11,22.990,1,3],['Mg','Магний',12,24.305,2,3],['Al','Алюминий',13,26.982,13,3],['Si','Кремний',14,28.085,14,3],['P','Фосфор',15,30.974,15,3],['S','Сера',16,32.06,16,3],['Cl','Хлор',17,35.45,17,3],['Ar','Аргон',18,39.948,18,3],
+['K','Калий',19,39.098,1,4],['Ca','Кальций',20,40.078,2,4],['Sc','Скандий',21,44.956,3,4],['Ti','Титан',22,47.867,4,4],['V','Ванадий',23,50.942,5,4],['Cr','Хром',24,51.996,6,4],['Mn','Марганец',25,54.938,7,4],['Fe','Железо',26,55.845,8,4],['Co','Кобальт',27,58.933,9,4],['Ni','Никель',28,58.693,10,4],['Cu','Медь',29,63.546,11,4],['Zn','Цинк',30,65.38,12,4],['Ga','Галлий',31,69.723,13,4],['Ge','Германий',32,72.630,14,4],['As','Мышьяк',33,74.922,15,4],['Se','Селен',34,78.971,16,4],['Br','Бром',35,79.904,17,4],['Kr','Криптон',36,83.798,18,4],
+['Rb','Рубидий',37,85.468,1,5],['Sr','Стронций',38,87.62,2,5],['Y','Иттрий',39,88.906,3,5],['Zr','Цирконий',40,91.224,4,5],['Nb','Ниобий',41,92.906,5,5],['Mo','Молибден',42,95.95,6,5],['Tc','Технеций',43,98,7,5],['Ru','Рутений',44,101.07,8,5],['Rh','Родий',45,102.91,9,5],['Pd','Палладий',46,106.42,10,5],['Ag','Серебро',47,107.87,11,5],['Cd','Кадмий',48,112.41,12,5],['In','Индий',49,114.82,13,5],['Sn','Олово',50,118.71,14,5],['Sb','Сурьма',51,121.76,15,5],['Te','Теллур',52,127.60,16,5],['I','Иод',53,126.90,17,5],['Xe','Ксенон',54,131.29,18,5],
+['Cs','Цезий',55,132.91,1,6],['Ba','Барий',56,137.33,2,6],['La','Лантан',57,138.91,3,6],['Ce','Церий',58,140.12,4,6],['Pr','Празеодим',59,140.91,5,6],['Nd','Неодим',60,144.24,6,6],['Pm','Прометий',61,145,7,6],['Sm','Самарий',62,150.36,8,6],['Eu','Европий',63,151.96,9,6],['Gd','Гадолиний',64,157.25,10,6],['Tb','Тербий',65,158.93,11,6],['Dy','Диспрозий',66,162.50,12,6],['Ho','Гольмий',67,164.93,13,6],['Er','Эрбий',68,167.26,14,6],['Tm','Тулий',69,168.93,15,6],['Yb','Иттербий',70,173.05,16,6],['Lu','Лютеций',71,174.97,17,6],['Hf','Гафний',72,178.49,4,6],['Ta','Тантал',73,180.95,5,6],['W','Вольфрам',74,183.84,6,6],['Re','Рений',75,186.21,7,6],['Os','Осмий',76,190.23,8,6],['Ir','Иридий',77,192.22,9,6],['Pt','Платина',78,195.08,10,6],['Au','Золото',79,196.97,11,6],['Hg','Ртуть',80,200.59,12,6],['Tl','Таллий',81,204.38,13,6],['Pb','Свинец',82,207.2,14,6],['Bi','Висмут',83,208.98,15,6],['Po','Полоний',84,209,16,6],['At','Астат',85,210,17,6],['Rn','Радон',86,222,18,6],
+['Fr','Франций',87,223,1,7],['Ra','Радий',88,226,2,7],['Ac','Актиний',89,227,3,7],['Th','Торий',90,232.04,4,7],['Pa','Протактиний',91,231.04,5,7],['U','Уран',92,238.03,6,7],['Np','Нептуний',93,237,7,7],['Pu','Плутоний',94,244,8,7],['Am','Америций',95,243,9,7],['Cm','Кюрий',96,247,10,7],['Bk','Берклий',97,247,11,7],['Cf','Калифорний',98,251,12,7],['Es','Эйнштейний',99,252,13,7],['Fm','Фермий',100,257,14,7],['Md','Менделевий',101,258,15,7],['No','Нобелий',102,259,16,7],['Lr','Лоуренсий',103,262,17,7]
 ];
+const LANTH = [['La',57],['Ce',58],['Pr',59],['Nd',60],['Pm',61],['Sm',62],['Eu',63],['Gd',64],['Tb',65],['Dy',66],['Ho',67],['Er',68],['Tm',69],['Yb',70],['Lu',71]];
+const ACT = [['Ac',89],['Th',90],['Pa',91],['U',92],['Np',93],['Pu',94],['Am',95],['Cm',96],['Bk',97],['Cf',98],['Es',99],['Fm',100],['Md',101],['No',102],['Lr',103]];
 
-const PRECIPITATES=[
-{type:'precipitate',f:'AgCl',c:'белый',r:'AgNO₃ + NaCl → AgCl↓ + NaNO₃',n:'Творожистый, темнеет на свету.'},
-{type:'precipitate',f:'AgBr',c:'светло-жёлтый',r:'AgNO₃ + NaBr → AgBr↓ + NaNO₃',n:'Бледно-жёлтый, темнеет на свету.'},
-{type:'precipitate',f:'AgI',c:'жёлтый',r:'AgNO₃ + KI → AgI↓ + KNO₃',n:'Жёлтый, нерастворим.'},
-{type:'precipitate',f:'BaSO₄',c:'белый',r:'BaCl₂ + Na₂SO₄ → BaSO₄↓ + 2NaCl',n:'Кристаллический, не растворяется в кислотах.'},
-{type:'precipitate',f:'CaCO₃',c:'белый',r:'CaCl₂ + Na₂CO₃ → CaCO₃↓ + 2NaCl',n:'Растворяется в кислотах с CO₂.'},
-{type:'precipitate',f:'BaCO₃',c:'белый',r:'BaCl₂ + Na₂CO₃ → BaCO₃↓ + 2NaCl',n:'Растворяется в кислотах с CO₂.'},
-{type:'precipitate',f:'Cu(OH)₂',c:'голубой',r:'CuSO₄ + 2NaOH → Cu(OH)₂↓ + Na₂SO₄',n:'Голубой студенистый, при нагревании → CuO.'},
-{type:'precipitate',f:'Fe(OH)₂',c:'серо-зелёный',r:'FeCl₂ + 2NaOH → Fe(OH)₂↓ + 2NaCl',n:'Быстро буреет на воздухе до Fe(OH)₃.'},
-{type:'precipitate',f:'Fe(OH)₃',c:'бурый',r:'FeCl₃ + 3NaOH → Fe(OH)₃↓ + 3NaCl',n:'Красно-бурый, при нагревании → Fe₂O₃.'},
-{type:'precipitate',f:'Al(OH)₃',c:'белый',r:'AlCl₃ + 3NaOH → Al(OH)₃↓ + 3NaCl',n:'Амфотерный, растворяется в избытке щёлочи.'},
-{type:'precipitate',f:'Zn(OH)₂',c:'белый',r:'ZnCl₂ + 2KOH → Zn(OH)₂↓ + 2KCl',n:'Амфотерный, растворяется в избытке щёлочи.'},
-{type:'precipitate',f:'Mg(OH)₂',c:'белый',r:'MgCl₂ + 2NaOH → Mg(OH)₂↓ + 2NaCl',n:'Не растворяется в избытке щёлочи.'},
-{type:'precipitate',f:'CuS',c:'чёрный',r:'CuSO₄ + Na₂S → CuS↓ + Na₂SO₄',n:'Не растворяется в разбавленных кислотах.'},
-{type:'precipitate',f:'PbS',c:'чёрный',r:'Pb(NO₃)₂ + Na₂S → PbS↓ + 2NaNO₃',n:'Не растворяется в разбавленных кислотах.'},
-{type:'precipitate',f:'FeS',c:'чёрный',r:'FeSO₄ + Na₂S → FeS↓ + Na₂SO₄',n:'Растворяется в кислотах с H₂S.'},
-{type:'precipitate',f:'ZnS',c:'белый',r:'ZnSO₄ + Na₂S → ZnS↓ + Na₂SO₄',n:'Растворяется в разбавленных кислотах.'},
-{type:'precipitate',f:'CdS',c:'жёлтый',r:'CdSO₄ + Na₂S → CdS↓ + Na₂SO₄',n:'Ярко-жёлтый осадок.'},
-{type:'precipitate',f:'PbI₂',c:'жёлтый',r:'Pb(NO₃)₂ + 2KI → PbI₂↓ + 2KNO₃',n:'Золотисто-жёлтый.'},
-{type:'precipitate',f:'Ag₂O',c:'бурый',r:'2AgNO₃ + 2NaOH → Ag₂O↓ + 2NaNO₃ + H₂O',n:'Тёмно-бурый оксид серебра.'},
-{type:'precipitate',f:'Cu₂O',c:'кирпично-красный',r:'Cu(OH)₂ + глюкоза → Cu₂O↓',n:'Качественная реакция на альдегиды.'},
-{type:'precipitate',f:'Cr(OH)₃',c:'серо-зелёный',r:'CrCl₃ + 3NaOH → Cr(OH)₃↓ + 3NaCl',n:'Амфотерный.'},
-{type:'precipitate',f:'PbCrO₄',c:'жёлтый',r:'Pb(NO₃)₂ + K₂CrO₄ → PbCrO₄↓ + 2KNO₃',n:'Жёлтый пигмент «крон».'},
-{type:'precipitate',f:'Ag₂CrO₄',c:'кирпично-красный',r:'2AgNO₃ + K₂CrO₄ → Ag₂CrO₄↓ + 2KNO₃',n:'Кирпично-красный.'},
-{type:'precipitate',f:'BaCrO₄',c:'жёлтый',r:'BaCl₂ + K₂CrO₄ → BaCrO₄↓ + 2KCl',n:'Жёлтый хромат бария.'},
-{type:'precipitate',f:'CuI',c:'белый',r:'2CuSO₄ + 4KI → 2CuI↓ + I₂ + 2K₂SO₄',n:'Белый осадок.'}
-];
-const OXIDES=[
-{type:'oxide',f:'Na₂O',kind:'основный',r:'Na₂O + H₂O → 2NaOH',n:'Основный оксид.'},
-{type:'oxide',f:'CaO',kind:'основный',r:'CaO + H₂O → Ca(OH)₂',n:'«Негашёная известь».'},
-{type:'oxide',f:'CuO',kind:'основный',r:'CuO + H₂SO₄ → CuSO₄ + H₂O',n:'С водой не реагирует.'},
-{type:'oxide',f:'FeO',kind:'основный',r:'FeO + 2HCl → FeCl₂ + H₂O',n:'Основный оксид.'},
-{type:'oxide',f:'CO₂',kind:'кислотный',r:'CO₂ + 2NaOH → Na₂CO₃ + H₂O',n:'Кислотный оксид.'},
-{type:'oxide',f:'SO₂',kind:'кислотный',r:'SO₂ + Ca(OH)₂ → CaSO₃↓ + H₂O',n:'Кислотный оксид.'},
-{type:'oxide',f:'SO₃',kind:'кислотный',r:'SO₃ + H₂O → H₂SO₄',n:'Кислотный оксид.'},
-{type:'oxide',f:'P₂O₅',kind:'кислотный',r:'P₂O₅ + 3H₂O → 2H₃PO₄',n:'Кислотный оксид.'},
-{type:'oxide',f:'Al₂O₃',kind:'амфотерный',r:'Al₂O₃ + 6HCl → 2AlCl₃ + 3H₂O',n:'Амфотерный.'},
-{type:'oxide',f:'ZnO',kind:'амфотерный',r:'ZnO + 2HCl → ZnCl₂ + H₂O',n:'Амфотерный.'},
-{type:'oxide',f:'Fe₂O₃',kind:'амфотерный',r:'Fe₂O₃ + 6HCl → 2FeCl₃ + 3H₂O',n:'С преобладанием основных.'}
-];
-const IONIC_RULES=[
-{type:'ionic',f:'Ag⁺ + Cl⁻ → AgCl↓',c:'белый',r:'AgNO₃ + NaCl → AgCl↓ + NaNO₃',n:'Для хлорид-иона.'},
-{type:'ionic',f:'Ba²⁺ + SO₄²⁻ → BaSO₄↓',c:'белый',r:'BaCl₂ + Na₂SO₄ → BaSO₄↓ + 2NaCl',n:'Для сульфат-иона.'},
-{type:'ionic',f:'Ca²⁺ + CO₃²⁻ → CaCO₃↓',c:'белый',r:'CaCl₂ + Na₂CO₃ → CaCO₃↓ + 2NaCl',n:'Для карбонат-иона.'},
-{type:'ionic',f:'Cu²⁺ + 2OH⁻ → Cu(OH)₂↓',c:'голубой',r:'CuSO₄ + 2NaOH → Cu(OH)₂↓ + Na₂SO₄',n:'Для ионов меди(II).'},
-{type:'ionic',f:'Fe³⁺ + 3OH⁻ → Fe(OH)₃↓',c:'бурый',r:'FeCl₃ + 3NaOH → Fe(OH)₃↓ + 3NaCl',n:'Для ионов железа(III).'},
-{type:'ionic',f:'H⁺ + OH⁻ → H₂O',c:'—',r:'HCl + NaOH → NaCl + H₂O',n:'Нейтрализация.'},
-{type:'ionic',f:'2H⁺ + CO₃²⁻ → H₂O + CO₂↑',c:'газ',r:'2HCl + Na₂CO₃ → 2NaCl + H₂O + CO₂↑',n:'Выделение газа.'},
-{type:'ionic',f:'NH₄⁺ + OH⁻ → NH₃↑ + H₂O',c:'газ',r:'NH₄Cl + NaOH → NaCl + NH₃↑ + H₂O',n:'Качественная на NH₄⁺.'}
-];
-const REDOX=[
-{type:'redox',f:'2Na + Cl₂ → 2NaCl',ox:'Cl₂ (Cl⁰ → Cl⁻)',red:'Na (Na⁰ → Na⁺)',n:'Cl₂ — окислитель, Na — восстановитель.'},
-{type:'redox',f:'Fe + CuSO₄ → FeSO₄ + Cu',ox:'Cu²⁺ (Cu²⁺ → Cu⁰)',red:'Fe (Fe⁰ → Fe²⁺)',n:'Железо вытесняет медь.'},
-{type:'redox',f:'2H₂ + O₂ → 2H₂O',ox:'O₂ (O⁰ → O⁻²)',red:'H₂ (H⁰ → H⁺)',n:'Классический пример.'},
-{type:'redox',f:'Zn + 2HCl → ZnCl₂ + H₂↑',ox:'H⁺ (H⁺ → H⁰)',red:'Zn (Zn⁰ → Zn²⁺)',n:'Цинк восстанавливает водород.'},
-{type:'redox',f:'CuO + H₂ → Cu + H₂O',ox:'Cu²⁺ (Cu²⁺ → Cu⁰)',red:'H₂ (H⁰ → H⁺)',n:'Восстановление меди.'},
-{type:'redox',f:'2KClO₃ → 2KCl + 3O₂',ox:'Cl⁺⁵ (Cl⁺⁵ → Cl⁻)',red:'O⁻² (O⁻² → O⁰)',n:'Внутримолекулярная ОВР.'},
-{type:'redox',f:'Cl₂ + 2NaOH → NaCl + NaClO + H₂O',ox:'Cl⁰ (Cl⁰ → Cl⁺¹)',red:'Cl⁰ (Cl⁰ → Cl⁻)',n:'Диспропорционирование.'}
-];
-const EXCEPTIONS=[
-{type:'exception',f:'Al(OH)₃ + NaOH',c:'—',r:'Al(OH)₃ + NaOH → Na[Al(OH)₄]',n:'Амфотерный растворяется в избытке щёлочи.'},
-{type:'exception',f:'Zn(OH)₂ + KOH',c:'—',r:'Zn(OH)₂ + 2KOH → K₂[Zn(OH)₄]',n:'Растворяется в избытке щёлочи.'},
-{type:'exception',f:'Ca(OH)₂',c:'—',r:'Ca(OH)₂ → Ca²⁺ + 2OH⁻',n:'Малорастворим, но в ионных — как ионы.'},
-{type:'exception',f:'AgCl + NH₃',c:'—',r:'AgCl + 2NH₃ → [Ag(NH₃)₂]Cl',n:'Растворяется в избытке аммиака.'},
-{type:'exception',f:'Cu(OH)₂ + глюкоза',c:'кирпично-красный',r:'Cu(OH)₂ + глюкоза → Cu₂O↓',n:'Качественная на альдегиды.'},
-{type:'exception',f:'Fe(OH)₂ на воздухе',c:'серо-зелёный → бурый',r:'4Fe(OH)₂ + O₂ + 2H₂O → 4Fe(OH)₃',n:'Осадок быстро буреет.'}
-];
-const ALL_ITEMS=[...PRECIPITATES,...OXIDES,...IONIC_RULES,...REDOX,...EXCEPTIONS];
-const COLORS={'белый':'#f7f7f7','светло-жёлтый':'#f3ec8c','жёлтый':'#f2d024','голубой':'#6fc3e8','серо-зелёный':'#7d9a6e','бурый':'#7a3b1c','чёрный':'#1a1a1a','кирпично-красный':'#b83a1e','красный':'#e63b2e','—':'#777'};
-const REACTIONS_LIB=[
-{t:'exchange',eq:'AgNO₃ + NaCl → AgCl↓ + NaNO₃',n:'Белый творожистый'},
-{t:'exchange',eq:'BaCl₂ + Na₂SO₄ → BaSO₄↓ + 2NaCl',n:'Белый кристаллический'},
-{t:'exchange',eq:'CaCl₂ + Na₂CO₃ → CaCO₃↓ + 2NaCl',n:'Белый, с CO₂ в кислотах'},
-{t:'exchange',eq:'CuSO₄ + 2NaOH → Cu(OH)₂↓ + Na₂SO₄',n:'Голубой студенистый'},
-{t:'exchange',eq:'FeCl₃ + 3NaOH → Fe(OH)₃↓ + 3NaCl',n:'Бурый'},
-{t:'exchange',eq:'FeCl₂ + 2NaOH → Fe(OH)₂↓ + 2NaCl',n:'Серо-зелёный, буреет'},
-{t:'exchange',eq:'AlCl₃ + 3NaOH → Al(OH)₃↓ + 3NaCl',n:'Белый амфотерный'},
-{t:'exchange',eq:'ZnCl₂ + 2NaOH → Zn(OH)₂↓ + 2NaCl',n:'Белый амфотерный'},
-{t:'exchange',eq:'Pb(NO₃)₂ + 2KI → PbI₂↓ + 2KNO₃',n:'Золотисто-жёлтый'},
-{t:'exchange',eq:'CuSO₄ + Na₂S → CuS↓ + Na₂SO₄',n:'Чёрный'},
-{t:'exchange',eq:'Pb(NO₃)₂ + K₂CrO₄ → PbCrO₄↓ + 2KNO₃',n:'Жёлтый'},
-{t:'gas',eq:'2HCl + Na₂CO₃ → 2NaCl + H₂O + CO₂↑',n:'Шипение'},
-{t:'gas',eq:'2HCl + Na₂S → 2NaCl + H₂S↑',n:'Запах тухлых яиц'},
-{t:'gas',eq:'NH₄Cl + NaOH → NaCl + NH₃↑ + H₂O',n:'Запах аммиака'},
-{t:'gas',eq:'CaCO₃ + 2HCl → CaCl₂ + H₂O + CO₂↑',n:'Растворение мела'},
-{t:'neutral',eq:'HCl + NaOH → NaCl + H₂O',n:'Без видимых изменений'},
-{t:'neutral',eq:'H₂SO₄ + 2KOH → K₂SO₄ + 2H₂O',n:'С выделением тепла'},
-{t:'redox',eq:'2Na + Cl₂ → 2NaCl',n:'Cl₂ окислитель, Na восстановитель'},
-{t:'redox',eq:'Fe + CuSO₄ → FeSO₄ + Cu',n:'Железо вытесняет медь'},
-{t:'redox',eq:'Zn + 2HCl → ZnCl₂ + H₂↑',n:'Восстановление водорода'},
-{t:'redox',eq:'2H₂ + O₂ → 2H₂O',n:'Классическое ОВР'},
-{t:'redox',eq:'Cl₂ + 2NaOH → NaCl + NaClO + H₂O',n:'Диспропорционирование'},
-{t:'decomp',eq:'2H₂O₂ → 2H₂O + O₂↑ (кат. MnO₂)',n:'Разложение H₂O₂'},
-{t:'decomp',eq:'2KClO₃ → 2KCl + 3O₂↑ (кат. MnO₂)',n:'Бертолетова соль'},
-{t:'decomp',eq:'CaCO₃ → CaO + CO₂↑',n:'Обжиг известняка'},
-{t:'decomp',eq:'2Fe(OH)₃ → Fe₂O₃ + 3H₂O',n:'Разложение гидроксида'},
-{t:'compound',eq:'2Cu + O₂ → 2CuO',n:'Окисление меди'},
-{t:'compound',eq:'CaO + H₂O → Ca(OH)₂',n:'Гашение извести'},
-{t:'compound',eq:'SO₃ + H₂O → H₂SO₄',n:'Получение кислоты'},
-{t:'compound',eq:'2Fe + 3Cl₂ → 2FeCl₃',n:'Хлорирование'},
-{t:'subst',eq:'Fe + 2HCl → FeCl₂ + H₂↑',n:'Железо + кислота'},
-{t:'subst',eq:'2NaBr + Cl₂ → 2NaCl + Br₂',n:'Хлор вытесняет бром'},
-{t:'subst',eq:'Zn + Pb(NO₃)₂ → Zn(NO₃)₂ + Pb',n:'Цинк вытесняет свинец'},
-{t:'ampho',eq:'Al(OH)₃ + 3HCl → AlCl₃ + 3H₂O',n:'Как основание'},
-{t:'ampho',eq:'Al(OH)₃ + NaOH → Na[Al(OH)₄]',n:'Как кислота'},
-{t:'ampho',eq:'ZnO + 2HCl → ZnCl₂ + H₂O',n:'С кислотой'},
-{t:'ampho',eq:'ZnO + 2NaOH → Na₂ZnO₂ + H₂O',n:'Со щёлочью'}
-];
-const FORMULAS=[
-{title:'Количество вещества (n)',formula:'n = m / M',symbols:[['n','моль'],['m','масса, г'],['M','молярная масса, г/моль']],explain:'Показывает «сколько порций» вещества. 1 моль = 6.02×10²³ частиц. M численно равна Mr.',example:'Сколько моль в 36 г H₂O?\n1) M(H₂O) = 2+16 = 18 г/моль\n2) n = 36/18 = 2 моль',tips:'m = n·M, M = m/n. «Треугольник» m/n·M.'},
-{title:'Масса (m)',formula:'m = n · M',symbols:[['m','г'],['n','моль'],['M','г/моль']],explain:'Масса = количество × молярная масса.',example:'Масса 0.5 моль CO₂?\nM(CO₂)=44; m=0.5×44=22 г',tips:'Не путай m и M.'},
-{title:'Объём газа (V)',formula:'V = n · Vm',symbols:[['V','л'],['n','моль'],['Vm','22.4 л/моль']],explain:'Только для газов при н.у.! 1 моль любого газа = 22.4 л.',example:'V(2 моль CO₂) = 2×22.4 = 44.8 л',tips:'Видишь «газ» и «н.у.» — вспоминай 22.4.'},
-{title:'Массовая доля (w)',formula:'w = m(в-ва)/m(р-ра) × 100%',symbols:[['w','%'],['m(в-ва)','г'],['m(р-ра)','г']],explain:'Сколько грамм вещества в 100 г раствора. m(р-ра) = m(в-ва)+m(воды).',example:'50 г соли в 200 г воды:\nm(р-ра)=250; w=50/250×100%=20%',tips:'5% раствор = 5 г на 100 г.'},
-{title:'Число частиц (N)',formula:'N = n · Nᴀ',symbols:[['N','частиц'],['n','моль'],['Nᴀ','6.02×10²³']],explain:'Nᴀ — постоянная Авогадро.',example:'N(3 моль) = 3×6.02×10²³ = 1.806×10²⁴',tips:'n = N/Nᴀ.'}
-];
-const LAB_SOLUTIONS=[
-{n:'AgNO₃',c:'Ag⁺',a:'NO₃⁻',col:'#f3f3f3'},{n:'BaCl₂',c:'Ba²⁺',a:'Cl⁻',col:'#f3f3f3'},
-{n:'CaCl₂',c:'Ca²⁺',a:'Cl⁻',col:'#f3f3f3'},{n:'CuSO₄',c:'Cu²⁺',a:'SO₄²⁻',col:'#4ea8d8'},
-{n:'FeCl₃',c:'Fe³⁺',a:'Cl⁻',col:'#c8853a'},{n:'FeSO₄',c:'Fe²⁺',a:'SO₄²⁻',col:'#88a86e'},
-{n:'AlCl₃',c:'Al³⁺',a:'Cl⁻',col:'#f3f3f3'},{n:'ZnCl₂',c:'Zn²⁺',a:'Cl⁻',col:'#f3f3f3'},
-{n:'MgCl₂',c:'Mg²⁺',a:'Cl⁻',col:'#f3f3f3'},{n:'NaCl',c:'Na⁺',a:'Cl⁻',col:'#f3f3f3'},
-{n:'NaBr',c:'Na⁺',a:'Br⁻',col:'#f3f3f3'},{n:'KI',c:'K⁺',a:'I⁻',col:'#f3f3f3'},
-{n:'NaOH',c:'Na⁺',a:'OH⁻',col:'#f3f3f3'},{n:'KOH',c:'K⁺',a:'OH⁻',col:'#f3f3f3'},
-{n:'Na₂SO₄',c:'Na⁺',a:'SO₄²⁻',col:'#f3f3f3'},{n:'Na₂CO₃',c:'Na⁺',a:'CO₃²⁻',col:'#f3f3f3'},
-{n:'Na₂S',c:'Na⁺',a:'S²⁻',col:'#e8e8a0'},{n:'K₂CrO₄',c:'K⁺',a:'CrO₄²⁻',col:'#f3dc50'},
-{n:'HCl',c:'H⁺',a:'Cl⁻',col:'#f3f3f3'},{n:'H₂SO₄',c:'H⁺',a:'SO₄²⁻',col:'#f3f3f3'},
-{n:'NH₄Cl',c:'NH₄⁺',a:'Cl⁻',col:'#f3f3f3'},{n:'Pb(NO₃)₂',c:'Pb²⁺',a:'NO₃⁻',col:'#f3f3f3'}
-];
-const LAB_RULES={
-'Ag⁺_Cl⁻':{t:'p',f:'AgCl',col:'#f7f7f7',eq:'Ag⁺ + Cl⁻ → AgCl↓',note:'Белый творожистый'},
-'Ag⁺_Br⁻':{t:'p',f:'AgBr',col:'#f3ec8c',eq:'Ag⁺ + Br⁻ → AgBr↓',note:'Светло-жёлтый'},
-'Ag⁺_I⁻':{t:'p',f:'AgI',col:'#f2d024',eq:'Ag⁺ + I⁻ → AgI↓',note:'Жёлтый'},
-'Ag⁺_S²⁻':{t:'p',f:'Ag₂S',col:'#1a1a1a',eq:'2Ag⁺ + S²⁻ → Ag₂S↓',note:'Чёрный'},
-'Ag⁺_OH⁻':{t:'p',f:'Ag₂O',col:'#7a3b1c',eq:'2Ag⁺ + 2OH⁻ → Ag₂O↓ + H₂O',note:'Бурый (оксид)'},
-'Ag⁺_CrO₄²⁻':{t:'p',f:'Ag₂CrO₄',col:'#b83a1e',eq:'2Ag⁺ + CrO₄²⁻ → Ag₂CrO₄↓',note:'Кирпично-красный'},
-'Ba²⁺_SO₄²⁻':{t:'p',f:'BaSO₄',col:'#f7f7f7',eq:'Ba²⁺ + SO₄²⁻ → BaSO₄↓',note:'Белый, не раств. в кислотах'},
-'Ba²⁺_CO₃²⁻':{t:'p',f:'BaCO₃',col:'#f7f7f7',eq:'Ba²⁺ + CO₃²⁻ → BaCO₃↓',note:'Белый, с CO₂'},
-'Ba²⁺_CrO₄²⁻':{t:'p',f:'BaCrO₄',col:'#f2d024',eq:'Ba²⁺ + CrO₄²⁻ → BaCrO₄↓',note:'Жёлтый'},
-'Ca²⁺_CO₃²⁻':{t:'p',f:'CaCO₃',col:'#f7f7f7',eq:'Ca²⁺ + CO₃²⁻ → CaCO₃↓',note:'Белый'},
-'Cu²⁺_OH⁻':{t:'p',f:'Cu(OH)₂',col:'#6fc3e8',eq:'Cu²⁺ + 2OH⁻ → Cu(OH)₂↓',note:'Голубой'},
-'Cu²⁺_S²⁻':{t:'p',f:'CuS',col:'#1a1a1a',eq:'Cu²⁺ + S²⁻ → CuS↓',note:'Чёрный'},
-'Cu²⁺_CO₃²⁻':{t:'p',f:'CuCO₃',col:'#5a9a6e',eq:'Cu²⁺ + CO₃²⁻ → CuCO₃↓',note:'Зелёный'},
-'Fe³⁺_OH⁻':{t:'p',f:'Fe(OH)₃',col:'#7a3b1c',eq:'Fe³⁺ + 3OH⁻ → Fe(OH)₃↓',note:'Бурый'},
-'Fe²⁺_OH⁻':{t:'p',f:'Fe(OH)₂',col:'#7d9a6e',eq:'Fe²⁺ + 2OH⁻ → Fe(OH)₂↓',note:'Серо-зелёный'},
-'Fe²⁺_S²⁻':{t:'p',f:'FeS',col:'#1a1a1a',eq:'Fe²⁺ + S²⁻ → FeS↓',note:'Чёрный, с H₂S'},
-'Fe²⁺_CO₃²⁻':{t:'p',f:'FeCO₃',col:'#5a7a4a',eq:'Fe²⁺ + CO₃²⁻ → FeCO₃↓',note:'Зелёный'},
-'Al³⁺_OH⁻':{t:'p',f:'Al(OH)₃',col:'#f7f7f7',eq:'Al³⁺ + 3OH⁻ → Al(OH)₃↓',note:'Белый амфотерный'},
-'Zn²⁺_OH⁻':{t:'p',f:'Zn(OH)₂',col:'#f7f7f7',eq:'Zn²⁺ + 2OH⁻ → Zn(OH)₂↓',note:'Белый амфотерный'},
-'Zn²⁺_S²⁻':{t:'p',f:'ZnS',col:'#f7f7f7',eq:'Zn²⁺ + S²⁻ → ZnS↓',note:'Белый'},
-'Zn²⁺_CO₃²⁻':{t:'p',f:'ZnCO₃',col:'#f7f7f7',eq:'Zn²⁺ + CO₃²⁻ → ZnCO₃↓',note:'Белый'},
-'Mg²⁺_OH⁻':{t:'p',f:'Mg(OH)₂',col:'#f7f7f7',eq:'Mg²⁺ + 2OH⁻ → Mg(OH)₂↓',note:'Белый'},
-'Mg²⁺_CO₃²⁻':{t:'p',f:'MgCO₃',col:'#f7f7f7',eq:'Mg²⁺ + CO₃²⁻ → MgCO₃↓',note:'Белый'},
-'Pb²⁺_I⁻':{t:'p',f:'PbI₂',col:'#f2d024',eq:'Pb²⁺ + 2I⁻ → PbI₂↓',note:'Золотисто-жёлтый'},
-'Pb²⁺_S²⁻':{t:'p',f:'PbS',col:'#1a1a1a',eq:'Pb²⁺ + S²⁻ → PbS↓',note:'Чёрный'},
-'Pb²⁺_Cl⁻':{t:'p',f:'PbCl₂',col:'#f7f7f7',eq:'Pb²⁺ + 2Cl⁻ → PbCl₂↓',note:'Белый, раств. при нагревании'},
-'Pb²⁺_SO₄²⁻':{t:'p',f:'PbSO₄',col:'#f7f7f7',eq:'Pb²⁺ + SO₄²⁻ → PbSO₄↓',note:'Белый'},
-'Pb²⁺_CrO₄²⁻':{t:'p',f:'PbCrO₄',col:'#f2d024',eq:'Pb²⁺ + CrO₄²⁻ → PbCrO₄↓',note:'Жёлтый'},
-'Pb²⁺_OH⁻':{t:'p',f:'Pb(OH)₂',col:'#f7f7f7',eq:'Pb²⁺ + 2OH⁻ → Pb(OH)₂↓',note:'Белый амфотерный'},
-'H⁺_CO₃²⁻':{t:'g',f:'CO₂',eq:'2H⁺ + CO₃²⁻ → H₂O + CO₂↑',note:'Шипение, пузырьки'},
-'H⁺_S²⁻':{t:'g',f:'H₂S',eq:'2H⁺ + S²⁻ → H₂S↑',note:'Запах тухлых яиц'},
-'H⁺_OH⁻':{t:'n',eq:'H⁺ + OH⁻ → H₂O',note:'Без видимых изменений, но тепло'},
-'NH₄⁺_OH⁻':{t:'g',f:'NH₃',eq:'NH₄⁺ + OH⁻ → NH₃↑ + H₂O',note:'При нагревании, запах аммиака'}
+const SOLUBILITY = {
+  cations: ['H⁺','K⁺','Na⁺','NH₄⁺','Ba²⁺','Ca²⁺','Mg²⁺','Al³⁺','Cr³⁺','Fe²⁺','Fe³⁺','Cu²⁺','Ag⁺','Pb²⁺','Zn²⁺'],
+  anions: ['OH⁻','Cl⁻','Br⁻','I⁻','S²⁻','SO₃²⁻','SO₄²⁻','CO₃²⁻','SiO₃²⁻','NO₃⁻','PO₄³⁻'],
+  data: [
+    // OH, Cl, Br, I, S, SO3, SO4, CO3, SiO3, NO3, PO4
+    ['Р','Р','Р','Р','Р','Р','Р','Р','Н','Р','Р'], // H
+    ['Р','Р','Р','Р','Р','Р','Р','Р','Р','Р','Р'], // K
+    ['Р','Р','Р','Р','Р','Р','Р','Р','Р','Р','Р'], // Na
+    ['Р','Р','Р','Р','Р','Р','Р','Р','Н','Р','Р'], // NH4
+    ['Р','Р','Р','Р','Р','Н','Н','Н','Н','Р','Н'], // Ba
+    ['М','Р','Р','Р','М','Н','М','Н','Н','Р','Н'], // Ca
+    ['Н','Р','Р','Р','Р','Н','Р','Н','Н','Р','Н'], // Mg
+    ['Н','Р','Р','Р','Р','Н','Р','Н','Н','Р','Н'], // Al
+    ['Н','Р','Р','Р','Р','Н','Р','Н','Н','Р','Н'], // Cr
+    ['Н','Р','Р','Р','Н','Н','Р','Н','Н','Р','Н'], // Fe2
+    ['Н','Р','Р','Р','Н','Н','Р','Н','Н','Р','Н'], // Fe3
+    ['Н','Р','Р','Р','Н','Н','Р','Н','Н','Р','Н'], // Cu
+    ['Н','Н','Н','Н','Н','Н','М','Н','Н','Р','Н'], // Ag
+    ['Н','М','М','М','Н','Н','Н','Н','Н','Р','Н'], // Pb
+    ['Н','Р','Р','Р','Н','Н','Р','Н','Н','Р','Н']  // Zn
+  ]
 };
-const ELEMENTS=[
-{sym:'H',name:'Водород',Z:1,mass:1,n:0,shells:[1],config:'1s¹',period:1,group:'IA',valence:'I',ox:'+1, −1',tips:['Единственный без нейтронов','Может быть окислителем и восстановителем','Один валентный e⁻'],fact:'Самый распространённый во Вселенной.'},
-{sym:'He',name:'Гелий',Z:2,mass:4,n:2,shells:[2],config:'1s²',period:1,group:'VIIIA',valence:'0',ox:'0',tips:['Завершённый слой','Валентность 0','Инертный газ'],fact:'Открыт на Солнце раньше, чем на Земле.'},
-{sym:'Li',name:'Литий',Z:3,mass:7,n:4,shells:[2,1],config:'1s² 2s¹',period:2,group:'IA',valence:'I',ox:'+1',tips:['Щелочной металл','1 e⁻ → +1','Валентность = номер группы'],fact:'Самый лёгкий металл.'},
-{sym:'C',name:'Углерод',Z:6,mass:12,n:6,shells:[2,4],config:'1s² 2s² 2p²',period:2,group:'IVA',valence:'IV',ox:'−4, +2, +4',tips:['4 внешних e⁻ → IV','И восстановитель, и окислитель','Алмаз и графит'],fact:'Основа органики.'},
-{sym:'N',name:'Азот',Z:7,mass:14,n:7,shells:[2,5],config:'1s² 2s² 2p³',period:2,group:'VA',valence:'III',ox:'−3, +3, +5',tips:['5 e⁻ → 3 неспаренных','Валентность III','−3 в NH₃, +5 в HNO₃'],fact:'78% воздуха.'},
-{sym:'O',name:'Кислород',Z:8,mass:16,n:8,shells:[2,6],config:'1s² 2s² 2p⁴',period:2,group:'VIA',valence:'II',ox:'−2',tips:['ВСЕГДА валентность II','Степень −2 почти всегда','В H₂O₂ −1'],fact:'47% земной коры.'},
-{sym:'F',name:'Фтор',Z:9,mass:19,n:10,shells:[2,7],config:'1s² 2s² 2p⁵',period:2,group:'VIIA',valence:'I',ox:'−1',tips:['ВСЕГДА валентность I','Самый электроотрицательный','Только −1 степень'],fact:'Самый активный неметалл.'},
-{sym:'Na',name:'Натрий',Z:11,mass:23,n:12,shells:[2,8,1],config:'[Ne] 3s¹',period:3,group:'IA',valence:'I',ox:'+1',tips:['1 e⁻ → +1','Щелочной, очень активный','С водой → H₂↑'],fact:'Хранят под керосином.'},
-{sym:'Mg',name:'Магний',Z:12,mass:24,n:12,shells:[2,8,2],config:'[Ne] 3s²',period:3,group:'IIA',valence:'II',ox:'+2',tips:['2 e⁻ → II','Валентность = номер группы','В хлорофилле'],fact:'Горит белым пламенем.'},
-{sym:'Al',name:'Алюминий',Z:13,mass:27,n:14,shells:[2,8,3],config:'[Ne] 3s² 3p¹',period:3,group:'IIIA',valence:'III',ox:'+3',tips:['3 e⁻ → III','Амфотерный','Оксидная плёнка защищает'],fact:'Самый распростр. металл.'},
-{sym:'Si',name:'Кремний',Z:14,mass:28,n:14,shells:[2,8,4],config:'[Ne] 3s² 3p²',period:3,group:'IVA',valence:'IV',ox:'−4, +2, +4',tips:['4 e⁻ → IV','Полупроводник','Чаще +4'],fact:'Основа микроэлектроники.'},
-{sym:'P',name:'Фосфор',Z:15,mass:31,n:16,shells:[2,8,5],config:'[Ne] 3s² 3p³',period:3,group:'VA',valence:'III, V',ox:'−3, +3, +5',tips:['5 e⁻ → III или V','Белый и красный','В H₃PO₄ +5'],fact:'Белый светится в темноте.'},
-{sym:'S',name:'Сера',Z:16,mass:32,n:16,shells:[2,8,6],config:'[Ne] 3s² 3p⁴',period:3,group:'VIA',valence:'II, IV, VI',ox:'−2, +4, +6',tips:['6 e⁻ → несколько валентностей','H₂S −2, SO₂ +4, H₂SO₄ +6','Чем больше O — тем выше степень'],fact:'Известна с древности.'},
-{sym:'Cl',name:'Хлор',Z:17,mass:35,n:18,shells:[2,8,7],config:'[Ne] 3s² 3p⁵',period:3,group:'VIIA',valence:'I, III, V, VII',ox:'−1, +1, +3, +5, +7',tips:['7 e⁻ → от −1 до +7','HCl −1, HClO₄ +7','Активный галоген'],fact:'Жёлто-зелёный газ.'},
-{sym:'K',name:'Калий',Z:19,mass:39,n:20,shells:[2,8,8,1],config:'[Ar] 4s¹',period:4,group:'IA',valence:'I',ox:'+1',tips:['1 e⁻ → +1','Очень активный','С водой бурно'],fact:'Нужен для сердца.'},
-{sym:'Ca',name:'Кальций',Z:20,mass:40,n:20,shells:[2,8,8,2],config:'[Ar] 4s²',period:4,group:'IIA',valence:'II',ox:'+2',tips:['2 e⁻ → II','Основа костей и раковин','CaO + H₂O → Ca(OH)₂'],fact:'5-й по распростр. в коре.'},
-{sym:'Fe',name:'Железо',Z:26,mass:56,n:30,shells:[2,8,14,2],config:'[Ar] 3d⁶ 4s²',period:4,group:'VIIIB',valence:'II, III',ox:'+2, +3',tips:['d-элемент — переменная валентность','FeO +2, Fe₂O₃ +3','Fe(OH)₂ зелёный, Fe(OH)₃ бурый'],fact:'Основа стали.'},
-{sym:'Cu',name:'Медь',Z:29,mass:64,n:35,shells:[2,8,18,1],config:'[Ar] 3d¹⁰ 4s¹',period:4,group:'IB',valence:'I, II',ox:'+1, +2',tips:['d-элемент','CuO +2, Cu₂O +1','Cu(OH)₂ голубой'],fact:'Один из первых металлов.'},
-{sym:'Zn',name:'Цинк',Z:30,mass:65,n:35,shells:[2,8,18,2],config:'[Ar] 3d¹⁰ 4s²',period:4,group:'IIB',valence:'II',ox:'+2',tips:['d-элемент, но II постоянно','Амфотерный','Zn(OH)₂ раств. в избытке'],fact:'Для оцинковки железа.'},
-{sym:'Br',name:'Бром',Z:35,mass:80,n:45,shells:[2,8,18,7],config:'[Ar] 3d¹⁰ 4s² 4p⁵',period:4,group:'VIIA',valence:'I, III, V, VII',ox:'−1, +1, +3, +5, +7',tips:['7 e⁻ как у хлора','Только жидкость среди неметаллов','В HBr −1'],fact:'Красно-бурая жидкость.'},
-{sym:'Ag',name:'Серебро',Z:47,mass:108,n:61,shells:[2,8,18,18,1],config:'[Kr] 4d¹⁰ 5s¹',period:5,group:'IB',valence:'I',ox:'+1',tips:['d-элемент, +1','AgCl бел., AgBr жёлт., AgI жёлт.','Раств. в NH₃'],fact:'Самый электропроводный.'},
-{sym:'I',name:'Иод',Z:53,mass:127,n:74,shells:[2,8,18,18,7],config:'[Kr] 4d¹⁰ 5s² 5p⁵',period:5,group:'VIIA',valence:'I, III, V, VII',ox:'−1, +1, +3, +5, +7',tips:['7 e⁻ как у галогенов','Твёрдый, металл. блеск','Возгоняется'],fact:'Нужен для щитовидки.'},
-{sym:'Ba',name:'Барий',Z:56,mass:137,n:81,shells:[2,8,18,18,8,2],config:'[Xe] 6s²',period:6,group:'IIA',valence:'II',ox:'+2',tips:['2 e⁻ → II','BaSO₄ белый, не раств.','Качеств. на SO₄²⁻'],fact:'«Тяжёлый» (греч.).'}
-];
-const TASK_TEMPLATES=[
-{gen:()=>{const s=[{f:'H₂O',M:18,O:16},{f:'CO₂',M:44,O:32},{f:'H₂SO₄',M:98,O:64},{f:'KMnO₄',M:158,O:64},{f:'CaCO₃',M:100,O:48}];const x=s[Math.floor(Math.random()*s.length)];const real=Math.round(x.O/x.M*100);return {q:`w(O) в ${x.f}?`,a:real,unit:'%',opts:[real,real+5,Math.max(1,real-7),real+12],expl:`M=${x.M} г/моль, w(O)=${x.O}/${x.M}×100%≈${real}%`};}},
-{gen:()=>{const s=[{f:'H₂O',M:18},{f:'CO₂',M:44},{f:'NaOH',M:40},{f:'NaCl',M:58.5},{f:'CaCO₃',M:100}];const x=s[Math.floor(Math.random()*s.length)];const m=[9,18,20,40,100,50,80][Math.floor(Math.random()*7)];const n=+(m/x.M).toFixed(2);return {q:`n в ${m} г ${x.f}?`,a:n,unit:'моль',opts:[n,+(n*2).toFixed(2),+(n/2).toFixed(2),+(n+1).toFixed(2)],expl:`n=m/M=${m}/${x.M}≈${n} моль`};}},
-{gen:()=>{const n=[1,2,0.5,0.25,3][Math.floor(Math.random()*5)];const v=+(n*22.4).toFixed(1);return {q:`V газа для ${n} моль (н.у.)?`,a:v,unit:'л',opts:[v,+(n*11.2).toFixed(1),+(n*44.8).toFixed(1),+(v+10).toFixed(1)],expl:`V=n×22.4=${n}×22.4=${v} л`};}},
-{gen:()=>{const s=[{f:'H₂O',M:18},{f:'CO₂',M:44},{f:'NaOH',M:40},{f:'CaCO₃',M:100}];const x=s[Math.floor(Math.random()*s.length)];const n=[1,2,0.5,3][Math.floor(Math.random()*4)];const m=+(n*x.M).toFixed(1);return {q:`m ${n} моль ${x.f}?`,a:m,unit:'г',opts:[m,+(m*2).toFixed(1),+(m/2).toFixed(1),+(m+5).toFixed(1)],expl:`m=n×M=${n}×${x.M}=${m} г`};}},
-{gen:()=>{const mSol=[100,200,150,50][Math.floor(Math.random()*4)];const mSub=[10,20,5,15][Math.floor(Math.random()*4)];const w=Math.round(mSub/mSol*100);return {q:`В ${mSol} г раствора ${mSub} г соли. w=?`,a:w,unit:'%',opts:[w,w+5,Math.max(1,w-5),w+10],expl:`w=${mSub}/${mSol}×100%=${w}%`};}}
-];
-const QUALITATIVE=[
-{q:'В трёх пробирках: NaCl, Na₂SO₄, Na₂CO₃. Чем распознать Na₂CO₃ (газ)?',opts:['HCl','AgNO₃','BaCl₂','Лакмус'],correct:'HCl',expl:'Na₂CO₃ + 2HCl → 2NaCl + H₂O + CO₂↑'},
-{q:'NaCl, NaBr, NaI — чем распознать все три?',opts:['AgNO₃','BaCl₂','HCl','NaOH'],correct:'AgNO₃',expl:'AgCl — белый, AgBr — светло-жёлтый, AgI — жёлтый.'},
-{q:'NaCl и Na₂SO₄ — как распознать Na₂SO₄?',opts:['BaCl₂','AgNO₃','HCl','NaOH'],correct:'BaCl₂',expl:'BaSO₄↓ — белый, не растворяется в кислотах.'},
-{q:'Как распознать ион аммония NH₄⁺?',opts:['NaOH (при нагревании)','HCl','BaCl₂','AgNO₃'],correct:'NaOH (при нагревании)',expl:'NH₄⁺ + OH⁻ → NH₃↑ + H₂O — запах аммиака.'},
-{q:'Как распознать Cu²⁺?',opts:['NaOH','HCl','BaCl₂','AgNO₃'],correct:'NaOH',expl:'Cu²⁺ + 2OH⁻ → Cu(OH)₂↓ (голубой).'},
-{q:'Как распознать Fe³⁺?',opts:['NaOH','HCl','BaCl₂','AgNO₃'],correct:'NaOH',expl:'Fe³⁺ + 3OH⁻ → Fe(OH)₃↓ (бурый).'}
-];
-const ODD_ONE=[
-{items:['Na₂O','CaO','CuO','CO₂'],odd:'CO₂',why:'Кислотный, остальные основные.'},
-{items:['Al(OH)₃','Zn(OH)₂','Cr(OH)₃','NaOH'],odd:'NaOH',why:'Растворимое основание (щёлочь).'},
-{items:['AgCl','BaSO₄','CaCO₃','CuS'],odd:'CuS',why:'Чёрный, остальные белые.'},
-{items:['HCl','H₂SO₄','HNO₃','NaOH'],odd:'NaOH',why:'Основание, остальные кислоты.'},
-{items:['Fe(OH)₂','Fe(OH)₃','Cu(OH)₂','NaOH'],odd:'NaOH',why:'Растворим, остальные — нерастворимые.'},
-{items:['SO₂','CO₂','P₂O₅','CaO'],odd:'CaO',why:'Основный, остальные кислотные.'},
-{items:['CuSO₄','NaCl','KNO₃','BaSO₄'],odd:'BaSO₄',why:'Нерастворим.'},
-{items:['AgNO₃','BaCl₂','NaOH','HCl'],odd:'AgNO₃',why:'Даёт осадок с Cl⁻, остальные — нет.'}
-];
-const CHAINS=[
-{start:'Cu → CuO → CuCl₂ → Cu(OH)₂',steps:[{q:'Чем подействовать на Cu, чтобы получить CuO?',opts:['O₂ (при нагревании)','H₂O','HCl','NaOH'],correct:'O₂ (при нагревании)',eq:'2Cu + O₂ → 2CuO'},{q:'Чем подействовать на CuO, чтобы получить CuCl₂?',opts:['HCl','NaCl','H₂O','O₂'],correct:'HCl',eq:'CuO + 2HCl → CuCl₂ + H₂O'},{q:'Чем подействовать на CuCl₂, чтобы получить Cu(OH)₂?',opts:['NaOH','HCl','H₂O','O₂'],correct:'NaOH',eq:'CuCl₂ + 2NaOH → Cu(OH)₂↓ + 2NaCl'}]},
-{start:'Fe → FeCl₃ → Fe(OH)₃ → Fe₂O₃',steps:[{q:'Чем подействовать на Fe, чтобы получить FeCl₃?',opts:['Cl₂ (при нагревании)','HCl (разб.)','H₂O','NaOH'],correct:'Cl₂ (при нагревании)',eq:'2Fe + 3Cl₂ → 2FeCl₃'},{q:'Чем подействовать на FeCl₃, чтобы получить Fe(OH)₃?',opts:['NaOH','HCl','H₂O','O₂'],correct:'NaOH',eq:'FeCl₃ + 3NaOH → Fe(OH)₃↓ + 3NaCl'},{q:'Как из Fe(OH)₃ получить Fe₂O₃?',opts:['Нагревание','Охлаждение','HCl','NaOH'],correct:'Нагревание',eq:'2Fe(OH)₃ → Fe₂O₃ + 3H₂O'}]},
-{start:'Al → Al₂O₃ → AlCl₃ → Al(OH)₃',steps:[{q:'Чем подействовать на Al, чтобы получить Al₂O₃?',opts:['O₂ (нагрев)','H₂O','HCl','NaOH'],correct:'O₂ (нагрев)',eq:'4Al + 3O₂ → 2Al₂O₃'},{q:'Чем подействовать на Al₂O₃, чтобы получить AlCl₃?',opts:['HCl','NaCl','H₂O','O₂'],correct:'HCl',eq:'Al₂O₃ + 6HCl → 2AlCl₃ + 3H₂O'},{q:'Чем подействовать на AlCl₃, чтобы получить Al(OH)₃?',opts:['NaOH (недостаток)','HCl','H₂O','O₂'],correct:'NaOH (недостаток)',eq:'AlCl₃ + 3NaOH → Al(OH)₃↓ + 3NaCl'}]},
-{start:'Na → NaOH → Na₂CO₃ → CO₂',steps:[{q:'Чем подействовать на Na, чтобы получить NaOH?',opts:['H₂O','HCl','CO₂','O₂'],correct:'H₂O',eq:'2Na + 2H₂O → 2NaOH + H₂↑'},{q:'Чем подействовать на NaOH, чтобы получить Na₂CO₃?',opts:['CO₂','HCl','H₂O','O₂'],correct:'CO₂',eq:'2NaOH + CO₂ → Na₂CO₃ + H₂O'},{q:'Чем подействовать на Na₂CO₃, чтобы получить CO₂?',opts:['HCl','NaOH','H₂O','O₂'],correct:'HCl',eq:'Na₂CO₃ + 2HCl → 2NaCl + H₂O + CO₂↑'}]}
-];
-const BALANCE=[
-{eq:'Fe + O₂ → Fe₂O₃',answer:'4, 3, 2',opts:['4, 3, 2','2, 3, 1','4, 2, 2','3, 2, 1'],hint:'Fe: 4, O: 6'},
-{eq:'Al + HCl → AlCl₃ + H₂',answer:'2, 6, 2, 3',opts:['2, 6, 2, 3','1, 3, 1, 2','2, 3, 2, 3','1, 6, 1, 3'],hint:'Al: 2, H: 6, Cl: 6'},
-{eq:'KClO₃ → KCl + O₂',answer:'2, 2, 3',opts:['2, 2, 3','1, 1, 2','2, 1, 3','1, 2, 3'],hint:'K: 2, Cl: 2, O: 6'},
-{eq:'H₂ + O₂ → H₂O',answer:'2, 1, 2',opts:['2, 1, 2','1, 1, 2','2, 2, 1','1, 2, 2'],hint:'H: 4, O: 2'},
-{eq:'Na + H₂O → NaOH + H₂',answer:'2, 2, 2, 1',opts:['2, 2, 2, 1','1, 1, 1, 1','2, 1, 2, 1','1, 2, 1, 2'],hint:'Na: 2, H: 4, O: 2'},
-{eq:'Fe₂O₃ + CO → Fe + CO₂',answer:'1, 3, 2, 3',opts:['1, 3, 2, 3','1, 2, 2, 3','2, 3, 4, 3','1, 3, 1, 3'],hint:'Fe: 2, O: 3, C: 3'}
-];
 
-/* ============ УТИЛИТЫ ============ */
-const $=s=>document.querySelector(s);const $$=s=>document.querySelectorAll(s);
-function shuffle(a){const r=[...a];for(let i=r.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[r[i],r[j]]=[r[j],r[i]]}return r}
-function pick(a){return a[Math.floor(Math.random()*a.length)]}
-const Store={get(k,d){try{const v=localStorage.getItem('himo_'+k);return v===null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem('himo_'+k,JSON.stringify(v))}catch(e){}},del(k){try{localStorage.removeItem('himo_'+k)}catch(e){}}};
-let audioCtx=null;
-function beep(freq,dur,type='sine'){if(!Store.get('sound',true))return;try{if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();const o=audioCtx.createOscillator();const g=audioCtx.createGain();o.type=type;o.frequency.value=freq;o.connect(g);g.connect(audioCtx.destination);g.gain.setValueAtTime(0.05,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(0.0001,audioCtx.currentTime+dur);o.start();o.stop(audioCtx.currentTime+dur)}catch(e){}}
-function vibrate(ms){if(!Store.get('vibe',true))return;if(navigator.vibrate)navigator.vibrate(ms)}
-function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.remove('show'),1800)}
+const COLORS = {
+  'белый':'#f7f7f7','голубой':'#6fc3e8','серо-зелёный':'#7d9a6e','бурый':'#7a3b1c','чёрный':'#1a1a1a','жёлтый':'#f2d024','кирпично-красный':'#b83a1e'
+};
 
-/* ============ НАВИГАЦИЯ ============ */
-function go(id){$$('.screen').forEach(s=>s.classList.toggle('active',s.id===id));$$('#nav button').forEach(b=>b.classList.toggle('active',b.dataset.screen===id));window.scrollTo({top:0,behavior:'smooth'})}
-$$('#nav button').forEach(b=>b.onclick=()=>{
-const s=b.dataset.screen;go(s);
-if(s==='textbook')renderTextbook(8);
-if(s==='theory')renderTheory();
-if(s==='stats')renderStats();
-if(s==='formulas')renderFormulas();
-if(s==='reactions')renderReactions();
-if(s==='lab')initLab();
-if(s==='atom')initAtom();
-if(s==='orbital3d')openOrbital3d();
-if(s==='electrolysis3d')openElectrolysis3d();
-if(s==='formulas3d')openFormulas3d();
-if(s==='molecules3d')openMolecules3d();
-if(s==='crystals3d')openCrystals3d();
-});
+const REACTIONS = {
+  'H2+Cl2': {eq:'H₂ + Cl₂ → 2HCl', desc:'Молекулы сталкиваются, связи рвутся, образуются 2 молекулы HCl.', atoms:[
+    {t:'H',s:[80,150],e:[150,100]},{t:'H',s:[110,150],e:[180,100]},
+    {t:'Cl',s:[320,250],e:[250,100]},{t:'Cl',s:[350,250],e:[280,100]}
+  ]},
+  'H2+O2': {eq:'2H₂ + O₂ → 2H₂O', desc:'Горение водорода. Два водорода и кислород образуют две молекулы воды.', atoms:[
+    {t:'H',s:[60,100],e:[120,80]},{t:'H',s:[90,120],e:[140,80]},
+    {t:'H',s:[60,300],e:[260,80]},{t:'H',s:[90,320],e:[280,80]},
+    {t:'O',s:[350,200],e:[200,80]},{t:'O',s:[380,200],e:[220,80]}
+  ]},
+  'Zn+HCl': {eq:'Zn + 2HCl → ZnCl₂ + H₂↑', desc:'Цинк вытесняет водород из кислоты. Водород улетает.', atoms:[
+    {t:'Zn',s:[100,200],e:[100,250]},
+    {t:'H',s:[300,100],e:[250,50]},{t:'H',s:[320,100],e:[280,50]},
+    {t:'Cl',s:[300,150],e:[200,200]},{t:'Cl',s:[320,150],e:[220,200]}
+  ]},
+  'AgNO3+NaCl': {eq:'AgNO₃ + NaCl → AgCl↓ + NaNO₃', desc:'Ионы Ag⁺ и Cl⁻ встречаются и выпадают в осадок.', atoms:[
+    {t:'Ag',s:[150,100],e:[200,250]},{t:'Cl',s:[250,100],e:[200,250]}
+  ]},
+  'CaCO3': {eq:'CaCO₃ → CaO + CO₂↑', desc:'Разложение мела при нагревании. Выделяется углекислый газ.', atoms:[
+    {t:'Ca',s:[200,200],e:[100,200]},{t:'C',s:[200,200],e:[250,200]},
+    {t:'O',s:[200,200],e:[150,200]},{t:'O',s:[200,200],e:[300,150]},{t:'O',s:[200,200],e:[300,200]}
+  ]},
+  'N2+H2': {eq:'N₂ + 3H₂ → 2NH₃', desc:'Синтез аммиака. Азот и водород соединяются.', atoms:[
+    {t:'N',s:[200,200],e:[150,200]},{t:'N',s:[200,200],e:[150,150]},
+    {t:'H',s:[50,50],e:[200,200]},{t:'H',s:[50,80],e:[200,220]},{t:'H',s:[50,110],e:[200,180]},
+    {t:'H',s:[350,50],e:[250,200]},{t:'H',s:[350,80],e:[250,220]},{t:'H',s:[350,110],e:[250,180]}
+  ]}
+};
+const ATOM_COLORS = {H:'#f0f0f0', O:'#e63b2e', C:'#3a3a3a', N:'#3050e0', Cl:'#3dc44e', Zn:'#a8a8a8', Ag:'#c0c0c0', Ca:'#8b6bff', S:'#f2d024'};
 
-/* ============ СТАТИСТИКА ============ */
-function updateStat(type,correct){const stats=Store.get('stats',{});if(!stats[type])stats[type]={c:0,t:0};stats[type].t++;if(correct)stats[type].c++;Store.set('stats',stats)}
-function getAccuracy(type){const stats=Store.get('stats',{});if(!stats[type]||!stats[type].t)return 0;return Math.round(stats[type].c/stats[type].t*100)}
-function overallProgress(){const types=['precipitate','oxide','ionic','redox','exception'];const accs=types.map(getAccuracy).filter(a=>a>0);if(!accs.length)return 0;return Math.round(accs.reduce((a,b)=>a+b,0)/types.length)}
-
-/* ============ ГЛАВНАЯ ============ */
-function refreshHome(){$('#homeBest').textContent=Store.get('best',0);const daily=Store.get('daily',{streak:0,date:'',done:false});$('#homeStreak').textContent=daily.streak||0;$('#homeProgress').textContent=overallProgress()+'%';renderDaily();renderProgressMap()}
-function renderDaily(){const daily=Store.get('daily',{streak:0,date:'',done:false});const today=new Date().toISOString().slice(0,10);const isDone=daily.date===today&&daily.done;$('#dailyBanner').innerHTML=`<div class="settings-row" style="border-color:var(--accent-2)"><div><div class="lbl">${isDone?'✅ Вызов пройден':'🔥 Ежедневный вызов'}</div><div class="sub">${isDone?`Стрик: ${daily.streak} дн.`:'5 вопросов — поддержи серию!'}</div></div><button class="btn small" ${isDone?'disabled style="opacity:.5"':''} onclick="startDaily()">${isDone?'Готово':'Начать'}</button></div>`}
-function renderProgressMap(){const types=[{k:'precipitate',n:'Осадки'},{k:'oxide',n:'Оксиды'},{k:'ionic',n:'Ионы'},{k:'redox',n:'ОВР'},{k:'exception',n:'Исключения'}];$('#progressMap').innerHTML=types.map(t=>{const a=getAccuracy(t.k);return `<div class="pm-item"><div class="pm-top"><span class="pm-name">${t.n}</span><span>${a}%</span></div><div class="pm-bar"><div style="width:${a}%"></div></div></div>`}).join('')}
-
-/* ============ УЧЕБНИК ============ */
-function renderTextbook(grade){
-$$('#gradeTabs button').forEach(b=>b.classList.toggle('active',parseInt(b.dataset.g)===grade));
-const data=TEXTBOOK.find(t=>t.grade===grade);
-$('#textbookList').innerHTML=data.chapters.map(c=>`<div class="book-card"><div class="sub">${c.title}</div><p>${c.desc}</p></div>`).join('');
-}
-$$('#gradeTabs button').forEach(b=>b.onclick=()=>renderTextbook(parseInt(b.dataset.g)));
-
-/* ============ ТЕОРИЯ ============ */
-function renderTheory(){const filter=$('#theoryFilter').value;const q=($('#theorySearch').value||'').toLowerCase().trim();const list=$('#theoryList');
-let items=ALL_ITEMS;if(filter!=='all')items=items.filter(d=>d.type===filter);
-if(q)items=items.filter(d=>(d.f||'').toLowerCase().includes(q)||(d.c||'').toLowerCase().includes(q)||(d.r||'').toLowerCase().includes(q)||(d.n||'').toLowerCase().includes(q));
-if(!items.length){list.innerHTML='<div class="empty">Ничего не найдено 🤷</div>';return}
-list.innerHTML=items.map(d=>`<div class="theory-card"><div class="t-swatch" style="background:${COLORS[d.c]||'#555'}"></div><div class="t-body"><div class="t-top"><span class="t-formula">${d.f}</span>${d.c?`<span class="t-color">${d.c}</span>`:''}${d.kind?`<span class="t-color">${d.kind}</span>`:''}${d.ox?`<span class="t-color">Ок: ${d.ox}</span>`:''}</div><div class="t-reaction">${d.r}</div><div class="t-note">💡 ${d.n}</div></div></div>`).join('')}
-
-/* ============ ТЕСТ ============ */
-const Q={questions:[],idx:0,score:0,streak:0,maxStreak:0,mode:'mix',answered:false,wrong:[]};
-function buildQuestions(mode,n=10){let pool=ALL_ITEMS;if(mode!=='mix')pool=pool.filter(d=>d.type===mode);if(!pool.length)pool=PRECIPITATES;const qs=[];const sh=shuffle(pool);for(let i=0;i<n;i++){const item=sh[i%sh.length];let q;
-if(item.type==='precipitate'){if(Math.random()<0.5){const correct=item.c;const others=shuffle(Object.keys(COLORS).filter(c=>c!==correct&&c!=='—'&&c!=='газ')).slice(0,3);q={item,prompt:`Какого цвета осадок <span class="hl">${item.f}</span>?`,options:shuffle([correct,...others]),correct}}else{const correct=item.f;const others=shuffle(PRECIPITATES.filter(d=>d.f!==correct)).slice(0,3).map(d=>d.f);q={item,prompt:`Осадок <b>${item.c}</b> цвета — это...`,options:shuffle([correct,...others]),correct}}}
-else if(item.type==='oxide'){const correct=item.kind;const others=['основный','кислотный','амфотерный'].filter(k=>k!==correct);q={item,prompt:`Тип оксида <span class="hl">${item.f}</span>?`,options:shuffle([correct,...others]),correct}}
-else if(item.type==='ionic'){const correct=item.f;const others=shuffle(IONIC_RULES.filter(d=>d.f!==correct)).slice(0,3).map(d=>d.f);q={item,prompt:`Ионное для:<br><b>${item.r}</b>`,options:shuffle([correct,...others]),correct}}
-else if(item.type==='redox'){const correct=item.ox;const others=shuffle(REDOX.filter(d=>d.ox!==correct)).slice(0,3).map(d=>d.ox);q={item,prompt:`В <b>${item.f}</b> кто окислитель?`,options:shuffle([correct,...others]),correct}}
-else{const correct=item.n;const others=shuffle(EXCEPTIONS.filter(d=>d.n!==correct)).slice(0,3).map(d=>d.n);q={item,prompt:`Что особенного в <b>${item.f}</b>?`,options:shuffle([correct,...others]),correct}}
-qs.push(q)}return qs}
-function startQuiz(mode){Q.mode=mode;Q.questions=buildQuestions(mode,10);Q.idx=0;Q.score=0;Q.streak=0;Q.maxStreak=0;Q.answered=false;Q.wrong=[];go('quiz');renderQuestion()}
-function renderQuestion(){const q=Q.questions[Q.idx];Q.answered=false;$('#quizProgress').style.width=`${(Q.idx/Q.questions.length)*100}%`;$('#quizCounter').textContent=`Вопрос ${Q.idx+1} / ${Q.questions.length}`;$('#quizScore').textContent=Q.score;$('#quizStreak').textContent=Q.streak;
-let html='';if(q.item.type==='precipitate'&&q.item.c&&COLORS[q.item.c]){html+=`<div class="swatch big precip-anim" style="background:${COLORS[q.item.c]};box-shadow:0 0 36px ${COLORS[q.item.c]}66"></div>`}html+=`<div class="q-text">${q.prompt}</div>`;$('#quizQuestion').innerHTML=html;
-const opts=$('#quizOptions');opts.innerHTML='';q.options.forEach((opt,i)=>{const b=document.createElement('button');b.className='opt';if(q.item.type==='precipitate'&&COLORS[opt]){b.innerHTML=`<span class="swatch" style="background:${COLORS[opt]}"></span><span>${opt}</span>`}else b.textContent=opt;b.onclick=()=>answer(i);opts.appendChild(b)});
-$('#quizFeedback').classList.remove('show');$('#nextBtn').style.display='none'}
-function answer(i){if(Q.answered)return;Q.answered=true;const q=Q.questions[Q.idx];const chosen=q.options[i];const isCorrect=chosen===q.correct;
-$$('#quizOptions .opt').forEach((b,j)=>{b.classList.add('disabled');if(q.options[j]===q.correct)b.classList.add('correct');else if(j===i)b.classList.add('wrong')});
-updateStat(q.item.type,isCorrect);if(isCorrect){Q.score++;Q.streak++;Q.maxStreak=Math.max(Q.maxStreak,Q.streak);beep(880,.08);vibrate(15)}else{Q.streak=0;Q.wrong.push(q);beep(180,.18,'sawtooth');vibrate([30,30,30])}
-$('#quizScore').textContent=Q.score;$('#quizStreak').textContent=Q.streak;
-const fb=$('#quizFeedback');fb.style.borderLeftColor=isCorrect?'var(--ok)':'var(--err)';let extra=q.item.ox?`Ок: ${q.item.ox} | Вос: ${q.item.red}`:(q.item.kind||q.item.c||'');fb.innerHTML=`<div class="fb-title">${isCorrect?'✅ Верно!':'❌ Правильно: '+q.correct}</div><div class="fb-reaction">${q.item.f} — ${extra}</div><div class="fb-eq">${q.item.r}</div><div class="fb-note">💡 ${q.item.n}</div>`;fb.classList.add('show');$('#nextBtn').style.display='inline-block'}
-function nextQuestion(){Q.idx++;if(Q.idx>=Q.questions.length)endQuiz();else renderQuestion()}
-function endQuiz(){const best=Store.get('best',0);if(Q.score>best)Store.set('best',Q.score);const total=Q.questions.length;const pct=Math.round(Q.score/total*100);let msg;if(pct>=90)msg='🔥 Отлично!';else if(pct>=70)msg='💪 Хорошо!';else if(pct>=50)msg='📖 Повтори теорию.';else msg='🌱 Вперёд к теории!';
-$('#resScore').textContent=`${Q.score} / ${total}`;$('#resMsg').textContent=msg;$('#resStreak').textContent=Q.maxStreak;$('#resBest').textContent=Store.get('best',0);$('#resWrongBtn').style.display=Q.wrong.length?'inline-block':'none';go('result');if(Q.mode==='daily')completeDaily();refreshHome()}
-function startWrongReview(){if(!Q.wrong.length)return;Q.questions=shuffle(Q.wrong);Q.idx=0;Q.score=0;Q.streak=0;Q.maxStreak=0;Q.answered=false;Q.wrong=[];Q.mode='review';go('quiz');renderQuestion()}
-function repeatQuiz(){startQuiz(Q.mode==='review'?'mix':Q.mode)}
-function startDaily(){const today=new Date().toISOString().slice(0,10);const daily=Store.get('daily',{streak:0,date:'',done:false});if(daily.date===today&&daily.done){toast('Уже пройдено ✅');return}Q.mode='daily';Q.questions=buildQuestions('mix',5);Q.idx=0;Q.score=0;Q.streak=0;Q.maxStreak=0;Q.answered=false;Q.wrong=[];go('quiz');renderQuestion()}
-function completeDaily(){const today=new Date().toISOString().slice(0,10);const yest=new Date(Date.now()-86400000).toISOString().slice(0,10);const daily=Store.get('daily',{streak:0,date:'',done:false});let ns=1;if(daily.date===yest)ns=(daily.streak||0)+1;Store.set('daily',{streak:ns,date:today,done:true});toast(`🔥 Стрик: ${ns} дн.!`)}
-
-/* ============ ЦЕПОЧКИ ============ */
-const C={list:[],idx:0,step:0,score:0,answered:false};
-function startChains(){C.list=shuffle(CHAINS);C.idx=0;C.step=0;C.score=0;C.answered=false;go('chains');renderChain()}
-function renderChain(){const chain=C.list[C.idx];const step=chain.steps[C.step];$('#chainCounter').textContent=`Цепочка ${C.idx+1} / ${C.list.length}`;$('#chainScore').textContent=C.score;
-$('#chainBody').innerHTML=`<div class="quiz-q"><div class="q-formula">${chain.start}</div></div><div class="chain-step"><div class="chain-eq">Шаг ${C.step+1}: ${step.q}</div><div class="chain-opts" id="chainOpts"></div></div><div class="feedback" id="chainFeedback"></div>`;
-const opts=$('#chainOpts');step.opts.forEach((o,i)=>{const b=document.createElement('button');b.textContent=o;b.onclick=()=>answerChain(i);opts.appendChild(b)});$('#chainNext').style.display='none'}
-function answerChain(i){if(C.answered)return;C.answered=true;const chain=C.list[C.idx];const step=chain.steps[C.step];const chosen=step.opts[i];const isCorrect=chosen===step.correct;
-$$('#chainOpts button').forEach((b,j)=>{if(step.opts[j]===step.correct)b.classList.add('correct');else if(j===i)b.classList.add('wrong');b.disabled=true});
-if(isCorrect){C.score++;beep(880,.08);vibrate(15)}else{beep(180,.18,'sawtooth');vibrate([30,30,30])}
-$('#chainScore').textContent=C.score;const fb=$('#chainFeedback');fb.classList.add('show');fb.style.borderLeftColor=isCorrect?'var(--ok)':'var(--err)';fb.innerHTML=`<div class="fb-title">${isCorrect?'✅ Верно!':'❌ Правильно: '+step.correct}</div><div class="fb-eq">${step.eq}</div>`;
-$('#chainNext').style.display='inline-block';$('#chainNext').textContent=(C.step<chain.steps.length-1)?'Следующий шаг →':'Дальше →'}
-function nextChain(){const chain=C.list[C.idx];if(C.step<chain.steps.length-1){C.step++;C.answered=false;renderChain()}else{C.idx++;C.step=0;C.answered=false;if(C.idx>=C.list.length){toast(`Готово! Верно: ${C.score}`);go('home');return}renderChain()}}
-
-/* ============ КОЭФФИЦИЕНТЫ ============ */
-const B={list:[],idx:0,score:0,answered:false};
-function startBalance(){B.list=shuffle(BALANCE);B.idx=0;B.score=0;B.answered=false;go('balance');renderBalance()}
-function renderBalance(){const item=B.list[B.idx];$('#balanceCounter').textContent=`Уравнение ${B.idx+1} / ${B.list.length}`;$('#balanceScore').textContent=B.score;$('#balanceQuestion').innerHTML=`<div class="balance-eq">${item.eq}</div><div class="q-text">Расставь коэффициенты:</div>`;
-const opts=$('#balanceOptions');opts.innerHTML='';item.opts.forEach((o,i)=>{const b=document.createElement('button');b.className='opt';b.textContent=o;b.onclick=()=>answerBalance(i);opts.appendChild(b)});
-$('#balanceFeedback').classList.remove('show');$('#balanceNext').style.display='none';B.answered=false}
-function answerBalance(i){if(B.answered)return;B.answered=true;const item=B.list[B.idx];const chosen=item.opts[i];const isCorrect=chosen===item.answer;
-$$('#balanceOptions .opt').forEach((b,j)=>{b.classList.add('disabled');if(item.opts[j]===item.answer)b.classList.add('correct');else if(j===i)b.classList.add('wrong')});
-if(isCorrect){B.score++;beep(880,.08);vibrate(15)}else{beep(180,.18,'sawtooth');vibrate([30,30,30])}
-$('#balanceScore').textContent=B.score;const fb=$('#balanceFeedback');fb.classList.add('show');fb.style.borderLeftColor=isCorrect?'var(--ok)':'var(--err)';fb.innerHTML=`<div class="fb-title">${isCorrect?'✅ Верно!':'❌ Правильно: '+item.answer}</div><div class="fb-eq">${item.eq}</div><div class="fb-note">💡 ${item.hint}</div>`;
-$('#balanceNext').style.display='inline-block'}
-function nextBalance(){B.idx++;if(B.idx>=B.list.length){toast(`Готово! Верно: ${B.score} из ${B.list.length}`);go('home');return}renderBalance()}
-
-/* ============ ЗАДАЧИ ============ */
-const T={list:[],idx:0,score:0,answered:false};
-function genTask(){const t=pick(TASK_TEMPLATES);const r=t.gen();return {q:r.q,unit:r.unit,opts:shuffle(r.opts.map(v=>v+' '+r.unit)),expl:r.expl,correct:r.a+' '+r.unit}}
-function startTasks(){T.list=Array.from({length:10},genTask);T.idx=0;T.score=0;T.answered=false;go('tasks');renderTask()}
-function renderTask(){const item=T.list[T.idx];$('#taskCounter').textContent=`Задача ${T.idx+1} / ${T.list.length}`;$('#taskScore').textContent=T.score;$('#taskQuestion').innerHTML=`<div class="q-text">${item.q}</div>`;
-const opts=$('#taskOptions');opts.innerHTML='';item.opts.forEach((o,i)=>{const b=document.createElement('button');b.className='opt';b.textContent=o;b.onclick=()=>answerTask(i);opts.appendChild(b)});
-$('#taskFeedback').classList.remove('show');$('#taskNext').style.display='none';T.answered=false}
-function answerTask(i){if(T.answered)return;T.answered=true;const item=T.list[T.idx];const chosen=item.opts[i];const isCorrect=chosen===item.correct;
-$$('#taskOptions .opt').forEach((b,j)=>{b.classList.add('disabled');if(item.opts[j]===item.correct)b.classList.add('correct');else if(j===i)b.classList.add('wrong')});
-if(isCorrect){T.score++;beep(880,.08);vibrate(15)}else{beep(180,.18,'sawtooth');vibrate([30,30,30])}
-$('#taskScore').textContent=T.score;const fb=$('#taskFeedback');fb.classList.add('show');fb.style.borderLeftColor=isCorrect?'var(--ok)':'var(--err)';fb.innerHTML=`<div class="fb-title">${isCorrect?'✅ Верно!':'❌ Правильно: '+item.correct}</div><div class="fb-eq">${item.expl}</div>`;
-$('#taskNext').style.display='inline-block'}
-function nextTask(){T.idx++;if(T.idx>=T.list.length){toast(`Готово! Верно: ${T.score} из ${T.list.length}`);go('home');return}renderTask()}
-
-/* ============ КАЧЕСТВЕННЫЕ ============ */
-const QU={list:[],idx:0,score:0,answered:false};
-function startQualitative(){QU.list=shuffle(QUALITATIVE);QU.idx=0;QU.score=0;QU.answered=false;go('qualitative');renderQual()}
-function renderQual(){const item=QU.list[QU.idx];$('#qualCounter').textContent=`Задание ${QU.idx+1} / ${QU.list.length}`;$('#qualScore').textContent=QU.score;$('#qualQuestion').innerHTML=`<div class="q-text">${item.q}</div>`;
-const opts=$('#qualOptions');opts.innerHTML='';item.opts.forEach((o,i)=>{const b=document.createElement('button');b.className='opt';b.textContent=o;b.onclick=()=>answerQual(i);opts.appendChild(b)});
-$('#qualFeedback').classList.remove('show');$('#qualNext').style.display='none';QU.answered=false}
-function answerQual(i){if(QU.answered)return;QU.answered=true;const item=QU.list[QU.idx];const chosen=item.opts[i];const isCorrect=chosen===item.correct;
-$$('#qualOptions .opt').forEach((b,j)=>{b.classList.add('disabled');if(item.opts[j]===item.correct)b.classList.add('correct');else if(j===i)b.classList.add('wrong')});
-if(isCorrect){QU.score++;beep(880,.08);vibrate(15)}else{beep(180,.18,'sawtooth');vibrate([30,30,30])}
-$('#qualScore').textContent=QU.score;const fb=$('#qualFeedback');fb.classList.add('show');fb.style.borderLeftColor=isCorrect?'var(--ok)':'var(--err)';fb.innerHTML=`<div class="fb-title">${isCorrect?'✅ Верно!':'❌ Правильно: '+item.correct}</div><div class="fb-note">💡 ${item.expl}</div>`;
-$('#qualNext').style.display='inline-block'}
-function nextQual(){QU.idx++;if(QU.idx>=QU.list.length){toast(`Готово! Верно: ${QU.score} из ${QU.list.length}`);go('home');return}renderQual()}
-
-/* ============ ЧТО ЛИШНЕЕ ============ */
-const O={list:[],idx:0,score:0,answered:false};
-function startOddOne(){O.list=shuffle(ODD_ONE);O.idx=0;O.score=0;O.answered=false;go('oddone');renderOdd()}
-function renderOdd(){const item=O.list[O.idx];$('#oddCounter').textContent=`Задание ${O.idx+1} / ${O.list.length}`;$('#oddScore').textContent=O.score;$('#oddQuestion').innerHTML=`<div class="q-text">Что лишнее?</div>`;
-const opts=$('#oddOptions');opts.innerHTML='';item.items.forEach((o,i)=>{const b=document.createElement('button');b.className='opt';b.textContent=o;b.onclick=()=>answerOdd(i);opts.appendChild(b)});
-$('#oddFeedback').classList.remove('show');$('#oddNext').style.display='none';O.answered=false}
-function answerOdd(i){if(O.answered)return;O.answered=true;const item=O.list[O.idx];const chosen=item.items[i];const isCorrect=chosen===item.odd;
-$$('#oddOptions .opt').forEach((b,j)=>{b.classList.add('disabled');if(item.items[j]===item.odd)b.classList.add('correct');else if(j===i)b.classList.add('wrong')});
-if(isCorrect){O.score++;beep(880,.08);vibrate(15)}else{beep(180,.18,'sawtooth');vibrate([30,30,30])}
-$('#oddScore').textContent=O.score;const fb=$('#oddFeedback');fb.classList.add('show');fb.style.borderLeftColor=isCorrect?'var(--ok)':'var(--err)';fb.innerHTML=`<div class="fb-title">${isCorrect?'✅ Верно!':'❌ Лишнее: '+item.odd}</div><div class="fb-note">💡 ${item.why}</div>`;
-$('#oddNext').style.display='inline-block'}
-function nextOdd(){O.idx++;if(O.idx>=O.list.length){toast(`Готово! Верно: ${O.score} из ${O.list.length}`);go('home');return}renderOdd()}
-
-/* ============ БЛИЦ ============ */
-const BL={score:0,timer:null,timeLeft:60,active:false};
-function startBlitz(){BL.score=0;BL.timeLeft=60;BL.active=true;$('#blitzScore').textContent=0;$('#blitzTimer').textContent=60;$('#blitzTimer').classList.remove('warn');go('blitz');nextBlitz();clearInterval(BL.timer);
-BL.timer=setInterval(()=>{BL.timeLeft--;$('#blitzTimer').textContent=BL.timeLeft;if(BL.timeLeft<=10)$('#blitzTimer').classList.add('warn');if(BL.timeLeft<=0){clearInterval(BL.timer);BL.active=false;toast(`Блиц окончен! Счёт: ${BL.score}`);go('home')}},1000)}
-function nextBlitz(){if(!BL.active)return;const item=pick(ALL_ITEMS);const correct=item.type==='precipitate'?item.c:(item.type==='oxide'?item.kind:item.f);let others;
-if(item.type==='precipitate')others=shuffle(Object.keys(COLORS).filter(c=>c!==correct&&c!=='—'&&c!=='газ')).slice(0,3);
-else if(item.type==='oxide')others=['основный','кислотный','амфотерный'].filter(k=>k!==correct);
-else others=shuffle(ALL_ITEMS.filter(d=>d.f!==item.f)).slice(0,3).map(d=>d.f);
-const opts=shuffle([correct,...others]);
-$('#blitzQuestion').innerHTML=`<div class="q-formula">${item.f}</div><div class="q-text">${item.type==='precipitate'?'Цвет?':item.type==='oxide'?'Тип?':'Что это?'}</div>`;
-const cont=$('#blitzOptions');cont.innerHTML='';opts.forEach(o=>{const b=document.createElement('button');b.className='opt';b.textContent=o;b.onclick=()=>{if(o===correct){BL.score++;beep(880,.06);vibrate(10)}else{beep(180,.12,'sawtooth');vibrate(20)}$('#blitzScore').textContent=BL.score;if(BL.active)nextBlitz()};cont.appendChild(b)})}
-
-/* ============ ДУЭЛЬ ============ */
-const D={round:0,me:0,bot:0,answered:false,questions:[]};
-function startDuel(){D.round=0;D.me=0;D.bot=0;D.answered=false;D.questions=buildQuestions('mix',7);$('#duelMe').textContent=0;$('#duelBot').textContent=0;go('duel');renderDuel()}
-function renderDuel(){const q=D.questions[D.round];$('#duelCounter').textContent=`Раунд ${D.round+1} / ${D.questions.length}`;$('#duelQuestion').innerHTML=`<div class="q-text">${q.prompt}</div>`;
-const opts=$('#duelOptions');opts.innerHTML='';q.options.forEach((o,i)=>{const b=document.createElement('button');b.className='opt';b.textContent=o;b.onclick=()=>answerDuel(i);opts.appendChild(b)});
-$('#duelFeedback').classList.remove('show');$('#duelNext').style.display='none';D.answered=false}
-function answerDuel(i){if(D.answered)return;D.answered=true;const q=D.questions[D.round];const chosen=q.options[i];const meCorrect=chosen===q.correct;const botCorrect=Math.random()<0.75;
-$$('#duelOptions .opt').forEach((b,j)=>{b.classList.add('disabled');if(q.options[j]===q.correct)b.classList.add('correct');else if(j===i)b.classList.add('wrong')});
-if(meCorrect)D.me++;if(botCorrect)D.bot++;$('#duelMe').textContent=D.me;$('#duelBot').textContent=D.bot;
-const fb=$('#duelFeedback');fb.classList.add('show');fb.style.borderLeftColor=meCorrect?'var(--ok)':'var(--err)';fb.innerHTML=`<div class="fb-title">${meCorrect?'✅ Ты верно!':'❌ Ты ошибся. Правильно: '+q.correct}</div><div class="fb-note">🤖 Бот ${botCorrect?'верно':'ошибся'} | ${q.item.r}</div>`;
-$('#duelNext').style.display='inline-block'}
-function nextDuel(){D.round++;if(D.round>=D.questions.length){let msg=`Ты: ${D.me} | Бот: ${D.bot} — `;if(D.me>D.bot)msg+='🏆 Победа!';else if(D.me<D.bot)msg+='🤖 Бот победил';else msg+='🤝 Ничья';toast(msg);go('home');return}renderDuel()}
-
-/* ============ РЕАКЦИИ ============ */
-function renderReactions(){const f=$('#reactionFilter').value;const list=f==='all'?REACTIONS_LIB:REACTIONS_LIB.filter(r=>r.t===f);$('#reactionsBody').innerHTML=list.map(r=>`<div class="reaction-card"><div class="reaction-eq">${r.eq}</div><div class="reaction-note">${r.n}</div></div>`).join('')||'<div class="empty">Ничего не найдено</div>'}
-
-/* ============ ФОРМУЛЫ ============ */
-function renderFormulas(){$('#formulasBody').innerHTML=FORMULAS.map(f=>`<div class="formula-card"><div class="formula-title">${f.title}</div><div class="formula-main">${f.formula}</div><div class="formula-symbols">${f.symbols.map(([s,d])=>`<div><b>${s}</b><span>— ${d}</span></div>`).join('')}</div><div class="formula-explain">${f.explain}</div><div class="formula-example"><b>Пример:</b>\n${f.example}</div><div class="formula-tips">${f.tips}</div></div>`).join('')}
-
-/* ============ ЛАБОРАТОРИЯ ============ */
-let labInited=false;
-function initLab(){if(labInited)return;const selA=$('#labSolA');const selB=$('#labSolB');LAB_SOLUTIONS.forEach(s=>{selA.innerHTML+=`<option value="${s.n}">${s.n}</option>`;selB.innerHTML+=`<option value="${s.n}">${s.n}</option>`});selA.value='AgNO₃';selB.value='NaCl';labInited=true;updateLab();$('#labResult').innerHTML=''}
-function getSolution(name){return LAB_SOLUTIONS.find(s=>s.n===name)}
-function updateLab(){const sA=getSolution($('#labSolA').value);const sB=getSolution($('#labSolB').value);if(!sA||!sB)return;
-$('#labFillA').style.background=sA.col;$('#labFillB').style.background=sB.col;$('#labNameA').textContent=sA.n;$('#labNameB').textContent=sB.n}
-function performLab(){const sA=getSolution($('#labSolA').value);const sB=getSolution($('#labSolB').value);if(!sA||!sB)return;
-const key1=sA.c+'_'+sB.a;const key2=sB.c+'_'+sA.a;const rule=LAB_RULES[key1]||LAB_RULES[key2];const box=$('#labResult');
-if(!rule){box.innerHTML=`<div class="lab-result"><div class="lab-none-show">😶</div><div class="lab-result-title">Реакция не идёт</div><div class="lab-result-note">Все ионы (${sA.c}, ${sB.a}, ${sB.c}, ${sA.a}) дают растворимые вещества.<br><br><b>Правило:</b> обмен идёт до конца, если осадок ↓, газ ↑ или H₂O.</div></div>`;beep(400,.1);vibrate(20);return}
-if(rule.t==='p'){box.innerHTML=`<div class="lab-result"><div class="lab-precip-show" style="background:${rule.col};box-shadow:0 0 40px ${rule.col}88"></div><div class="lab-result-title">Осадок ${rule.f}</div><div class="lab-result-eq">${rule.eq}</div><div class="lab-result-note">${rule.note}</div></div>`;beep(880,.12);setTimeout(()=>beep(1200,.1),100);vibrate(30)}
-else if(rule.t==='g'){box.innerHTML=`<div class="lab-result"><div class="lab-gas-show">💨</div><div class="lab-result-title">Газ ${rule.f}</div><div class="lab-result-eq">${rule.eq}</div><div class="lab-result-note">${rule.note}</div></div>`;beep(600,.15,'triangle');vibrate(30)}
-else{box.innerHTML=`<div class="lab-result"><div class="lab-none-show">🌡️</div><div class="lab-result-title">Видимых изменений нет</div><div class="lab-result-eq">${rule.eq}</div><div class="lab-result-note">${rule.note}</div></div>`;beep(500,.12);vibrate(15)}}
-function randomLab(){const i=Math.floor(Math.random()*LAB_SOLUTIONS.length);let j=Math.floor(Math.random()*LAB_SOLUTIONS.length);if(i===j)j=(j+1)%LAB_SOLUTIONS.length;$('#labSolA').value=LAB_SOLUTIONS[i].n;$('#labSolB').value=LAB_SOLUTIONS[j].n;updateLab();performLab()}
-
-/* ============ АТОМ 3D ============ */
-function distributeElectrons(n){const displayN=Math.min(n,8);const angles=[];for(let i=0;i<displayN;i++)angles.push((i*2*Math.PI)/displayN);return angles}
-const SHELL_RADII={1:[35],2:[35,80],3:[35,75,115],4:[35,70,105,140],5:[35,65,95,125,155],6:[35,60,85,110,135,160]};
-const SHELL_ORIENT=['rotateX(70deg)','rotateX(-65deg) rotateY(25deg)','rotateY(60deg) rotateX(20deg)','rotateX(50deg) rotateY(-35deg)','rotateY(-55deg) rotateX(30deg)','rotateX(-45deg) rotateY(40deg)'];
-function renderAtom(sym){const el=ELEMENTS.find(e=>e.sym===sym);if(!el)return;
-$$('.element-chip').forEach(c=>c.classList.toggle('active',c.dataset.sym===sym));
-const radii=SHELL_RADII[el.shells.length]||SHELL_RADII[6];
-let html=`<div class="nucleus-3d">${el.Z}p⁺</div>`;
-el.shells.forEach((count,i)=>{const R=radii[i];const orient=SHELL_ORIENT[i];const dur=9+i*3.5;const angles=distributeElectrons(count);let electrons='';
-angles.forEach(angle=>{const x=R+R*Math.cos(angle)-5.5;const y=R+R*Math.sin(angle)-5.5;electrons+=`<div class="electron-3d" style="left:${x.toFixed(1)}px;top:${y.toFixed(1)}px"></div>`});
-html+=`<div class="shell-wrap-3d" style="width:${R*2}px;height:${R*2}px;margin:-${R}px 0 0 -${R}px;transform:${orient}"><div class="shell-ring-3d" style="--dur:${dur}s">${electrons}</div></div>`});
-$('#atom3d').innerHTML=html;
-const tipsHtml=el.tips.map(t=>`<li>${t}</li>`).join('');
-$('#atomInfo').innerHTML=`<div class="atom-info-head"><div class="atom-symbol">${el.sym}</div><div class="atom-name">${el.name}</div><div class="atom-sub">${el.Z} · ${el.mass} а.е.м. · ${el.period} период, ${el.group} группа</div></div>
-<div class="atom-info-section"><div class="atom-info-title">⚛️ Строение</div><div class="atom-grid"><div class="atom-cell"><b>Заряд</b><span>+${el.Z}</span></div><div class="atom-cell"><b>Протоны</b><span>${el.Z}</span></div><div class="atom-cell"><b>Нейтроны</b><span>${el.n}</span></div><div class="atom-cell"><b>Электроны</b><span>${el.Z}</span></div><div class="atom-cell"><b>Слои</b><span>${el.shells.join('·')}</span></div><div class="atom-cell"><b>Внешних e⁻</b><span>${el.shells[el.shells.length-1]}</span></div></div></div>
-<div class="atom-info-section"><div class="atom-info-title">📋 Конфигурация</div><div class="atom-config">${el.config}</div></div>
-<div class="atom-info-section"><div class="atom-info-title">🔗 Валентность и степени</div><div class="atom-grid"><div class="atom-cell"><b>Валентность</b><span>${el.valence}</span></div><div class="atom-cell"><b>Ст. окисления</b><span>${el.ox}</span></div></div></div>
-<div class="atom-info-section"><div class="atom-info-title">🧠 Лайфхаки</div><ul class="atom-tips">${tipsHtml}</ul></div>
-<div class="atom-info-section"><div class="atom-info-title">💡 Факт</div><div class="atom-fact">${el.fact}</div></div>`}
-function initAtom(){$('#elementChips').innerHTML=ELEMENTS.map(e=>`<button class="element-chip" data-sym="${e.sym}" onclick="renderAtom('${e.sym}')">${e.sym}</button>`).join('');renderAtom('Na')}
-
-/* ============ 3D ДВИЖОК ============ */
-function rotate3d(p,rx,ry){const cy=Math.cos(ry),sy=Math.sin(ry);const cx=Math.cos(rx),sx=Math.sin(rx);const x=p.x*cy+p.z*sy;const z=-p.x*sy+p.z*cy;const y=p.y*cx-z*sx;const z2=p.y*sx+z*cx;return {x,y,z:z2}}
-function project3d(p,cx,cy,persp=500){const s=persp/(persp+p.z);return {x:cx+p.x*s,y:cy+p.y*s,z:p.z,scale:s}}
-const V3={rotX:-0.25,rotY:0.3,dragging:false,lx:0,ly:0,raf:null};
-function v3BindStage(stageId){const stage=document.getElementById(stageId);if(!stage||stage.dataset.bound)return;stage.dataset.bound='1';
-stage.addEventListener('pointerdown',e=>{V3.dragging=true;V3.lx=e.clientX;V3.ly=e.clientY;stage.setPointerCapture(e.pointerId)});
-stage.addEventListener('pointermove',e=>{if(!V3.dragging)return;V3.rotY+=(e.clientX-V3.lx)*0.01;V3.rotX+=(e.clientY-V3.ly)*0.01;V3.rotX=Math.max(-Math.PI/2+0.05,Math.min(Math.PI/2-0.05,V3.rotX));V3.lx=e.clientX;V3.ly=e.clientY});
-stage.addEventListener('pointerup',()=>V3.dragging=false);stage.addEventListener('pointercancel',()=>V3.dragging=false)}
-function v3StartLoop(renderFn,screenId){if(V3.raf)cancelAnimationFrame(V3.raf);const loop=()=>{const active=document.getElementById(screenId)?.classList.contains('active');if(!active){V3.raf=null;return}if(!V3.dragging)V3.rotY+=0.006;renderFn();V3.raf=requestAnimationFrame(loop)};loop()}
-function v3ResetRot(){V3.rotX=-0.25;V3.rotY=0.3}
-
-/* ============ ОРБИТАЛИ 3D ============ */
-let orbitalMode = 's';
-function setOrbital(mode, btn){
-  orbitalMode = mode;
-  document.querySelectorAll('.orbital-btn').forEach(b=>b.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-  const titles = {
-    's': 's-орбиталь',
-    'p': 'p-орбиталь',
-    'd': 'd-орбиталь'
-  };
-  const descs = {
-    's': 'Форма — сфера. В ней помещается максимум 2 электрона. Это самая простая орбиталь, она есть у всех элементов.',
-    'p': 'Форма — гантель (два лепестка). Состоит из трёх орбиталей (px, py, pz), расположенных по осям. Вмещает до 6 электронов.',
-    'd': 'Форма — четырёхлепестковая розетка (и другие). Состоит из пяти орбиталей. Вмещает до 10 электронов.'
-  };
-  document.getElementById('orbitalInfo').innerHTML = `<div class="v3-info-title">${titles[mode]}</div><div class="v3-info-body">${descs[mode]}</div>`;
-}
-function renderOrbitalScene(){
-  const svg=document.getElementById('orbitalSVG'); if(!svg) return;
-  const cx=200, cy=200;
-  let pts=[];
-  if(orbitalMode==='s'){
-    for(let i=0;i<400;i++){
-      const theta=Math.random()*Math.PI*2, phi=Math.acos(2*Math.random()-1), r=80;
-      pts.push({x:r*Math.sin(phi)*Math.cos(theta), y:r*Math.sin(phi)*Math.sin(theta), z:r*Math.cos(phi), r:2.5, color:'#8b6bff'});
-    }
-  } else if(orbitalMode==='p'){
-    for(let i=0;i<400;i++){
-      const sign = Math.random()<0.5?1:-1;
-      const theta=Math.random()*Math.PI*2, phi=Math.acos(2*Math.random()-1);
-      const rad = Math.random()*80;
-      const x = rad*Math.sin(phi)*Math.cos(theta) + sign*40;
-      const y = rad*Math.sin(phi)*Math.sin(theta);
-      const z = rad*Math.cos(phi);
-      // Flatten into lobes
-      pts.push({x: x*1.5, y: y*0.8, z: z*0.8, r:2.5, color: sign>0?'#4dd6c1':'#ff5a6e'});
-    }
-  } else if(orbitalMode==='d'){
-    for(let i=0;i<600;i++){
-      const theta=Math.random()*Math.PI*2, phi=Math.acos(2*Math.random()-1);
-      const rad = Math.random()*80;
-      const x = rad*Math.sin(phi)*Math.cos(theta);
-      const y = rad*Math.sin(phi)*Math.sin(theta);
-      const z = rad*Math.cos(phi);
-      // 4 lobes in xy plane
-      const lobe = Math.floor(Math.random()*4);
-      const ang = lobe * Math.PI/2;
-      const lx = Math.cos(ang)*60, ly = Math.sin(ang)*60;
-      pts.push({x: lx + x*0.6, y: ly + y*0.6, z: z*0.4, r:2.5, color: lobe%2===0?'#f2d024':'#a88cff'});
-    }
-  }
-  const projected = pts.map(p => {
-    const r = rotate3d(p, V3.rotX, V3.rotY);
-    return { ...p, ...project3d(r, cx, cy) };
-  }).sort((a,b)=>b.z-a.z);
-  let html='';
-  projected.forEach(p=>{
-    const rad = p.r * p.scale;
-    html += `<circle cx="${p.x}" cy="${p.y}" r="${rad}" fill="${p.color}" opacity="0.6"/>`;
-  });
-  svg.innerHTML = html;
-}
-function openOrbital3d(){go('orbital3d');v3ResetRot();v3BindStage('orbitalStage');v3StartLoop(renderOrbitalScene,'orbital3d')}
-
-/* ============ ЭЛЕКТРОЛИЗ 3D ============ */
-let elecParticles = [];
-function initElec(){
-  elecParticles = [];
-  for(let i=0;i<30;i++){
-    elecParticles.push({
-      x: 100 + Math.random()*200,
-      y: 50 + Math.random()*200,
-      vx: (Math.random()-0.5)*2,
-      vy: (Math.random()-0.5)*2,
-      charge: Math.random()<0.5?1:-1, // 1 = cation (+, goes to cathode), -1 = anion (goes to anode)
-      color: Math.random()<0.5?'#4dd6c1':'#ff5a6e'
-    });
-  }
-}
-function renderElectrolysisScene(){
-  const svg=document.getElementById('elecSVG'); if(!svg) return;
-  let html = '';
-  // Beaker
-  html += `<rect x="80" y="30" width="240" height="240" fill="none" stroke="#8b6bff" stroke-width="4" rx="10"/>`;
-  // Solution background
-  html += `<rect x="82" y="32" width="236" height="236" fill="rgba(139,107,255,0.1)" rx="8"/>`;
+/* ==================== НАВИГАЦИЯ ==================== */
+function go(id, btn){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id));
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.toggle('active',b.dataset.target===id));
+  if(window.scrollTo) window.scrollTo({top:0,behavior:'smooth'});
   
-  // Electrodes
-  // Cathode (-)
-  html += `<rect x="110" y="30" width="10" height="200" fill="#3ddc97"/>`;
-  html += `<text x="115" y="260" text-anchor="middle" fill="#3ddc97" font-size="16" font-weight="bold">— Катод</text>`;
-  // Anode (+)
-  html += `<rect x="280" y="30" width="10" height="200" fill="#ff5a6e"/>`;
-  html += `<text x="285" y="260" text-anchor="middle" fill="#ff5a6e" font-size="16" font-weight="bold">+ Анод</text>`;
+  if(id==='periodic') renderPeriodic();
+  if(id==='solubility') renderSolubility();
+  if(id==='r3d') initR3D();
+  if(id==='builder') initBuilder();
+  if(id==='detective') initDetective();
+  if(id==='scales') initScales();
+}
 
-  // Particles
-  elecParticles.forEach(p => {
-    // Attraction
-    if(p.charge === 1) { // Cation -> Cathode (left)
-      p.vx += (115 - p.x) * 0.001;
-    } else { // Anion -> Anode (right)
-      p.vx += (285 - p.x) * 0.001;
-    }
-    // Random jitter
-    p.vx += (Math.random()-0.5)*0.5;
-    p.vy += (Math.random()-0.5)*0.5;
-    
-    // Dampen
-    p.vx *= 0.98;
-    p.vy *= 0.98;
-    
-    p.x += p.vx;
-    p.y += p.vy;
-    
-    // Bounce off walls
-    if(p.x < 90) { p.x = 90; p.vx *= -1; }
-    if(p.x > 310) { p.x = 310; p.vx *= -1; }
-    if(p.y < 40) { p.y = 40; p.vy *= -1; }
-    if(p.y > 260) { p.y = 260; p.vy *= -1; }
+/* ==================== ТАБЛИЦА МЕНДЕЛЕЕВА ==================== */
+let periodicMode = 'standard';
+function setPeriodicMode(mode, btn){
+  periodicMode = mode;
+  document.querySelectorAll('#periodic .btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderPeriodic();
+}
+function renderPeriodic(){
+  const grid = document.getElementById('periodicGrid'); grid.innerHTML='';
+  const main = ELEMENTS.filter(d=>!LANTH.some(l=>l[1]===d[2]) && !ACT.some(a=>a[1]===d[2]));
+  
+  const getCat = z => {
+    if([1,6,7,8,15,16,17,34,35,53].includes(z)) return 'nonmet';
+    if((z>=21&&z<=30)||(z>=39&&z<=48)||(z>=72&&z<=80)||z>=104) return 'trans';
+    if(LANTH.some(l=>l[1]===z)) return 'lan';
+    return 'met';
+  };
 
-    const rad = p.charge===1?6:6;
-    html += `<circle cx="${p.x}" cy="${p.y}" r="${rad}" fill="${p.color}" opacity="0.8"/>`;
-    if(p.charge===1) {
-       html += `<text x="${p.x}" y="${p.y+4}" text-anchor="middle" fill="white" font-size="10" font-weight="bold">+</text>`;
-    } else {
-       html += `<text x="${p.x}" y="${p.y+4}" text-anchor="middle" fill="white" font-size="10" font-weight="bold">-</text>`;
+  main.forEach(d=>{
+    const [sym,name,z,mass,g,p] = d;
+    const el = document.createElement('div');
+    el.className = 'p-cell'; el.dataset.cat = getCat(z);
+    el.style.gridColumn = g; el.style.gridRow = p;
+    
+    // Gradient modes
+    if(periodicMode === 'radius'){
+      // Радиус увеличивается вниз и влево
+      const op = 0.2 + (p/7)*0.6 + ((18-g)/18)*0.2;
+      el.style.background = `rgba(139,107,255,${op})`;
+    } else if(periodicMode === 'electro'){
+      // Электроотрицательность максимальна у F (9)
+      const dist = Math.abs(g-17) + Math.abs(p-2);
+      const op = Math.max(0.1, 1 - dist/15);
+      el.style.background = `rgba(255,90,110,${op})`;
     }
+    
+    el.innerHTML = `<span class="num">${z}</span><span class="sym">${sym}</span>`;
+    el.onclick = () => showAtom(sym,name,z,mass);
+    grid.appendChild(el);
+  });
+
+  LANTH.forEach(([sym,z],i)=>{
+    const d = ELEMENTS.find(x=>x[0]===sym);
+    const el = document.createElement('div'); el.className='p-cell'; el.dataset.cat='lan';
+    el.style.gridColumn = i+3; el.style.gridRow = 9;
+    el.innerHTML = `<span class="num">${z}</span><span class="sym">${sym}</span>`;
+    el.onclick = () => showAtom(sym,d[1],z,d[3]); grid.appendChild(el);
+  });
+  ACT.forEach(([sym,z],i)=>{
+    const d = ELEMENTS.find(x=>x[0]===sym);
+    const el = document.createElement('div'); el.className='p-cell'; el.dataset.cat='act';
+    el.style.gridColumn = i+3; el.style.gridRow = 10;
+    el.innerHTML = `<span class="num">${z}</span><span class="sym">${sym}</span>`;
+    el.onclick = () => showAtom(sym,d[1],z,d[3]); grid.appendChild(el);
+  });
+}
+
+function showAtom(sym, name, z, mass){
+  const shells = []; let rem = z; const max = [2,8,18,32,32,18,8];
+  for(let i=0; i<max.length && rem>0; i++){ const t=Math.min(rem,max[i]); shells.push(t); rem-=t; }
+  
+  let html = `<div style="text-align:center;font-size:28px;font-weight:800;color:var(--accent-2)">${sym}</div>
+  <div style="text-align:center;font-size:16px;margin-bottom:16px">${name}</div>
+  <div style="position:relative;width:180px;height:180px;margin:0 auto 16px;perspective:600px">
+    <div style="position:absolute;inset:0;transform-style:preserve-3d;animation:spin 20s linear infinite">
+      <div style="position:absolute;top:50%;left:50%;width:28px;height:28px;margin:-14px 0 0 -14px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#ffe07a,#c4451e);box-shadow:0 0 20px rgba(255,120,50,.8);display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:800;color:#fff;z-index:10">+${z}</div>`;
+      
+  const radii=[30,55,80,100,115,130,140];
+  shells.forEach((c,i)=>{
+    let el=''; for(let j=0;j<Math.min(c,8);j++){ const a=(j*2*Math.PI)/Math.min(c,8); el+=`<div style="position:absolute;width:8px;height:8px;border-radius:50%;background:#4dd6c1;box-shadow:0 0 8px #4dd6c1;left:${radii[i]+radii[i]*Math.cos(a)-4}px;top:${radii[i]+radii[i]*Math.sin(a)-4}px"></div>`; }
+    html+=`<div style="position:absolute;top:50%;left:50%;width:${radii[i]*2}px;height:${radii[i]*2}px;margin:-${radii[i]}px 0 0 -${radii[i]}px;transform:rotateX(${60+i*15}deg) rotateY(${i*30}deg);transform-style:preserve-3d"><div style="position:relative;width:100%;height:100%;border-radius:50%;border:1px dashed rgba(139,107,255,.5);animation:spin ${10+i*2}s linear infinite reverse">${el}</div></div>`;
+  });
+  html+=`</div></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    <div style="background:rgba(255,255,255,0.05);padding:10px;border-radius:8px;text-align:center"><div style="font-size:10px;color:var(--muted)">Протоны</div><b>${z}</b></div>
+    <div style="background:rgba(255,255,255,0.05);padding:10px;border-radius:8px;text-align:center"><div style="font-size:10px;color:var(--muted)">Нейтроны</div><b>${Math.round(mass)-z}</b></div>
+    <div style="background:rgba(255,255,255,0.05);padding:10px;border-radius:8px;text-align:center"><div style="font-size:10px;color:var(--muted)">Слои</div><b>${shells.join('·')}</b></div>
+    <div style="background:rgba(255,255,255,0.05);padding:10px;border-radius:8px;text-align:center"><div style="font-size:10px;color:var(--muted)">Масса</div><b>${mass}</b></div>
+  </div>`;
+  openModal(html);
+}
+
+/* ==================== РАСТВОРИМОСТЬ ==================== */
+function renderSolubility(){
+  const t = document.getElementById('solTable');
+  let html = '<tr><th></th>' + SOLUBILITY.anions.map(a=>`<th>${a}</th>`).join('') + '</tr>';
+  SOLUBILITY.cations.forEach((cat, i)=>{
+    html += `<tr><th>${cat}</th>`;
+    SOLUBILITY.anions.forEach((an, j)=>{
+      const val = SOLUBILITY.data[i][j];
+      let bg = 'transparent';
+      if(val === 'Н') bg = 'rgba(255,90,110,0.2)';
+      if(val === 'М') bg = 'rgba(242,208,36,0.2)';
+      if(val === 'Р') bg = 'rgba(61,220,151,0.1)';
+      html += `<td style="background:${bg}" onclick="showSolubility('${cat}','${an}','${val}')">${val}</td>`;
+    });
+    html += '</tr>';
+  });
+  t.innerHTML = html;
+}
+function showSolubility(cat, an, val){
+  if(val === 'Р') return openModal('<div style="text-align:center;font-size:18px">Растворимо</div><p style="text-align:center;color:var(--muted);margin-top:10px">Осадок не образуется.</p>');
+  if(val === 'М') return openModal('<div style="text-align:center;font-size:18px">Малорастворимо</div><p style="text-align:center;color:var(--muted);margin-top:10px">Может выпасть при высокой концентрации.</p>');
+  
+  // Ищем цвет и формулу осадка
+  const formula = cat.replace('⁺','').replace(/[0-9]/g,'') + an.replace('⁻','').replace(/[0-9]/g,'');
+  let color = '#aaa';
+  if(an==='OH⁻') { if(cat.includes('Cu')) color=COLORS['голубой']; else if(cat.includes('Fe²')) color=COLORS['серо-зелёный']; else if(cat.includes('Fe³')) color=COLORS['бурый']; else color=COLORS['белый']; }
+  if(an==='Cl⁻' && cat.includes('Ag')) color=COLORS['белый'];
+  if(an==='S²⁻') color=COLORS['чёрный'];
+  if(an==='CO₃²⁻' || an==='SO₄²⁻' || an==='PO₄³⁻') color=COLORS['белый'];
+  if(an==='I⁻' && cat.includes('Pb')) color=COLORS['жёлтый'];
+  
+  openModal(`<div style="text-align:center">
+    <div style="width:60px;height:60px;border-radius:50%;background:${color};margin:0 auto 16px;box-shadow:0 0 30px ${color}"></div>
+    <div style="font-size:20px;font-weight:800;margin-bottom:8px">Осадок</div>
+    <div style="font-size:16px;color:var(--accent-2)">${formula}</div>
+    <div style="font-size:14px;color:var(--muted);margin-top:8px">Нерастворимое соединение</div>
+  </div>`);
+}
+
+/* ==================== 3D РЕАКЦИИ ==================== */
+let currentR3D = 'H2+Cl2';
+let r3dRAF = null;
+function initR3D(){
+  const tabs = document.getElementById('r3dTabs');
+  if(tabs.innerHTML !== ''){
+    // If already built, just reset
+  }
+  tabs.innerHTML = Object.keys(REACTIONS).map((k,i)=>`<button class="btn small ${i===0?'':'ghost'}" onclick="setR3D('${k}',this)">${REACTIONS[k].eq.split('→')[0]}</button>`).join('');
+  setR3D('H2+Cl2', tabs.firstChild);
+}
+function setR3D(key, btn){
+  currentR3D = key;
+  document.querySelectorAll('#r3dTabs .btn').forEach(b=>{ b.className='btn small ghost'; });
+  if(btn) btn.className = 'btn small';
+  const r = REACTIONS[key];
+  document.getElementById('r3dInfo').innerHTML = `<b style="font-size:16px;color:var(--accent-2)">${r.eq}</b><br><span style="font-size:13px;color:var(--muted);margin-top:8px;display:block">${r.desc}</span>`;
+  renderR3DScene(0);
+}
+function renderR3DScene(t){
+  const svg = document.getElementById('r3dSVG');
+  const r = REACTIONS[currentR3D];
+  let html = '';
+  r.atoms.forEach(a=>{
+    const x = a.s[0] + (a.e[0]-a.s[0])*t;
+    const y = a.s[1] + (a.e[1]-a.s[1])*t;
+    const col = ATOM_COLORS[a.t] || '#ccc';
+    const textCol = a.t==='H' ? '#333' : '#fff';
+    html += `<circle cx="${x}" cy="${y}" r="18" fill="${col}" stroke="rgba(0,0,0,0.5)" stroke-width="2"/>
+             <circle cx="${x-5}" cy="${y-5}" r="6" fill="rgba(255,255,255,0.4)"/>
+             <text x="${x}" y="${y+5}" text-anchor="middle" font-size="13" font-weight="800" fill="${textCol}">${a.t}</text>`;
   });
   svg.innerHTML = html;
 }
-function openElectrolysis3d(){
-  go('electrolysis3d');
-  initElec();
-  function loop(){
-    if(!document.getElementById('electrolysis3d').classList.contains('active')) return;
-    renderElectrolysisScene();
-    requestAnimationFrame(loop);
+function playR3D(){
+  if(r3dRAF) cancelAnimationFrame(r3dRAF);
+  let start = null;
+  const dur = 2000;
+  function loop(ts){
+    if(!start) start = ts;
+    let t = Math.min((ts-start)/dur, 1);
+    const ease = t<0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2;
+    renderR3DScene(ease);
+    if(t<1) r3dRAF = requestAnimationFrame(loop);
+    else r3dRAF = null;
   }
-  loop();
+  r3dRAF = requestAnimationFrame(loop);
 }
 
-/* ============ ФОРМУЛЫ 3D ============ */
-function renderFormulaScene(){const svg=document.getElementById('formulaSVG');if(!svg)return;const key=document.querySelector('#formulaTabs button.active')?.dataset.f||'mass';const cx=200,cy=200;
-const S=90;const corners=[];for(let dx of[-1,1])for(let dy of[-1,1])for(let dz of[-1,1])corners.push({x:dx*S,y:dy*S,z:dz*S});
-const edges=[];for(let i=0;i<8;i++)for(let j=i+1;j<8;j++){const diff=Math.abs(corners[i].x-corners[j].x)+Math.abs(corners[i].y-corners[j].y)+Math.abs(corners[i].z-corners[j].z);if(diff===2*S)edges.push([i,j])}
-const seedPoints=[];
-if(key==='mass'){for(let i=0;i<8;i++){const t=i/8;seedPoints.push({x:(Math.random()-0.5)*120,y:(Math.random()-0.5)*120,z:(Math.random()-0.5)*120,r:10+t*6,color:'#a88cff'})}}
-else if(key==='volume'){for(let i=0;i<20;i++)seedPoints.push({x:(Math.random()-0.5)*150,y:(Math.random()-0.5)*150,z:(Math.random()-0.5)*150,r:4,color:'#4dd6c1'})}
-else if(key==='particles'){for(let i=0;i<60;i++)seedPoints.push({x:(Math.random()-0.5)*160,y:(Math.random()-0.5)*160,z:(Math.random()-0.5)*160,r:2.5,color:'#f2d024'})}
-else{for(let i=0;i<25;i++)seedPoints.push({x:(Math.random()-0.5)*150,y:(Math.random()-0.5)*150,z:(Math.random()-0.5)*150,r:4,color:'#6fc3e8'});for(let i=0;i<8;i++)seedPoints.push({x:(Math.random()-0.5)*150,y:(Math.random()-0.5)*150,z:(Math.random()-0.5)*150,r:6,color:'#f2d024'})}
-const pCorners=corners.map(c=>project3d(rotate3d(c,V3.rotX,V3.rotY),cx,cy));
-const pPts=seedPoints.map(p=>{const r=rotate3d(p,V3.rotX,V3.rotY);const proj=project3d(r,cx,cy);return {...p,...proj}});
-const pEdges=edges.map(([i,j])=>({a:pCorners[i],b:pCorners[j],z:(pCorners[i].z+pCorners[j].z)/2})).sort((a,b)=>b.z-a.z);
-const sortedPts=[...pPts].sort((a,b)=>b.z-a.z);
-let html='';
-pEdges.forEach(e=>{const op=0.35+(1-Math.min(1,Math.abs(e.z)/300))*0.4;html+=`<line x1="${e.a.x}" y1="${e.a.y}" x2="${e.b.x}" y2="${e.b.y}" stroke="rgba(139,107,255,${op})" stroke-width="${2*((e.a.scale+e.b.scale)/2)}"/>`});
-sortedPts.forEach(p=>{const rad=p.r*p.scale;html+=`<circle cx="${p.x}" cy="${p.y}" r="${rad}" fill="${p.color}" opacity="0.85"/><circle cx="${p.x-rad*0.3}" cy="${p.y-rad*0.3}" r="${rad*0.35}" fill="rgba(255,255,255,0.5)"/>`});
-svg.innerHTML=html;
-const info=FORMULA_SCENES[key];
-document.getElementById('formulaInfo').innerHTML=`<div class="v3-info"><div class="v3-info-formula">${info.title}</div><div class="v3-info-title">${info.desc}</div><div class="v3-info-body">${info.body}</div><ul class="v3-info-tips">${info.tips.map(t=>`<li>${t}</li>`).join('')}</ul></div>`}
+/* ==================== КОНСТРУКТОР ==================== */
+let nodes = []; // {id, atom, x, y}
+let selectedAtomType = 'H';
+let draggedNode = null;
 
-/* ============ МОЛЕКУЛЫ 3D ============ */
-function renderMoleculeScene(){const svg=document.getElementById('moleculeSVG');if(!svg)return;const key=document.querySelector('#moleculeTabs button.active')?.dataset.m||'H2O';const mol=MOLECULES[key];if(!mol)return;
-const cx=200,cy=200;
-const projected=mol.atoms.map(a=>{const r=rotate3d(a,V3.rotX,V3.rotY);return {...a,...project3d(r,cx,cy)}});
-const bonds=mol.bonds.map(([i,j])=>({a:projected[i],b:projected[j],z:(projected[i].z+projected[j].z)/2})).sort((a,b)=>b.z-a.z);
-const atomsSorted=[...projected].sort((a,b)=>b.z-a.z);
-let html='';
-bonds.forEach(bond=>{const w=5*((bond.a.scale+bond.b.scale)/2);html+=`<line x1="${bond.a.x}" y1="${bond.a.y}" x2="${bond.b.x}" y2="${bond.b.y}" stroke="#999" stroke-width="${w}" stroke-linecap="round"/><line x1="${bond.a.x}" y1="${bond.a.y}" x2="${bond.b.x}" y2="${bond.b.y}" stroke="#ddd" stroke-width="${w*0.4}" stroke-linecap="round" opacity="0.6"/>`});
-atomsSorted.forEach(a=>{const st=ATOM_STYLE[a.el];const rad=st.radius*a.scale;html+=`<circle cx="${a.x}" cy="${a.y}" r="${rad}" fill="${st.color}" stroke="rgba(0,0,0,0.4)" stroke-width="1.5"/><circle cx="${a.x-rad*0.3}" cy="${a.y-rad*0.3}" r="${rad*0.4}" fill="rgba(255,255,255,0.45)"/>`;if(rad>12)html+=`<text x="${a.x}" y="${a.y+rad*0.3}" text-anchor="middle" font-size="${rad*0.85}" font-weight="800" fill="${a.el==='H'?'#333':'rgba(255,255,255,0.95)'}">${st.label}</text>`});
-svg.innerHTML=html;
-const info=mol.info;
-document.getElementById('moleculeInfo').innerHTML=`<div class="v3-info"><div class="v3-info-title">${info.title}</div><div class="v3-info-body">${info.body}</div><ul class="v3-info-tips">${info.tips.map(t=>`<li>${t}</li>`).join('')}</ul></div>`}
+function initBuilder(){
+  document.getElementById('builderAtoms').innerHTML = ['H','O','C','N'].map(a=>{
+    const col = ATOM_COLORS[a]; const txt = a==='H'?'#333':'#fff';
+    return `<button class="btn small" style="background:${col};color:${txt};border-radius:50%;width:44px;height:44px;padding:0" onclick="selectAtomType('${a}')">${a}</button>`;
+  }).join('');
+  document.getElementById('builderArea').innerHTML = '';
+  nodes = [];
+  document.getElementById('builderResult').textContent = '';
+}
+function selectAtomType(a){
+  selectedAtomType = a;
+}
+function clearBuilder(){
+  nodes = [];
+  drawBuilder();
+  document.getElementById('builderResult').textContent = '';
+}
+document.getElementById('builderArea').addEventListener('pointerdown', e=>{
+  const rect = e.currentTarget.getBoundingClientRect();
+  const x = e.clientX - rect.left, y = e.clientY - rect.top;
+  
+  // Check if clicked on an existing node
+  let hit = -1;
+  nodes.forEach((n,i)=>{ if(Math.hypot(n.x-x, n.y-y) < 25) hit = i; });
+  
+  if(hit >= 0){
+    draggedNode = hit;
+  } else {
+    // Add new atom
+    nodes.push({id:Date.now(), atom:selectedAtomType, x, y});
+    drawBuilder();
+  }
+});
+document.getElementById('builderArea').addEventListener('pointermove', e=>{
+  if(draggedNode === null) return;
+  const rect = e.currentTarget.getBoundingClientRect();
+  nodes[draggedNode].x = e.clientX - rect.left;
+  nodes[draggedNode].y = e.clientY - rect.top;
+  drawBuilder();
+});
+document.getElementById('builderArea').addEventListener('pointerup', ()=>{ draggedNode = null; });
+document.getElementById('builderArea').addEventListener('pointercancel', ()=>{ draggedNode = null; });
 
-/* ============ КРИСТАЛЛЫ 3D ============ */
-function renderCrystalScene(){const svg=document.getElementById('crystalSVG');if(!svg)return;const key=document.querySelector('#crystalTabs button.active')?.dataset.c||'nacl';const crystal=CRYSTALS[key].make();const cx=200,cy=200;
-const projected=crystal.atoms.map(a=>{const r=rotate3d({x:a.x,y:a.y,z:a.z},V3.rotX,V3.rotY);return {...a,...project3d(r,cx,cy)}});
-const bonds=crystal.bonds.map(([i,j])=>({a:projected[i],b:projected[j],z:(projected[i].z+projected[j].z)/2})).sort((a,b)=>b.z-a.z);
-const sorted=[...projected].sort((a,b)=>b.z-a.z);
-let html='';
-bonds.forEach(bond=>{html+=`<line x1="${bond.a.x}" y1="${bond.a.y}" x2="${bond.b.x}" y2="${bond.b.y}" stroke="#888" stroke-width="${4*((bond.a.scale+bond.b.scale)/2)}" stroke-linecap="round" opacity="0.7"/>`});
-sorted.forEach(a=>{const rad=a.radius*a.scale;html+=`<circle cx="${a.x}" cy="${a.y}" r="${rad}" fill="${a.color}" stroke="rgba(0,0,0,0.35)" stroke-width="1"/><circle cx="${a.x-rad*0.3}" cy="${a.y-rad*0.3}" r="${rad*0.35}" fill="rgba(255,255,255,0.45)"/>`;if(a.label&&rad>10)html+=`<text x="${a.x}" y="${a.y+rad*0.3}" text-anchor="middle" font-size="${rad*0.75}" font-weight="800" fill="rgba(255,255,255,0.95)">${a.label}</text>`});
-svg.innerHTML=html;
-const info=crystal.info;
-document.getElementById('crystalInfo').innerHTML=`<div class="v3-info"><div class="v3-info-title">${info.title}</div><div class="v3-info-body">${info.body}</div><ul class="v3-info-tips">${info.tips.map(t=>`<li>${t}</li>`).join('')}</ul></div>`}
+function drawBuilder(){
+  const area = document.getElementById('builderArea');
+  let html = '';
+  // Bonds (all to all, simplified)
+  nodes.forEach((n1,i)=>{
+    nodes.forEach((n2,j)=>{
+      if(i<j){
+        const dx=n2.x-n1.x, dy=n2.y-n1.y, len=Math.hypot(dx,dy), ang=Math.atan2(dy,dx);
+        if(len < 120){ // Only bond if close
+          html += `<div class="bond-line" style="left:${n1.x}px;top:${n1.y}px;width:${len}px;transform:rotate(${ang}rad)"></div>`;
+        }
+      }
+    });
+  });
+  nodes.forEach(n=>{
+    const col = ATOM_COLORS[n.atom]; const txt = n.atom==='H'?'#333':'#fff';
+    html += `<div class="atom-node" style="left:${n.x}px;top:${n.y}px;background:${col};color:${txt}">${n.atom}</div>`;
+  });
+  area.innerHTML = html;
+}
+function checkMolecule(){
+  const target = document.getElementById('targetMol').value;
+  const counts = {};
+  nodes.forEach(n=> counts[n.atom] = (counts[n.atom]||0) + 1 );
+  
+  let req = {};
+  if(target==='H2O') req={H:2,O:1};
+  if(target==='CO2') req={C:1,O:2};
+  if(target==='CH4') req={C:1,H:4};
+  if(target==='NH3') req={N:1,H:3};
+  
+  const match = Object.keys(req).every(k=>counts[k]===req[k]) && Object.keys(counts).length === Object.keys(req).length;
+  
+  const res = document.getElementById('builderResult');
+  if(match){
+    res.textContent = '✅ Верно! Молекула собрана.';
+    res.style.color = 'var(--ok)';
+  } else {
+    res.textContent = '❌ Неверно. Проверь количество атомов.';
+    res.style.color = 'var(--err)';
+  }
+}
 
-function openFormulas3d(){go('formulas3d');v3ResetRot();v3BindStage('formulaStage');document.querySelectorAll('#formulaTabs button').forEach(b=>{b.onclick=()=>{document.querySelectorAll('#formulaTabs button').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderFormulaScene()}});renderFormulaScene();v3StartLoop(renderFormulaScene,'formulas3d')}
-function openMolecules3d(){go('molecules3d');v3ResetRot();v3BindStage('moleculeStage');document.querySelectorAll('#moleculeTabs button').forEach(b=>{b.onclick=()=>{document.querySelectorAll('#moleculeTabs button').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderMoleculeScene()}});renderMoleculeScene();v3StartLoop(renderMoleculeScene,'molecules3d')}
-function openCrystals3d(){go('crystals3d');v3ResetRot();v3BindStage('crystalStage');document.querySelectorAll('#crystalTabs button').forEach(b=>{b.onclick=()=>{document.querySelectorAll('#crystalTabs button').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderCrystalScene()}});renderCrystalScene();v3StartLoop(renderCrystalScene,'crystals3d')}
+/* ==================== ДЕТЕКТИВ ==================== */
+let detectiveTubes = [];
+let detectiveReagent = 'AgNO3';
+function initDetective(){
+  detectiveTubes = [
+    {name:'NaCl', tested:false, log:''},
+    {name:'Na₂SO₄', tested:false, log:''},
+    {name:'Na₂CO₃', tested:false, log:''}
+  ].sort(()=>Math.random()-0.5); // Shuffle
+  
+  detectiveReagent = 'AgNO3';
+  document.getElementById('currentReagent').textContent = 'AgNO₃';
+  document.getElementById('detectiveLog').innerHTML = '<i>Блокнот пуст. Начни добавлять реагенты.</i>';
+  for(let i=0;i<3;i++){
+    document.getElementById('liq'+i).style.background = 'rgba(200,230,255,0.3)';
+    document.getElementById('liq'+i).innerHTML = '';
+  }
+}
+function setReagent(r){
+  detectiveReagent = r;
+  document.getElementById('currentReagent').textContent = r;
+}
+function detectiveUseReagent(i){
+  const tube = detectiveTubes[i];
+  if(tube.tested) return;
+  tube.tested = true;
+  
+  let result = '';
+  let color = 'rgba(200,230,255,0.3)';
+  let gas = false;
+  
+  if(detectiveReagent === 'AgNO3'){
+    if(tube.name==='NaCl'){ result='Белый творожистый осадок AgCl↓'; color='#fff'; }
+    else if(tube.name==='Na₂SO₄'){ result='Белый осадок Ag₂SO₄ (малорастворим)'; color='#ddd'; }
+    else if(tube.name==='Na₂CO₃'){ result='Белый осадок Ag₂CO₃↓'; color='#eee'; }
+  } else if(detectiveReagent === 'BaCl2'){
+    if(tube.name==='NaCl'){ result='Видимых изменений нет'; }
+    else if(tube.name==='Na₂SO₄'){ result='Белый кристаллический осадок BaSO₄↓'; color='#fff'; }
+    else if(tube.name==='Na₂CO₃'){ result='Белый осадок BaCO₃↓'; color='#fff'; }
+  } else if(detectiveReagent === 'HCl'){
+    if(tube.name==='NaCl'){ result='Видимых изменений нет'; }
+    else if(tube.name==='Na₂SO₄'){ result='Видимых изменений нет'; }
+    else if(tube.name==='Na₂CO₃'){ result='Выделение газа CO₂↑ (шипение)'; color='rgba(200,230,255,0.1)'; gas=true; }
+  }
+  
+  document.getElementById('liq'+i).style.background = color;
+  if(gas) document.getElementById('liq'+i).innerHTML = '<div style="position:absolute;width:100%;height:100%;animation:pulse 1s infinite;background:radial-gradient(circle,transparent 20%,#fff 100%)"></div>';
+  
+  tube.log += `<div>Пробирка ${i+1} + ${detectiveReagent}: ${result}</div>`;
+  document.getElementById('detectiveLog').innerHTML = detectiveTubes.map((t,idx)=>t.tested ? `<div style="margin-bottom:4px">🧪 №${idx+1}: <span style="color:var(--accent-2)">${t.log}</span></div>` : '').join('');
+}
+function detectiveCheck(){
+  const ans = prompt('Введи, что было в пробирке 1 (NaCl, Na₂SO₄ или Na₂CO₃):');
+  if(!ans) return;
+  const correct = detectiveTubes[0].name.replace('₂','2').replace('₄','4').replace('₃','3');
+  if(ans.replace(/[₂₄₃]/g, m=>({'₂':'2','₄':'4','₃':'3'}[m])).toLowerCase() === detectiveTubes[0].name.toLowerCase() || ans === detectiveTubes[0].name){
+    alert('🎉 Верно! В первой пробирке был ' + detectiveTubes[0].name);
+    initDetective();
+  } else {
+    alert('❌ Неверно. Попробуй ещё раз!');
+  }
+}
 
-/* ============ СТАТИСТИКА ============ */
-function renderStats(){const types=[{k:'precipitate',n:'Осадки'},{k:'oxide',n:'Оксиды'},{k:'ionic',n:'Ионные'},{k:'redox',n:'ОВР'},{k:'exception',n:'Исключения'}];
-$('#statsBody').innerHTML=types.map(t=>{const a=getAccuracy(t.k);const s=Store.get('stats',{})[t.k]||{c:0,t:0};return `<div class="settings-row"><div><div class="lbl">${t.n}</div><div class="sub">${s.c}/${s.t}</div></div><div style="font-size:20px;font-weight:800;color:${a>=70?'var(--ok)':a>=40?'var(--accent-2)':'var(--err)'}">${a}%</div></div>`}).join('');
-const saved=Store.get('checklist',{});$('#checklistBody').innerHTML=CHECKLIST.map(c=>`<label class="checklist-item ${saved[c.id]?'done':''}"><input type="checkbox" ${saved[c.id]?'checked':''} onchange="toggleCheck('${c.id}',this.checked)"><span>${c.text}</span></label>`).join('')}
-function toggleCheck(id,val){const saved=Store.get('checklist',{});saved[id]=val;Store.set('checklist',saved)}
+/* ==================== ВЕСЫ ==================== */
+const SCALES_DATA = [
+  { eq:'Fe + O₂ → Fe₂O₃', left:{Fe:1, O:2}, right:{Fe:2, O:3}, coefs:[4,3,2], labels:['Fe','O₂','Fe₂O₃'] },
+  { eq:'Al + HCl → AlCl₃ + H₂', left:{Al:1, H:1, Cl:1}, right:{Al:1, Cl:3, H:2}, coefs:[2,6,2,3], labels:['Al','HCl','AlCl₃','H₂'] },
+  { eq:'H₂ + O₂ → H₂O', left:{H:2, O:2}, right:{H:2, O:1}, coefs:[2,1,2], labels:['H₂','O₂','H₂O'] }
+];
+let currentScale = 0;
+function initScales(){
+  currentScale = Math.floor(Math.random()*SCALES_DATA.length);
+  const d = SCALES_DATA[currentScale];
+  document.getElementById('scaleEq').innerHTML = d.eq;
+  document.getElementById('scaleInputs').innerHTML = d.labels.map((l,i)=>`<div style="text-align:center"><div style="font-size:12px;margin-bottom:4px">${l}</div><input type="number" min="1" max="10" value="1" id="sc${i}" style="width:50px;padding:8px;border-radius:8px;background:var(--card);color:var(--text);border:1px solid var(--card-border);text-align:center;font-weight:800" oninput="updateScale()"></div>`).join('');
+  document.getElementById('scaleResult').textContent = '';
+  updateScale();
+}
+function updateScale(){
+  const d = SCALES_DATA[currentScale];
+  let lSum = 0, rSum = 0;
+  for(let i=0; i<d.labels.length; i++){
+    const v = parseInt(document.getElementById('sc'+i).value) || 1;
+    const isLeft = i < (d.labels.length - (d.eq.includes('→') ? d.eq.split('→')[1].split('+').length : 0));
+    // Simplified: just sum all coefs for visual weight
+    lSum += v;
+    rSum += v;
+  }
+  // Actually, let's just tilt the beam based on inputs vs correct answer
+  const d2 = SCALES_DATA[currentScale];
+  let correct = true;
+  for(let i=0; i<d.labels.length; i++){
+    if(parseInt(document.getElementById('sc'+i).value) !== d.coefs[i]) correct = false;
+  }
+  
+  const beam = document.getElementById('scaleBeam');
+  if(correct) beam.style.transform = 'rotate(0deg)';
+  else {
+    // Random tilt based on what's wrong
+    beam.style.transform = `rotate(${Math.sin(Date.now()/500)*5}deg)`; // Wobble
+  }
+  document.getElementById('panLeft').textContent = 'Атомы: ' + (d.eq.split('→')[0] ? '?' : '?');
+  document.getElementById('panRight').textContent = 'Атомы: ?';
+}
+function checkScale(){
+  const d = SCALES_DATA[currentScale];
+  let correct = true;
+  for(let i=0; i<d.labels.length; i++){
+    if(parseInt(document.getElementById('sc'+i).value) !== d.coefs[i]) correct = false;
+  }
+  const res = document.getElementById('scaleResult');
+  if(correct){
+    res.textContent = '✅ Уравнение сбалансировано!';
+    res.style.color = 'var(--ok)';
+    document.getElementById('scaleBeam').style.transform = 'rotate(0deg)';
+  } else {
+    res.textContent = '❌ Коэффициенты неверные. Попробуй ещё!';
+    res.style.color = 'var(--err)';
+  }
+}
 
-/* ============ НАСТРОЙКИ ============ */
-function applySettings(){const theme=Store.get('theme','dark');document.body.dataset.theme=theme;$('#themeSwitch').classList.toggle('on',theme==='light');const font=Store.get('font','normal');document.body.dataset.font=font;$('#fontSwitch').classList.toggle('on',font!=='normal');$('#soundSwitch').classList.toggle('on',Store.get('sound',true));$('#vibeSwitch').classList.toggle('on',Store.get('vibe',true))}
-function toggleTheme(){const cur=Store.get('theme','dark');Store.set('theme',cur==='dark'?'light':'dark');applySettings()}
-function cycleFont(){const cur=Store.get('font','normal');const next=cur==='normal'?'large':cur==='large'?'xl':'normal';Store.set('font',next);applySettings();toast('Шрифт: '+(next==='normal'?'обычный':next==='large'?'крупный':'очень крупный'))}
-function toggleSound(){Store.set('sound',!Store.get('sound',true));applySettings()}
-function toggleVibe(){Store.set('vibe',!Store.get('vibe',true));applySettings()}
-function exportProgress(){const data={};['best','stats','bookmarks','daily','checklist','theme','font','sound','vibe'].forEach(k=>{data[k]=Store.get(k,null)});const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='himo-progress-'+new Date().toISOString().slice(0,10)+'.json';a.click();toast('📤 Экспортировано')}
-function importProgress(e){const file=e.target.files[0];if(!file)return;const r=new FileReader();r.onload=()=>{try{const data=JSON.parse(r.result);Object.keys(data).forEach(k=>{if(data[k]!==null)Store.set(k,data[k])});applySettings();refreshHome();renderStats();toast('📥 Импортировано')}catch(err){toast('❌ Ошибка')}};r.readAsText(file);e.target.value=''}
-function shareResult(){const best=Store.get('best',0);const text=`🧪 Я набрал ${best}/10 в ХимОГЭ — тренажёре по химии для 8–9 класса!`;if(navigator.share)navigator.share({title:'ХимОГЭ',text}).catch(()=>{});else navigator.clipboard.writeText(text).then(()=>toast('🔗 Скопировано')).catch(()=>toast(text))}
-function resetAll(){if(!confirm('Сбросить весь прогресс?'))return;['best','stats','bookmarks','daily','checklist'].forEach(k=>Store.del(k));applySettings();refreshHome();renderStats();toast('🗑️ Сброшено')}
+/* ==================== ИНДИКАТОРЫ ==================== */
+function setEnv(env){
+  let baseColor = 'rgba(200,220,255,0.5)'; // neutral
+  if(env==='acid') baseColor = 'rgba(255,220,220,0.3)';
+  if(env==='base') baseColor = 'rgba(200,255,220,0.3)';
+  document.getElementById('indLiquid').style.background = baseColor;
+  document.getElementById('indLiquid').dataset.env = env;
+  document.getElementById('indResult').textContent = 'Среда изменена. Добавь индикатор.';
+}
+function setInd(ind){
+  const env = document.getElementById('indLiquid').dataset.env || 'neutral';
+  const liq = document.getElementById('indLiquid');
+  const res = document.getElementById('indResult');
+  let color = '';
+  let text = '';
+  
+  if(ind==='lakmus'){
+    if(env==='acid'){ color='#e63b2e'; text='Лакмус в кислоте — КРАСНЫЙ'; }
+    else if(env==='base'){ color='#3050e0'; text='Лакмус в щёлочи — СИНИЙ'; }
+    else { color='#8b6bff'; text='Лакмус в нейтральной среде — ФИОЛЕТОВЫЙ'; }
+  } else if(ind==='fenol'){
+    if(env==='acid'){ color='transparent'; text='Фенолфталеин в кислоте — БЕСЦВЕТНЫЙ'; }
+    else if(env==='base'){ color='#ff5a6e'; text='Фенолфталеин в щёлочи — МАЛИНОВЫЙ'; }
+    else { color='transparent'; text='Фенолфталеин в воде — БЕСЦВЕТНЫЙ'; }
+  } else if(ind==='methyl'){
+    if(env==='acid'){ color='#ff9f43'; text='Метилоранж в кислоте — РОЗОВЫЙ/КРАСНЫЙ'; }
+    else if(env==='base'){ color='#f2d024'; text='Метилоранж в щёлочи — ЖЁЛТЫЙ'; }
+    else { color='#ff9f43'; text='Метилоранж в воде — ОРАНЖЕВЫЙ'; }
+  }
+  
+  liq.style.background = color;
+  res.textContent = text;
+  res.style.color = color === 'transparent' ? 'var(--text)' : 'var(--accent-2)';
+}
 
-/* ============ КЛАВИАТУРА ============ */
-document.addEventListener('keydown',e=>{
-if($('#quiz').classList.contains('active')){const n=parseInt(e.key);if(n>=1&&n<=4&&!Q.answered){const btns=$$('#quizOptions .opt');if(btns[n-1])btns[n-1].click()}if((e.key==='Enter'||e.key===' ')&&$('#nextBtn').style.display!=='none'){e.preventDefault();nextQuestion()}}
-if($('#flash').classList.contains('active')){if(e.key==='ArrowRight')nextFlash();if(e.key==='ArrowLeft')prevFlash();if(e.key===' '){e.preventDefault();flipCard()}}});
+/* ==================== МОДАЛКА / СЛУЖЕБНОЕ ==================== */
+function openModal(html){
+  document.getElementById('modalBox').innerHTML = html + `<button class="modal-close" onclick="closeModal()">×</button>`;
+  document.getElementById('modal').classList.add('show');
+}
+function closeModal(){
+  document.getElementById('modal').classList.remove('show');
+}
+function toggleTheme(){
+  const cur = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+  document.body.dataset.theme = cur;
+}
+function resetAll(){
+  if(confirm('Сбросить все данные?')) location.reload();
+}
 
-/* ============ СТАРТ ============ */
-applySettings();
-refreshHome();
-renderStats();
+// START
+renderPeriodic();
 </script>
 </body>
   </html>
