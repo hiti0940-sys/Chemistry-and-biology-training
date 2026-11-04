@@ -216,6 +216,13 @@ nav button.active{background:linear-gradient(135deg,var(--accent),#6f4ce0);color
 .v3-info-tips li{padding:6px 0 6px 24px;position:relative;font-size:12px;line-height:1.5;border-bottom:1px solid rgba(139,107,255,.08)}
 .v3-info-tips li:last-child{border-bottom:none}
 .v3-info-tips li::before{content:'💡';position:absolute;left:0;top:6px}
+.book-card{background:var(--card);border-radius:14px;padding:16px;margin-bottom:10px;border-left:4px solid var(--accent-2);transition:all .2s;cursor:pointer}
+.book-card:hover{background:var(--card-2)}
+.book-card h3{font-size:15px;font-weight:800;margin-bottom:6px;color:var(--text)}
+.book-card p{font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:6px}
+.book-card .sub{font-size:11px;font-weight:800;color:var(--accent)}
+.orbital-btn{padding:8px 14px;background:var(--card);border:1px solid var(--accent);border-radius:10px;color:var(--text);font-weight:800;cursor:pointer;font-family:inherit;transition:all .2s}
+.orbital-btn.active{background:var(--accent);color:#fff}
 @media (max-width:500px){body{padding:12px}header h1{font-size:22px}.hero h2{font-size:22px}.q-formula{font-size:24px}.fc-formula{font-size:28px}.flashcard{height:280px}.balance-eq{font-size:16px}}
 </style>
 </head>
@@ -225,13 +232,15 @@ nav button.active{background:linear-gradient(135deg,var(--accent),#6f4ce0);color
 
 <nav id="nav">
 <button data-screen="home" class="active">🏠 Главная</button>
-<button data-screen="theory">📚 Теория</button>
-<button data-screen="flash">🃏 Карточки</button>
+<button data-screen="textbook">📖 Учебник</button>
+<button data-screen="theory">📚 Шпаргалки</button>
 <button data-screen="quiz">🎯 Тест</button>
 <button data-screen="formulas">📐 Формулы</button>
 <button data-screen="reactions">⚗️ Реакции</button>
 <button data-screen="lab">🧪 Лаборатория</button>
 <button data-screen="atom">⚛️ Атом 3D</button>
+<button data-screen="orbital3d">🌌 Орбитали 3D</button>
+<button data-screen="electrolysis3d">⚡ Электролиз 3D</button>
 <button data-screen="formulas3d">📦 Формулы 3D</button>
 <button data-screen="molecules3d">🔬 Молекулы 3D</button>
 <button data-screen="crystals3d">💎 Кристаллы 3D</button>
@@ -261,7 +270,6 @@ nav button.active{background:linear-gradient(135deg,var(--accent),#6f4ce0);color
 <button class="mode-card" onclick="startTasks()"><div class="mode-emoji">📊</div><div class="mode-title">Задачи</div><div class="mode-desc">m, n, V, w</div></button>
 <button class="mode-card" onclick="startQualitative()"><div class="mode-emoji">🔍</div><div class="mode-title">Качественные</div><div class="mode-desc">Распознай вещество</div></button>
 <button class="mode-card" onclick="startOddOne()"><div class="mode-emoji">🎲</div><div class="mode-title">Что лишнее?</div><div class="mode-desc">Разминка</div></button>
-<button class="mode-card" onclick="go('palette');renderPalette()"><div class="mode-emoji">🎨</div><div class="mode-title">Палитра</div><div class="mode-desc">Осадки по цветам</div></button>
 <button class="mode-card" onclick="startBlitz()"><div class="mode-emoji">⏱️</div><div class="mode-title">Блиц</div><div class="mode-desc">60 секунд</div></button>
 <button class="mode-card" onclick="startDuel()"><div class="mode-emoji">👥</div><div class="mode-title">Дуэль с ботом</div><div class="mode-desc">7 раундов</div></button>
 </div>
@@ -270,7 +278,18 @@ nav button.active{background:linear-gradient(135deg,var(--accent),#6f4ce0);color
 <div class="progress-map" id="progressMap"></div>
 </section>
 
+<section id="textbook" class="screen">
+<div class="section-title">📖 Учебник 8–9 класс</div>
+<p style="color:var(--muted);font-size:12px;margin-bottom:14px">Все основные темы и параграфы школьной программы с кратким конспектом.</p>
+<div class="v3-tabs" id="gradeTabs">
+<button data-g="8" class="active">8 класс</button>
+<button data-g="9">9 класс</button>
+</div>
+<div id="textbookList"></div>
+</section>
+
 <section id="theory" class="screen">
+<div class="section-title">📚 Шпаргалки</div>
 <div class="toolbar">
 <input id="theorySearch" type="text" placeholder="🔍 Поиск..." oninput="renderTheory()">
 <select id="theoryFilter" onchange="renderTheory()">
@@ -280,47 +299,9 @@ nav button.active{background:linear-gradient(135deg,var(--accent),#6f4ce0);color
 <option value="ionic">Ионные уравнения</option>
 <option value="redox">ОВР</option>
 <option value="exception">Исключения</option>
-<option value="mnemonic">🧠 Мнемоники</option>
-<option value="mistake">❌ Типичные ошибки</option>
-<option value="checklist">✅ Чек-лист ОГЭ</option>
 </select>
 </div>
 <div id="theoryList"></div>
-</section>
-
-<section id="flash" class="screen">
-<div class="flash-wrap">
-<div class="flash-top">
-<select id="flashType" onchange="startFlash(this.value)" style="background:var(--card);border:1px solid rgba(139,107,255,.15);color:var(--text);padding:5px 9px;border-radius:8px;font-size:11px;font-family:inherit">
-<option value="precipitate">Осадки</option>
-<option value="oxide">Оксиды</option>
-<option value="ionic">Ионы</option>
-<option value="redox">ОВР</option>
-<option value="exception">Исключения</option>
-<option value="mix">Микс</option>
-<option value="bookmarks">⭐ Избранное</option>
-</select>
-<span id="flashCounter">1 / 1</span>
-</div>
-<div class="progress"><div id="flashProgress"></div></div>
-<div class="flashcard" id="flashcard" onclick="flipCard()">
-<button class="bookmark-btn" id="bookmarkBtn" onclick="event.stopPropagation();toggleBookmark()">⭐</button>
-<div class="flashcard-inner">
-<div class="flashcard-face"><div class="fc-formula" id="flashFormula">—</div><div class="fc-hint" id="flashHint">Вопрос</div></div>
-<div class="flashcard-face flashcard-back">
-<div class="fc-swatch" id="flashColorSwatch" style="display:none"></div>
-<div class="fc-color" id="flashAnswer">—</div>
-<div class="fc-reaction" id="flashReaction"></div>
-<div class="fc-note" id="flashNote"></div>
-</div>
-</div>
-</div>
-<div class="flash-controls">
-<button class="btn ghost small" onclick="prevFlash()">← Назад</button>
-<button class="btn small" onclick="speakCard()">🔊 Озвучить</button>
-<button class="btn small" onclick="nextFlash()">Дальше →</button>
-</div>
-</div>
 </section>
 
 <section id="quiz" class="screen">
@@ -386,12 +367,6 @@ nav button.active{background:linear-gradient(135deg,var(--accent),#6f4ce0);color
 <div class="options" id="oddOptions"></div>
 <div class="feedback" id="oddFeedback"></div>
 <div style="text-align:center"><button class="btn" id="oddNext" style="display:none" onclick="nextOdd()">Далее →</button></div>
-</section>
-
-<section id="palette" class="screen">
-<div class="section-title">🎨 Палитра осадков</div>
-<p style="color:var(--muted);font-size:12px;margin-bottom:12px">Тапни по цвету, чтобы увидеть формулы</p>
-<div class="palette-grid" id="paletteGrid"></div>
 </section>
 
 <section id="blitz" class="screen">
@@ -465,18 +440,35 @@ nav button.active{background:linear-gradient(135deg,var(--accent),#6f4ce0);color
 <li>Побочные подгруппы (Fe, Cu, Zn) — валентность <b>переменная</b></li>
 <li>Низшая валентность = <b>8 − номер группы</b> (для неметаллов IV–VII)</li>
 </ol></div></div>
-<div class="atom-help"><div class="atom-help-title">🔢 Правила степеней окисления</div><div class="atom-help-body"><ul>
-<li>Простые вещества: <b>0</b></li>
-<li>Водород: <b>+1</b> (с металлами −1)</li>
-<li>Кислород: <b>−2</b> (в H₂O₂ −1, с F +2)</li>
-<li>Сумма всех степеней = <b>0</b></li>
-<li>Высшая степень = номер группы (для металлов)</li>
-</ul></div></div>
-<div class="atom-help"><div class="atom-help-title">📊 Электроны по слоям</div><div class="atom-help-body"><ul>
-<li><b>K</b> — макс 2 e⁻, <b>L</b> — 8 e⁻, <b>M</b> — 18 e⁻</li>
-<li>Формула: <b>2n²</b>, где n — номер слоя</li>
-<li>На внешнем слое — <b>не больше 8 e⁻</b></li>
-</ul></div></div>
+</section>
+
+<section id="orbital3d" class="screen">
+<div class="section-title">🌌 Электронные орбитали в 3D</div>
+<p style="color:var(--muted);font-size:12px;margin-bottom:10px">Крути модели пальцем. Видно форму облаков.</p>
+<div style="display:flex;gap:8px;justify-content:center;margin-bottom:12px">
+<button class="orbital-btn active" onclick="setOrbital('s',this)">s-орбиталь</button>
+<button class="orbital-btn" onclick="setOrbital('p',this)">p-орбиталь</button>
+<button class="orbital-btn" onclick="setOrbital('d',this)">d-орбиталь</button>
+</div>
+<div class="v3-stage" id="orbitalStage"><svg id="orbitalSVG" viewBox="0 0 400 400"></svg></div>
+<div id="orbitalInfo" class="v3-info">
+<div class="v3-info-title">s-орбиталь</div>
+<div class="v3-info-body">Форма — сфера. В ней помещается максимум 2 электрона. Это самая простая орбиталь, она есть у всех элементов (K-слой, L-слой и т.д.).</div>
+</div>
+</section>
+
+<section id="electrolysis3d" class="screen">
+<div class="section-title">⚡ Электролиз в 3D</div>
+<p style="color:var(--muted);font-size:12px;margin-bottom:10px">Смотри, как ионы движутся к электродам.</p>
+<div class="v3-stage" id="elecStage" style="max-width:100%;aspect-ratio:4/3"><svg id="elecSVG" viewBox="0 0 400 300"></svg></div>
+<div class="v3-info">
+<div class="v3-info-title">Принцип электролиза</div>
+<div class="v3-info-body">
+<b>Катод (—)</b>: сюда притягиваются положительные ионы (катионы, например Cu²⁺, H⁺). На катоде идёт процесс восстановления.<br><br>
+<b>Анод (+)</b>: сюда притягиваются отрицательные ионы (анионы, например Cl⁻, OH⁻). На аноде идёт процесс окисления.<br><br>
+В растворе ионы хаотично двигаются, но при подаче тока начинают упорядоченное движение.
+</div>
+</div>
 </section>
 
 <section id="formulas3d" class="screen">
@@ -544,7 +536,6 @@ nav button.active{background:linear-gradient(135deg,var(--accent),#6f4ce0);color
 <button class="btn err small" onclick="resetAll()">🗑️ Сбросить</button>
 </div>
 <input type="file" id="importFile" accept=".json" style="display:none" onchange="importProgress(event)">
-<p style="color:var(--muted);font-size:11px;margin-top:14px">💡 Чтобы работало как приложение: добавь игру на главный экран браузера</p>
 </section>
 
 <section id="result" class="screen">
@@ -567,10 +558,39 @@ nav button.active{background:linear-gradient(135deg,var(--accent),#6f4ce0);color
 
 <script>
 /* ============ ДАННЫЕ ============ */
+const TEXTBOOK=[
+{grade:8,chapters:[
+{title:"§ 1. Предмет химии. Вещества",desc:"Химия — наука о веществах, их свойствах и превращениях. Вещества бывают простые (состоят из атомов одного элемента, например O₂, Fe) и сложные (из разных элементов, например H₂O, NaCl)."},
+{title:"§ 2. Химические элементы. Знаки",desc:"Химический элемент — это вид атомов с одинаковым зарядом ядра. Знаки элементов (символы) придумал Берцелиус. Относительная атомная масса (Ar) берётся из таблицы Менделеева."},
+{title:"§ 3. Химические формулы",desc:"Формула показывает качественный и количественный состав. Например, H₂O — 2 атома водорода и 1 атом кислорода. Относительная молекулярная масса (Mr) — сумма Ar всех атомов."},
+{title:"§ 4. Валентность",desc:"Валентность — способность атома соединяться с определённым числом других атомов. У водорода всегда I, у кислорода II. Высшая валентность = номеру группы (для главных подгрупп)."},
+{title:"§ 5. Закон сохранения массы",desc:"Масса веществ, вступивших в реакцию, равна массе образовавшихся веществ. Это основа для составления химических уравнений. Число атомов каждого элемента до и после реакции должно быть одинаковым."},
+{title:"§ 6. Кислород. Горение",desc:"O₂ — газ без цвета и запаха, поддерживает горение. В лаборатории получают из H₂O₂ (кат. MnO₂) или KMnO₄. В природе — фотосинтез."},
+{title:"§ 7. Оксиды",desc:"Сложные вещества из двух элементов, один из которых кислород в степени окисления -2. Бывают основные (Na₂O, CaO), кислотные (CO₂, SO₃) и амфотерные (Al₂O₃, ZnO)."},
+{title:"§ 8. Водород",desc:"H₂ — самый лёгкий газ. В лаборатории получают реакцией цинка с соляной кислотой (Zn + 2HCl → ZnCl₂ + H₂↑). Восстановитель."},
+{title:"§ 9. Вода. Растворы",desc:"Вода — универсальный растворитель. Массовая доля растворённого вещества w = m(в-ва)/m(р-ра) × 100%. Растворы бывают насыщенные и ненасыщенные."},
+{title:"§ 10. Кислоты, основания, соли",desc:"Кислоты (HCl, H₂SO₄) реагируют с металлами, оксидами, основаниями. Основания (NaOH, Cu(OH)₂) — с кислотами и оксидами неметаллов. Соли — продукты замещения водорода металлом."},
+{title:"§ 11. Периодический закон",desc:"Свойства элементов и их соединений находятся в периодической зависимости от заряда ядра атомов. Д.И. Менделеев открыл его в 1869 году."},
+{title:"§ 12. Строение атома",desc:"Атом состоит из ядра (протоны + нейтроны) и электронной оболочки. Число протонов = номер элемента. Число нейтронов = Ar - Z. Электроны распределяются по слоям (2n²)."},
+{title:"§ 13. Химическая связь",desc:"Ковалентная (полярная и неполярная) — за счёт общих электронных пар. Ионная — между металлами и неметаллами (переход электронов). Металлическая — обобществлённые электроны."}
+]},
+{grade:9,chapters:[
+{title:"§ 1. Металлы. Положение в ПС",desc:"Металлы находятся в I–III группах, а также в побочных подгруппах. Самые активные — щелочные (Na, K) и щелочноземельные (Ca, Ba)."},
+{title:"§ 2. Химические свойства металлов",desc:"Реагируют с кислородом (оксиды), галогенами (соли), водой (щёлочи + H₂), кислотами (соль + H₂), солями менее активных металлов. Ряд активности металлов (Бекетова)."},
+{title:"§ 3. Оксиды и гидроксиды металлов",desc:"Основные оксиды (Na₂O) реагируют с кислотами и кислотными оксидами. Щёлочи (NaOH) — с кислотами, кислотными оксидами, солями. Амфотерные (Al₂O₃, Zn(OH)₂) — с кислотами и щелочами."},
+{title:"§ 4. Неметаллы. Галогены",desc:"F, Cl, Br, I. Типичные неметаллы. Активность падает от фтора к иоду. Cl₂ — жёлто-зелёный газ, Br₂ — жидкость, I₂ — твёрдый. Вытесняют друг друга из солей."},
+{title:"§ 5. Сера. Серная кислота",desc:"S — жёлтое твёрдое вещество. H₂SO₄ — сильная кислота, реагирует с металлами (кроме Au, Pt), оксидами, основаниями. Концентрированная H₂SO₄ — окислитель за счёт S⁺⁶."},
+{title:"§ 6. Азот. Аммиак. Азотная кислота",desc:"N₂ — инертный газ (тройная связь). NH₃ — газ с резким запахом, основание. HNO₃ — сильная кислота, реагирует с металлами с выделением NO, NO₂ и др."},
+{title:"§ 7. Фосфор. Удобрения",desc:"P — белый (ядовит, светится) и красный. P₂O₅ — кислотный оксид. H₃PO₄ — фосфорная кислота. Удобрения: фосфорные (Ca₃(PO₄)₂), азотные (KNO₃, NH₄NO₃)."},
+{title:"§ 8. Углерод",desc:"C — алмаз (твёрдый) и графит (мягкий). CO₂ — кислотный оксид, CO — угарный газ. H₂CO₃ — слабая кислота. Карбонаты (CaCO₃) и гидрокарбонаты."},
+{title:"§ 9. Кремний",desc:"Si — полупроводник. SiO₂ — песок, кислотный оксид. H₂SiO₃ — кремниевая кислота (нерастворима). Силикаты (Na₂SiO₃) — стекло."}
+]}
+];
+
 const PRECIPITATES=[
-{type:'precipitate',f:'AgCl',c:'белый',r:'AgNO₃ + NaCl → AgCl↓ + NaNO₃',n:'Творожистый, темнеет на свету. Растворяется в NH₃.'},
+{type:'precipitate',f:'AgCl',c:'белый',r:'AgNO₃ + NaCl → AgCl↓ + NaNO₃',n:'Творожистый, темнеет на свету.'},
 {type:'precipitate',f:'AgBr',c:'светло-жёлтый',r:'AgNO₃ + NaBr → AgBr↓ + NaNO₃',n:'Бледно-жёлтый, темнеет на свету.'},
-{type:'precipitate',f:'AgI',c:'жёлтый',r:'AgNO₃ + KI → AgI↓ + KNO₃',n:'Жёлтый, самый нерастворимый галогенид серебра.'},
+{type:'precipitate',f:'AgI',c:'жёлтый',r:'AgNO₃ + KI → AgI↓ + KNO₃',n:'Жёлтый, нерастворим.'},
 {type:'precipitate',f:'BaSO₄',c:'белый',r:'BaCl₂ + Na₂SO₄ → BaSO₄↓ + 2NaCl',n:'Кристаллический, не растворяется в кислотах.'},
 {type:'precipitate',f:'CaCO₃',c:'белый',r:'CaCl₂ + Na₂CO₃ → CaCO₃↓ + 2NaCl',n:'Растворяется в кислотах с CO₂.'},
 {type:'precipitate',f:'BaCO₃',c:'белый',r:'BaCl₂ + Na₂CO₃ → BaCO₃↓ + 2NaCl',n:'Растворяется в кислотах с CO₂.'},
@@ -585,14 +605,14 @@ const PRECIPITATES=[
 {type:'precipitate',f:'FeS',c:'чёрный',r:'FeSO₄ + Na₂S → FeS↓ + Na₂SO₄',n:'Растворяется в кислотах с H₂S.'},
 {type:'precipitate',f:'ZnS',c:'белый',r:'ZnSO₄ + Na₂S → ZnS↓ + Na₂SO₄',n:'Растворяется в разбавленных кислотах.'},
 {type:'precipitate',f:'CdS',c:'жёлтый',r:'CdSO₄ + Na₂S → CdS↓ + Na₂SO₄',n:'Ярко-жёлтый осадок.'},
-{type:'precipitate',f:'PbI₂',c:'жёлтый',r:'Pb(NO₃)₂ + 2KI → PbI₂↓ + 2KNO₃',n:'Золотисто-жёлтый, растворяется в избытке KI.'},
+{type:'precipitate',f:'PbI₂',c:'жёлтый',r:'Pb(NO₃)₂ + 2KI → PbI₂↓ + 2KNO₃',n:'Золотисто-жёлтый.'},
 {type:'precipitate',f:'Ag₂O',c:'бурый',r:'2AgNO₃ + 2NaOH → Ag₂O↓ + 2NaNO₃ + H₂O',n:'Тёмно-бурый оксид серебра.'},
 {type:'precipitate',f:'Cu₂O',c:'кирпично-красный',r:'Cu(OH)₂ + глюкоза → Cu₂O↓',n:'Качественная реакция на альдегиды.'},
-{type:'precipitate',f:'Cr(OH)₃',c:'серо-зелёный',r:'CrCl₃ + 3NaOH → Cr(OH)₃↓ + 3NaCl',n:'Амфотерный, растворяется в избытке щёлочи.'},
+{type:'precipitate',f:'Cr(OH)₃',c:'серо-зелёный',r:'CrCl₃ + 3NaOH → Cr(OH)₃↓ + 3NaCl',n:'Амфотерный.'},
 {type:'precipitate',f:'PbCrO₄',c:'жёлтый',r:'Pb(NO₃)₂ + K₂CrO₄ → PbCrO₄↓ + 2KNO₃',n:'Жёлтый пигмент «крон».'},
-{type:'precipitate',f:'Ag₂CrO₄',c:'кирпично-красный',r:'2AgNO₃ + K₂CrO₄ → Ag₂CrO₄↓ + 2KNO₃',n:'Кирпично-красный хромат серебра.'},
+{type:'precipitate',f:'Ag₂CrO₄',c:'кирпично-красный',r:'2AgNO₃ + K₂CrO₄ → Ag₂CrO₄↓ + 2KNO₃',n:'Кирпично-красный.'},
 {type:'precipitate',f:'BaCrO₄',c:'жёлтый',r:'BaCl₂ + K₂CrO₄ → BaCrO₄↓ + 2KCl',n:'Жёлтый хромат бария.'},
-{type:'precipitate',f:'CuI',c:'белый',r:'2CuSO₄ + 4KI → 2CuI↓ + I₂ + 2K₂SO₄',n:'Белый осадок, раствор буреет из-за I₂.'}
+{type:'precipitate',f:'CuI',c:'белый',r:'2CuSO₄ + 4KI → 2CuI↓ + I₂ + 2K₂SO₄',n:'Белый осадок.'}
 ];
 const OXIDES=[
 {type:'oxide',f:'Na₂O',kind:'основный',r:'Na₂O + H₂O → 2NaOH',n:'Основный оксид.'},
@@ -605,7 +625,7 @@ const OXIDES=[
 {type:'oxide',f:'P₂O₅',kind:'кислотный',r:'P₂O₅ + 3H₂O → 2H₃PO₄',n:'Кислотный оксид.'},
 {type:'oxide',f:'Al₂O₃',kind:'амфотерный',r:'Al₂O₃ + 6HCl → 2AlCl₃ + 3H₂O',n:'Амфотерный.'},
 {type:'oxide',f:'ZnO',kind:'амфотерный',r:'ZnO + 2HCl → ZnCl₂ + H₂O',n:'Амфотерный.'},
-{type:'oxide',f:'Fe₂O₃',kind:'амфотерный',r:'Fe₂O₃ + 6HCl → 2FeCl₃ + 3H₂O',n:'С преобладанием основных свойств.'}
+{type:'oxide',f:'Fe₂O₃',kind:'амфотерный',r:'Fe₂O₃ + 6HCl → 2FeCl₃ + 3H₂O',n:'С преобладанием основных.'}
 ];
 const IONIC_RULES=[
 {type:'ionic',f:'Ag⁺ + Cl⁻ → AgCl↓',c:'белый',r:'AgNO₃ + NaCl → AgCl↓ + NaNO₃',n:'Для хлорид-иона.'},
@@ -632,116 +652,7 @@ const EXCEPTIONS=[
 {type:'exception',f:'Ca(OH)₂',c:'—',r:'Ca(OH)₂ → Ca²⁺ + 2OH⁻',n:'Малорастворим, но в ионных — как ионы.'},
 {type:'exception',f:'AgCl + NH₃',c:'—',r:'AgCl + 2NH₃ → [Ag(NH₃)₂]Cl',n:'Растворяется в избытке аммиака.'},
 {type:'exception',f:'Cu(OH)₂ + глюкоза',c:'кирпично-красный',r:'Cu(OH)₂ + глюкоза → Cu₂O↓',n:'Качественная на альдегиды.'},
-{type:'exception',f:'Fe(OH)₂ на воздухе',c:'серо-зелёный → бурый',r:'4Fe(OH)₂ + O₂ + 2H₂O → 4Fe(OH)₃',n:'Осадок быстро буреет — это ОВР.'}
-];
-const MNEMONICS=[
-{type:'mnemonic',f:'Цвета осадков серебра',r:'Хлорид — белый, бромид — светло-жёлтый, иодид — жёлтый',n:'«ХБИ: Белый, Светло-жёлтый, Жёлтый».'},
-{type:'mnemonic',f:'Гидроксиды железа',r:'Fe(OH)₂ — серо-зелёный, Fe(OH)₃ — бурый',n:'«Два — зелёный, три — бурый».'},
-{type:'mnemonic',f:'Амфотерные',r:'Al, Zn, Cr, Be, Pb, Sn',n:'«АЦХБСО».'},
-{type:'mnemonic',f:'Сульфат бария',r:'BaSO₄ — белый, не растворяется в кислотах',n:'«Барий + сульфат = белый камень».'},
-{type:'mnemonic',f:'Карбонаты',r:'CaCO₃, BaCO₃ — белые, растворяются в кислотах с CO₂',n:'«Карбонат + кислота = газ».'},
-{type:'mnemonic',f:'Сульфиды',r:'CuS, PbS, FeS, Ag₂S — чёрные',n:'«Сульфид = чёрный» (кроме ZnS, CdS).'}
-];
-const MISTAKES=[
-{type:'mistake',f:'Путают серо-зелёный и бурый',r:'Fe(OH)₂ — серо-зелёный; Fe(OH)₃ — бурый',n:'«Два — зелёный, три — бурый».'},
-{type:'mistake',f:'Забывают условия реакции',r:'NH₄⁺ + OH⁻ → NH₃↑ + H₂O (при нагревании)',n:'Без нагревания газ может не выделиться.'},
-{type:'mistake',f:'Не учитывают избыток щёлочи',r:'Al(OH)₃ + NaOH (изб.) → Na[Al(OH)₄]',n:'Амфотерный осадок растворяется.'},
-{type:'mistake',f:'Пишут нерастворимые вещества как ионы',r:'CaCO₃ — НЕ диссоциирует',n:'Нерастворимые соли — целыми формулами.'},
-{type:'mistake',f:'Путают окислитель и восстановитель',r:'Окислитель принимает e⁻, восстановитель отдаёт',n:'«Окислитель — грабитель».'},
-{type:'mistake',f:'Забывают ионы-наблюдатели',r:'Na⁺, K⁺, NO₃⁻ обычно сокращаются',n:'Их вычёркивают в сокращённом ионном.'}
-];
-const CHECKLIST=[
-{id:'c1',text:'Знаю цвета всех осадков'},
-{id:'c2',text:'Умею писать сокращённые ионные уравнения'},
-{id:'c3',text:'Определяю окислитель и восстановитель'},
-{id:'c4',text:'Классифицирую оксиды'},
-{id:'c5',text:'Помню амфотерные гидроксиды'},
-{id:'c6',text:'Знаю качественные реакции на ионы'},
-{id:'c7',text:'Решаю задачи на m, n, V, w'},
-{id:'c8',text:'Помню исключения (избыток, окисление)'}
-];
-const CHAINS=[
-{start:'Cu → CuO → CuCl₂ → Cu(OH)₂',steps:[
-{q:'Чем подействовать на Cu, чтобы получить CuO?',opts:['O₂ (при нагревании)','H₂O','HCl','NaOH'],correct:'O₂ (при нагревании)',eq:'2Cu + O₂ → 2CuO'},
-{q:'Чем подействовать на CuO, чтобы получить CuCl₂?',opts:['HCl','NaCl','H₂O','O₂'],correct:'HCl',eq:'CuO + 2HCl → CuCl₂ + H₂O'},
-{q:'Чем подействовать на CuCl₂, чтобы получить Cu(OH)₂?',opts:['NaOH','HCl','H₂O','O₂'],correct:'NaOH',eq:'CuCl₂ + 2NaOH → Cu(OH)₂↓ + 2NaCl'}]},
-{start:'Fe → FeCl₃ → Fe(OH)₃ → Fe₂O₃',steps:[
-{q:'Чем подействовать на Fe, чтобы получить FeCl₃?',opts:['Cl₂ (при нагревании)','HCl (разб.)','H₂O','NaOH'],correct:'Cl₂ (при нагревании)',eq:'2Fe + 3Cl₂ → 2FeCl₃'},
-{q:'Чем подействовать на FeCl₃, чтобы получить Fe(OH)₃?',opts:['NaOH','HCl','H₂O','O₂'],correct:'NaOH',eq:'FeCl₃ + 3NaOH → Fe(OH)₃↓ + 3NaCl'},
-{q:'Как из Fe(OH)₃ получить Fe₂O₃?',opts:['Нагревание','Охлаждение','HCl','NaOH'],correct:'Нагревание',eq:'2Fe(OH)₃ → Fe₂O₃ + 3H₂O'}]},
-{start:'Al → Al₂O₃ → AlCl₃ → Al(OH)₃',steps:[
-{q:'Чем подействовать на Al, чтобы получить Al₂O₃?',opts:['O₂ (нагрев)','H₂O','HCl','NaOH'],correct:'O₂ (нагрев)',eq:'4Al + 3O₂ → 2Al₂O₃'},
-{q:'Чем подействовать на Al₂O₃, чтобы получить AlCl₃?',opts:['HCl','NaCl','H₂O','O₂'],correct:'HCl',eq:'Al₂O₃ + 6HCl → 2AlCl₃ + 3H₂O'},
-{q:'Чем подействовать на AlCl₃, чтобы получить Al(OH)₃?',opts:['NaOH (недостаток)','HCl','H₂O','O₂'],correct:'NaOH (недостаток)',eq:'AlCl₃ + 3NaOH → Al(OH)₃↓ + 3NaCl'}]},
-{start:'Na → NaOH → Na₂CO₃ → CO₂',steps:[
-{q:'Чем подействовать на Na, чтобы получить NaOH?',opts:['H₂O','HCl','CO₂','O₂'],correct:'H₂O',eq:'2Na + 2H₂O → 2NaOH + H₂↑'},
-{q:'Чем подействовать на NaOH, чтобы получить Na₂CO₃?',opts:['CO₂','HCl','H₂O','O₂'],correct:'CO₂',eq:'2NaOH + CO₂ → Na₂CO₃ + H₂O'},
-{q:'Чем подействовать на Na₂CO₃, чтобы получить CO₂?',opts:['HCl','NaOH','H₂O','O₂'],correct:'HCl',eq:'Na₂CO₃ + 2HCl → 2NaCl + H₂O + CO₂↑'}]},
-{start:'S → SO₂ → SO₃ → H₂SO₄',steps:[
-{q:'Чем подействовать на S, чтобы получить SO₂?',opts:['O₂ (нагрев)','H₂O','H₂','HCl'],correct:'O₂ (нагрев)',eq:'S + O₂ → SO₂'},
-{q:'Как из SO₂ получить SO₃?',opts:['O₂ (кат. V₂O₅)','H₂O','H₂','HCl'],correct:'O₂ (кат. V₂O₅)',eq:'2SO₂ + O₂ → 2SO₃'},
-{q:'Чем подействовать на SO₃, чтобы получить H₂SO₄?',opts:['H₂O','HCl','NaOH','O₂'],correct:'H₂O',eq:'SO₃ + H₂O → H₂SO₄'}]},
-{start:'Ca → CaO → Ca(OH)₂ → CaCO₃',steps:[
-{q:'Чем подействовать на Ca, чтобы получить CaO?',opts:['O₂ (нагрев)','H₂O','HCl','CO₂'],correct:'O₂ (нагрев)',eq:'2Ca + O₂ → 2CaO'},
-{q:'Чем подействовать на CaO, чтобы получить Ca(OH)₂?',opts:['H₂O','HCl','CO₂','NaOH'],correct:'H₂O',eq:'CaO + H₂O → Ca(OH)₂'},
-{q:'Чем подействовать на Ca(OH)₂, чтобы получить CaCO₃?',opts:['CO₂','HCl','H₂O','O₂'],correct:'CO₂',eq:'Ca(OH)₂ + CO₂ → CaCO₃↓ + H₂O'}]},
-{start:'Zn → ZnO → ZnCl₂ → Zn(OH)₂',steps:[
-{q:'Чем подействовать на Zn, чтобы получить ZnO?',opts:['O₂ (нагрев)','H₂O','HCl','NaOH'],correct:'O₂ (нагрев)',eq:'2Zn + O₂ → 2ZnO'},
-{q:'Чем подействовать на ZnO, чтобы получить ZnCl₂?',opts:['HCl','NaCl','H₂O','O₂'],correct:'HCl',eq:'ZnO + 2HCl → ZnCl₂ + H₂O'},
-{q:'Чем подействовать на ZnCl₂, чтобы получить Zn(OH)₂?',opts:['NaOH','HCl','H₂O','O₂'],correct:'NaOH',eq:'ZnCl₂ + 2NaOH → Zn(OH)₂↓ + 2NaCl'}]},
-{start:'C → CO₂ → Na₂CO₃ → CaCO₃',steps:[
-{q:'Чем подействовать на C, чтобы получить CO₂?',opts:['O₂ (нагрев)','H₂O','H₂','HCl'],correct:'O₂ (нагрев)',eq:'C + O₂ → CO₂'},
-{q:'Чем подействовать на CO₂, чтобы получить Na₂CO₃?',opts:['NaOH (избыток)','HCl','H₂O','O₂'],correct:'NaOH (избыток)',eq:'CO₂ + 2NaOH → Na₂CO₃ + H₂O'},
-{q:'Чем подействовать на Na₂CO₃, чтобы получить CaCO₃?',opts:['CaCl₂','HCl','H₂O','NaOH'],correct:'CaCl₂',eq:'Na₂CO₃ + CaCl₂ → CaCO₃↓ + 2NaCl'}]},
-{start:'Cu → CuO → CuSO₄ → Cu(OH)₂',steps:[
-{q:'Чем подействовать на Cu, чтобы получить CuO?',opts:['O₂ (нагрев)','H₂O','H₂SO₄','NaOH'],correct:'O₂ (нагрев)',eq:'2Cu + O₂ → 2CuO'},
-{q:'Чем подействовать на CuO, чтобы получить CuSO₄?',opts:['H₂SO₄','Na₂SO₄','H₂O','O₂'],correct:'H₂SO₄',eq:'CuO + H₂SO₄ → CuSO₄ + H₂O'},
-{q:'Чем подействовать на CuSO₄, чтобы получить Cu(OH)₂?',opts:['NaOH','HCl','H₂O','O₂'],correct:'NaOH',eq:'CuSO₄ + 2NaOH → Cu(OH)₂↓ + Na₂SO₄'}]},
-{start:'Fe → FeSO₄ → Fe(OH)₂ → Fe(OH)₃',steps:[
-{q:'Чем подействовать на Fe, чтобы получить FeSO₄?',opts:['H₂SO₄ (разб.)','CuSO₄','H₂O','Cl₂'],correct:'H₂SO₄ (разб.)',eq:'Fe + H₂SO₄ → FeSO₄ + H₂↑'},
-{q:'Чем подействовать на FeSO₄, чтобы получить Fe(OH)₂?',opts:['NaOH','HCl','H₂O','O₂'],correct:'NaOH',eq:'FeSO₄ + 2NaOH → Fe(OH)₂↓ + Na₂SO₄'},
-{q:'Как из Fe(OH)₂ получить Fe(OH)₃?',opts:['O₂ + H₂O','HCl','NaOH','Нагревание'],correct:'O₂ + H₂O',eq:'4Fe(OH)₂ + O₂ + 2H₂O → 4Fe(OH)₃'}]},
-{start:'Mg → MgO → MgCl₂ → Mg(OH)₂',steps:[
-{q:'Чем подействовать на Mg, чтобы получить MgO?',opts:['O₂ (нагрев)','H₂O','HCl','NaOH'],correct:'O₂ (нагрев)',eq:'2Mg + O₂ → 2MgO'},
-{q:'Чем подействовать на MgO, чтобы получить MgCl₂?',opts:['HCl','NaCl','H₂O','O₂'],correct:'HCl',eq:'MgO + 2HCl → MgCl₂ + H₂O'},
-{q:'Чем подействовать на MgCl₂, чтобы получить Mg(OH)₂?',opts:['NaOH','HCl','H₂O','O₂'],correct:'NaOH',eq:'MgCl₂ + 2NaOH → Mg(OH)₂↓ + 2NaCl'}]},
-{start:'Ba → BaO → Ba(OH)₂ → BaSO₄',steps:[
-{q:'Чем подействовать на Ba, чтобы получить BaO?',opts:['O₂ (нагрев)','H₂O','HCl','NaOH'],correct:'O₂ (нагрев)',eq:'2Ba + O₂ → 2BaO'},
-{q:'Чем подействовать на BaO, чтобы получить Ba(OH)₂?',opts:['H₂O','HCl','CO₂','NaOH'],correct:'H₂O',eq:'BaO + H₂O → Ba(OH)₂'},
-{q:'Чем подействовать на Ba(OH)₂, чтобы получить BaSO₄?',opts:['H₂SO₄','HCl','H₂O','O₂'],correct:'H₂SO₄',eq:'Ba(OH)₂ + H₂SO₄ → BaSO₄↓ + 2H₂O'}]}
-];
-const BALANCE=[
-{eq:'Fe + O₂ → Fe₂O₃',answer:'4, 3, 2',opts:['4, 3, 2','2, 3, 1','4, 2, 2','3, 2, 1'],hint:'Fe: 4, O: 6'},
-{eq:'Al + HCl → AlCl₃ + H₂',answer:'2, 6, 2, 3',opts:['2, 6, 2, 3','1, 3, 1, 2','2, 3, 2, 3','1, 6, 1, 3'],hint:'Al: 2, H: 6, Cl: 6'},
-{eq:'KClO₃ → KCl + O₂',answer:'2, 2, 3',opts:['2, 2, 3','1, 1, 2','2, 1, 3','1, 2, 3'],hint:'K: 2, Cl: 2, O: 6'},
-{eq:'H₂ + O₂ → H₂O',answer:'2, 1, 2',opts:['2, 1, 2','1, 1, 2','2, 2, 1','1, 2, 2'],hint:'H: 4, O: 2'},
-{eq:'Na + H₂O → NaOH + H₂',answer:'2, 2, 2, 1',opts:['2, 2, 2, 1','1, 1, 1, 1','2, 1, 2, 1','1, 2, 1, 2'],hint:'Na: 2, H: 4, O: 2'},
-{eq:'Fe₂O₃ + CO → Fe + CO₂',answer:'1, 3, 2, 3',opts:['1, 3, 2, 3','1, 2, 2, 3','2, 3, 4, 3','1, 3, 1, 3'],hint:'Fe: 2, O: 3, C: 3'}
-];
-const TASK_TEMPLATES=[
-{gen:()=>{const s=[{f:'H₂O',M:18},{f:'CO₂',M:44},{f:'H₂SO₄',M:98},{f:'KMnO₄',M:158},{f:'CaCO₃',M:100}];const x=s[Math.floor(Math.random()*s.length)];const ans=Math.round(16*x.f.split('O').length-1>0?16*(x.f.match(/O/g)||[]).length/x.M*100:0);const real=Math.round(16*(x.f.match(/O/g)||[]).length/x.M*100);return {q:`w(O) в ${x.f}?`,a:real,unit:'%',opts:[real,real+5,Math.max(1,real-7),real+12],expl:`M=${x.M} г/моль, w(O)=16×n/${x.M}×100%≈${real}%`};}},
-{gen:()=>{const s=[{f:'H₂O',M:18},{f:'CO₂',M:44},{f:'NaOH',M:40},{f:'NaCl',M:58.5},{f:'CaCO₃',M:100}];const x=s[Math.floor(Math.random()*s.length)];const m=[9,18,20,40,100,50,80][Math.floor(Math.random()*7)];const n=+(m/x.M).toFixed(2);return {q:`n в ${m} г ${x.f}?`,a:n,unit:'моль',opts:[n,+(n*2).toFixed(2),+(n/2).toFixed(2),+(n+1).toFixed(2)],expl:`n=m/M=${m}/${x.M}≈${n} моль`};}},
-{gen:()=>{const n=[1,2,0.5,0.25,3][Math.floor(Math.random()*5)];const v=+(n*22.4).toFixed(1);return {q:`V газа для ${n} моль (н.у.)?`,a:v,unit:'л',opts:[v,+(n*11.2).toFixed(1),+(n*44.8).toFixed(1),+(v+10).toFixed(1)],expl:`V=n×22.4=${n}×22.4=${v} л`};}},
-{gen:()=>{const s=[{f:'H₂O',M:18},{f:'CO₂',M:44},{f:'NaOH',M:40},{f:'CaCO₃',M:100}];const x=s[Math.floor(Math.random()*s.length)];const n=[1,2,0.5,3][Math.floor(Math.random()*4)];const m=+(n*x.M).toFixed(1);return {q:`m ${n} моль ${x.f}?`,a:m,unit:'г',opts:[m,+(m*2).toFixed(1),+(m/2).toFixed(1),+(m+5).toFixed(1)],expl:`m=n×M=${n}×${x.M}=${m} г`};}},
-{gen:()=>{const mSol=[100,200,150,50][Math.floor(Math.random()*4)];const mSub=[10,20,5,15][Math.floor(Math.random()*4)];const w=Math.round(mSub/mSol*100);return {q:`В ${mSol} г раствора ${mSub} г соли. w=?`,a:w,unit:'%',opts:[w,w+5,Math.max(1,w-5),w+10],expl:`w=${mSub}/${mSol}×100%=${w}%`};}}
-];
-const QUALITATIVE=[
-{q:'В трёх пробирках: NaCl, Na₂SO₄, Na₂CO₃. Чем распознать Na₂CO₃ (газ)?',opts:['HCl','AgNO₃','BaCl₂','Лакмус'],correct:'HCl',expl:'Na₂CO₃ + 2HCl → 2NaCl + H₂O + CO₂↑'},
-{q:'NaCl, NaBr, NaI — чем распознать все три?',opts:['AgNO₃','BaCl₂','HCl','NaOH'],correct:'AgNO₃',expl:'AgCl — белый, AgBr — светло-жёлтый, AgI — жёлтый.'},
-{q:'NaCl и Na₂SO₄ — как распознать Na₂SO₄?',opts:['BaCl₂','AgNO₃','HCl','NaOH'],correct:'BaCl₂',expl:'BaSO₄↓ — белый, не растворяется в кислотах.'},
-{q:'Как распознать ион аммония NH₄⁺?',opts:['NaOH (при нагревании)','HCl','BaCl₂','AgNO₃'],correct:'NaOH (при нагревании)',expl:'NH₄⁺ + OH⁻ → NH₃↑ + H₂O — запах аммиака.'},
-{q:'Как распознать Cu²⁺?',opts:['NaOH','HCl','BaCl₂','AgNO₃'],correct:'NaOH',expl:'Cu²⁺ + 2OH⁻ → Cu(OH)₂↓ (голубой).'},
-{q:'Как распознать Fe³⁺?',opts:['NaOH','HCl','BaCl₂','AgNO₃'],correct:'NaOH',expl:'Fe³⁺ + 3OH⁻ → Fe(OH)₃↓ (бурый).'}
-];
-const ODD_ONE=[
-{items:['Na₂O','CaO','CuO','CO₂'],odd:'CO₂',why:'Кислотный, остальные основные.'},
-{items:['Al(OH)₃','Zn(OH)₂','Cr(OH)₃','NaOH'],odd:'NaOH',why:'Растворимое основание (щёлочь).'},
-{items:['AgCl','BaSO₄','CaCO₃','CuS'],odd:'CuS',why:'Чёрный, остальные белые.'},
-{items:['HCl','H₂SO₄','HNO₃','NaOH'],odd:'NaOH',why:'Основание, остальные кислоты.'},
-{items:['Fe(OH)₂','Fe(OH)₃','Cu(OH)₂','NaOH'],odd:'NaOH',why:'Растворим, остальные — нерастворимые.'},
-{items:['SO₂','CO₂','P₂O₅','CaO'],odd:'CaO',why:'Основный, остальные кислотные.'},
-{items:['CuSO₄','NaCl','KNO₃','BaSO₄'],odd:'BaSO₄',why:'Нерастворим.'},
-{items:['AgNO₃','BaCl₂','NaOH','HCl'],odd:'AgNO₃',why:'Даёт осадок с Cl⁻, остальные — нет.'}
+{type:'exception',f:'Fe(OH)₂ на воздухе',c:'серо-зелёный → бурый',r:'4Fe(OH)₂ + O₂ + 2H₂O → 4Fe(OH)₃',n:'Осадок быстро буреет.'}
 ];
 const ALL_ITEMS=[...PRECIPITATES,...OXIDES,...IONIC_RULES,...REDOX,...EXCEPTIONS];
 const COLORS={'белый':'#f7f7f7','светло-жёлтый':'#f3ec8c','жёлтый':'#f2d024','голубой':'#6fc3e8','серо-зелёный':'#7d9a6e','бурый':'#7a3b1c','чёрный':'#1a1a1a','кирпично-красный':'#b83a1e','красный':'#e63b2e','—':'#777'};
@@ -757,18 +668,15 @@ const REACTIONS_LIB=[
 {t:'exchange',eq:'Pb(NO₃)₂ + 2KI → PbI₂↓ + 2KNO₃',n:'Золотисто-жёлтый'},
 {t:'exchange',eq:'CuSO₄ + Na₂S → CuS↓ + Na₂SO₄',n:'Чёрный'},
 {t:'exchange',eq:'Pb(NO₃)₂ + K₂CrO₄ → PbCrO₄↓ + 2KNO₃',n:'Жёлтый'},
-{t:'exchange',eq:'2AgNO₃ + K₂CrO₄ → Ag₂CrO₄↓ + 2KNO₃',n:'Кирпично-красный'},
 {t:'gas',eq:'2HCl + Na₂CO₃ → 2NaCl + H₂O + CO₂↑',n:'Шипение'},
 {t:'gas',eq:'2HCl + Na₂S → 2NaCl + H₂S↑',n:'Запах тухлых яиц'},
 {t:'gas',eq:'NH₄Cl + NaOH → NaCl + NH₃↑ + H₂O',n:'Запах аммиака'},
 {t:'gas',eq:'CaCO₃ + 2HCl → CaCl₂ + H₂O + CO₂↑',n:'Растворение мела'},
 {t:'neutral',eq:'HCl + NaOH → NaCl + H₂O',n:'Без видимых изменений'},
 {t:'neutral',eq:'H₂SO₄ + 2KOH → K₂SO₄ + 2H₂O',n:'С выделением тепла'},
-{t:'neutral',eq:'HNO₃ + KOH → KNO₃ + H₂O',n:'Нейтрализация'},
 {t:'redox',eq:'2Na + Cl₂ → 2NaCl',n:'Cl₂ окислитель, Na восстановитель'},
 {t:'redox',eq:'Fe + CuSO₄ → FeSO₄ + Cu',n:'Железо вытесняет медь'},
 {t:'redox',eq:'Zn + 2HCl → ZnCl₂ + H₂↑',n:'Восстановление водорода'},
-{t:'redox',eq:'CuO + H₂ → Cu + H₂O',n:'Восстановление меди'},
 {t:'redox',eq:'2H₂ + O₂ → 2H₂O',n:'Классическое ОВР'},
 {t:'redox',eq:'Cl₂ + 2NaOH → NaCl + NaClO + H₂O',n:'Диспропорционирование'},
 {t:'decomp',eq:'2H₂O₂ → 2H₂O + O₂↑ (кат. MnO₂)',n:'Разложение H₂O₂'},
@@ -788,38 +696,11 @@ const REACTIONS_LIB=[
 {t:'ampho',eq:'ZnO + 2NaOH → Na₂ZnO₂ + H₂O',n:'Со щёлочью'}
 ];
 const FORMULAS=[
-{title:'Количество вещества (n)',formula:'n = m / M',symbols:[['n','моль'],['m','масса, г'],['M','молярная масса, г/моль']],
-explain:'Показывает «сколько порций» вещества. 1 моль = 6.02×10²³ частиц. M численно равна Mr.',
-example:'Сколько моль в 36 г H₂O?\n1) M(H₂O) = 2+16 = 18 г/моль\n2) n = 36/18 = 2 моль',
-tips:'m = n·M, M = m/n. «Треугольник» m/n·M.'},
-{title:'Масса (m)',formula:'m = n · M',symbols:[['m','г'],['n','моль'],['M','г/моль']],
-explain:'Масса = количество × молярная масса.',
-example:'Масса 0.5 моль CO₂?\nM(CO₂)=44; m=0.5×44=22 г',
-tips:'Не путай m и M.'},
-{title:'Объём газа (V)',formula:'V = n · Vm',symbols:[['V','л'],['n','моль'],['Vm','22.4 л/моль']],
-explain:'Только для газов при н.у.! 1 моль любого газа = 22.4 л.',
-example:'V(2 моль CO₂) = 2×22.4 = 44.8 л',
-tips:'Видишь «газ» и «н.у.» — вспоминай 22.4.'},
-{title:'Массовая доля (w)',formula:'w = m(в-ва)/m(р-ра) × 100%',symbols:[['w','%'],['m(в-ва)','г'],['m(р-ра)','г']],
-explain:'Сколько грамм вещества в 100 г раствора. m(р-ра) = m(в-ва)+m(воды).',
-example:'50 г соли в 200 г воды:\nm(р-ра)=250; w=50/250×100%=20%',
-tips:'5% раствор = 5 г на 100 г. Обратно: m(в-ва)=w·m(р-ра)/100.'},
-{title:'Плотность (ρ)',formula:'ρ = m / V',symbols:[['ρ','г/мл'],['m','г'],['V','мл']],
-explain:'У воды 1 г/мл, 1 л = 1000 г.',
-example:'V(200 г Hg, ρ=13.6) = 200/13.6 ≈ 14.7 мл',
-tips:'m=ρV, V=m/ρ.'},
-{title:'Число частиц (N)',formula:'N = n · Nᴀ',symbols:[['N','частиц'],['n','моль'],['Nᴀ','6.02×10²³']],
-explain:'Nᴀ — постоянная Авогадро.',
-example:'N(3 моль) = 3×6.02×10²³ = 1.806×10²⁴',
-tips:'n = N/Nᴀ.'},
-{title:'Разбавление',formula:'m₁w₁ + m₂w₂ = m₃w₃',symbols:[['m','масса раствора'],['w','доля']],
-explain:'При смешивании масса вещества сохраняется. Чистая вода: w=0. Чистое вещество: w=100%.',
-example:'200г×10% + 300г×20% = 500г×w\n20+60=80 г → w=16%',
-tips:'Правило креста (конверт Пирсона) — быстрый способ.'},
-{title:'Молярная концентрация',formula:'Cм = n / V',symbols:[['Cм','моль/л'],['n','моль'],['V','л']],
-explain:'Моль на литр раствора. Не путать с массовой долей!',
-example:'0.5 моль в 2 л: Cм = 0.5/2 = 0.25 моль/л',
-tips:'m = Cм·V·M.'}
+{title:'Количество вещества (n)',formula:'n = m / M',symbols:[['n','моль'],['m','масса, г'],['M','молярная масса, г/моль']],explain:'Показывает «сколько порций» вещества. 1 моль = 6.02×10²³ частиц. M численно равна Mr.',example:'Сколько моль в 36 г H₂O?\n1) M(H₂O) = 2+16 = 18 г/моль\n2) n = 36/18 = 2 моль',tips:'m = n·M, M = m/n. «Треугольник» m/n·M.'},
+{title:'Масса (m)',formula:'m = n · M',symbols:[['m','г'],['n','моль'],['M','г/моль']],explain:'Масса = количество × молярная масса.',example:'Масса 0.5 моль CO₂?\nM(CO₂)=44; m=0.5×44=22 г',tips:'Не путай m и M.'},
+{title:'Объём газа (V)',formula:'V = n · Vm',symbols:[['V','л'],['n','моль'],['Vm','22.4 л/моль']],explain:'Только для газов при н.у.! 1 моль любого газа = 22.4 л.',example:'V(2 моль CO₂) = 2×22.4 = 44.8 л',tips:'Видишь «газ» и «н.у.» — вспоминай 22.4.'},
+{title:'Массовая доля (w)',formula:'w = m(в-ва)/m(р-ра) × 100%',symbols:[['w','%'],['m(в-ва)','г'],['m(р-ра)','г']],explain:'Сколько грамм вещества в 100 г раствора. m(р-ра) = m(в-ва)+m(воды).',example:'50 г соли в 200 г воды:\nm(р-ра)=250; w=50/250×100%=20%',tips:'5% раствор = 5 г на 100 г.'},
+{title:'Число частиц (N)',formula:'N = n · Nᴀ',symbols:[['N','частиц'],['n','моль'],['Nᴀ','6.02×10²³']],explain:'Nᴀ — постоянная Авогадро.',example:'N(3 моль) = 3×6.02×10²³ = 1.806×10²⁴',tips:'n = N/Nᴀ.'}
 ];
 const LAB_SOLUTIONS=[
 {n:'AgNO₃',c:'Ag⁺',a:'NO₃⁻',col:'#f3f3f3'},{n:'BaCl₂',c:'Ba²⁺',a:'Cl⁻',col:'#f3f3f3'},
@@ -868,15 +749,15 @@ const LAB_RULES={
 'H⁺_S²⁻':{t:'g',f:'H₂S',eq:'2H⁺ + S²⁻ → H₂S↑',note:'Запах тухлых яиц'},
 'H⁺_OH⁻':{t:'n',eq:'H⁺ + OH⁻ → H₂O',note:'Без видимых изменений, но тепло'},
 'NH₄⁺_OH⁻':{t:'g',f:'NH₃',eq:'NH₄⁺ + OH⁻ → NH₃↑ + H₂O',note:'При нагревании, запах аммиака'}
-];
+};
 const ELEMENTS=[
-{sym:'H',name:'Водород',Z:1,mass:1,n:0,shells:[1],config:'1s¹',period:1,group:'IA',valence:'I',ox:'+1, −1',tips:['Единственный без нейтронов (протий)','Может быть окислителем и восстановителем','Один валентный e⁻ — валентность I'],fact:'Самый распространённый во Вселенной.'},
-{sym:'He',name:'Гелий',Z:2,mass:4,n:2,shells:[2],config:'1s²',period:1,group:'VIIIA',valence:'0',ox:'0',tips:['Завершённый слой (2 e⁻)','Валентность 0','Инертный газ'],fact:'Открыт на Солнце раньше, чем на Земле.'},
-{sym:'Li',name:'Литий',Z:3,mass:7,n:4,shells:[2,1],config:'1s² 2s¹',period:2,group:'IA',valence:'I',ox:'+1',tips:['Щелочной металл','1 e⁻ → +1','Валентность = номер группы'],fact:'Самый лёгкий металл, хранят в вазелине.'},
-{sym:'C',name:'Углерод',Z:6,mass:12,n:6,shells:[2,4],config:'1s² 2s² 2p²',period:2,group:'IVA',valence:'IV',ox:'−4, +2, +4',tips:['4 внешних e⁻ → IV','И восстановитель, и окислитель','Алмаз и графит — аллотропы'],fact:'Основа органики.'},
-{sym:'N',name:'Азот',Z:7,mass:14,n:7,shells:[2,5],config:'1s² 2s² 2p³',period:2,group:'VA',valence:'III',ox:'−3, +3, +5',tips:['5 e⁻ → 3 неспаренных','Валентность III','−3 в NH₃, +5 в HNO₃'],fact:'78% воздуха, N₂ очень прочен.'},
-{sym:'O',name:'Кислород',Z:8,mass:16,n:8,shells:[2,6],config:'1s² 2s² 2p⁴',period:2,group:'VIA',valence:'II',ox:'−2',tips:['ВСЕГДА валентность II (исключение!)','Степень −2 почти всегда','В H₂O₂ −1, с F +2'],fact:'47% земной коры.'},
-{sym:'F',name:'Фтор',Z:9,mass:19,n:10,shells:[2,7],config:'1s² 2s² 2p⁵',period:2,group:'VIIA',valence:'I',ox:'−1',tips:['ВСЕГДА валентность I (исключение!)','Самый электроотрицательный','Только −1 степень'],fact:'Самый активный неметалл.'},
+{sym:'H',name:'Водород',Z:1,mass:1,n:0,shells:[1],config:'1s¹',period:1,group:'IA',valence:'I',ox:'+1, −1',tips:['Единственный без нейтронов','Может быть окислителем и восстановителем','Один валентный e⁻'],fact:'Самый распространённый во Вселенной.'},
+{sym:'He',name:'Гелий',Z:2,mass:4,n:2,shells:[2],config:'1s²',period:1,group:'VIIIA',valence:'0',ox:'0',tips:['Завершённый слой','Валентность 0','Инертный газ'],fact:'Открыт на Солнце раньше, чем на Земле.'},
+{sym:'Li',name:'Литий',Z:3,mass:7,n:4,shells:[2,1],config:'1s² 2s¹',period:2,group:'IA',valence:'I',ox:'+1',tips:['Щелочной металл','1 e⁻ → +1','Валентность = номер группы'],fact:'Самый лёгкий металл.'},
+{sym:'C',name:'Углерод',Z:6,mass:12,n:6,shells:[2,4],config:'1s² 2s² 2p²',period:2,group:'IVA',valence:'IV',ox:'−4, +2, +4',tips:['4 внешних e⁻ → IV','И восстановитель, и окислитель','Алмаз и графит'],fact:'Основа органики.'},
+{sym:'N',name:'Азот',Z:7,mass:14,n:7,shells:[2,5],config:'1s² 2s² 2p³',period:2,group:'VA',valence:'III',ox:'−3, +3, +5',tips:['5 e⁻ → 3 неспаренных','Валентность III','−3 в NH₃, +5 в HNO₃'],fact:'78% воздуха.'},
+{sym:'O',name:'Кислород',Z:8,mass:16,n:8,shells:[2,6],config:'1s² 2s² 2p⁴',period:2,group:'VIA',valence:'II',ox:'−2',tips:['ВСЕГДА валентность II','Степень −2 почти всегда','В H₂O₂ −1'],fact:'47% земной коры.'},
+{sym:'F',name:'Фтор',Z:9,mass:19,n:10,shells:[2,7],config:'1s² 2s² 2p⁵',period:2,group:'VIIA',valence:'I',ox:'−1',tips:['ВСЕГДА валентность I','Самый электроотрицательный','Только −1 степень'],fact:'Самый активный неметалл.'},
 {sym:'Na',name:'Натрий',Z:11,mass:23,n:12,shells:[2,8,1],config:'[Ne] 3s¹',period:3,group:'IA',valence:'I',ox:'+1',tips:['1 e⁻ → +1','Щелочной, очень активный','С водой → H₂↑'],fact:'Хранят под керосином.'},
 {sym:'Mg',name:'Магний',Z:12,mass:24,n:12,shells:[2,8,2],config:'[Ne] 3s²',period:3,group:'IIA',valence:'II',ox:'+2',tips:['2 e⁻ → II','Валентность = номер группы','В хлорофилле'],fact:'Горит белым пламенем.'},
 {sym:'Al',name:'Алюминий',Z:13,mass:27,n:14,shells:[2,8,3],config:'[Ne] 3s² 3p¹',period:3,group:'IIIA',valence:'III',ox:'+3',tips:['3 e⁻ → III','Амфотерный','Оксидная плёнка защищает'],fact:'Самый распростр. металл.'},
@@ -894,30 +775,45 @@ const ELEMENTS=[
 {sym:'I',name:'Иод',Z:53,mass:127,n:74,shells:[2,8,18,18,7],config:'[Kr] 4d¹⁰ 5s² 5p⁵',period:5,group:'VIIA',valence:'I, III, V, VII',ox:'−1, +1, +3, +5, +7',tips:['7 e⁻ как у галогенов','Твёрдый, металл. блеск','Возгоняется'],fact:'Нужен для щитовидки.'},
 {sym:'Ba',name:'Барий',Z:56,mass:137,n:81,shells:[2,8,18,18,8,2],config:'[Xe] 6s²',period:6,group:'IIA',valence:'II',ox:'+2',tips:['2 e⁻ → II','BaSO₄ белый, не раств.','Качеств. на SO₄²⁻'],fact:'«Тяжёлый» (греч.).'}
 ];
-const FORMULA_SCENES={
-mass:{title:'m = n · M',desc:'Масса = количество × молярная масса',body:'«Порции» (n) умножаются на массу одной порции (M). Крупные частицы = большая M.',tips:['m=nM ↔ n=m/M ↔ M=m/n','M(H₂O)=18, M(CO₂)=44','Треугольник m/n·M']},
-volume:{title:'V = n · Vm',desc:'Объём газа = n × 22.4 л/моль',body:'При н.у. 1 моль газа = 22.4 л. Куб с газовыми частицами — молярный объём.',tips:['Vm=22.4 только для газов и н.у.','1 моль O₂ = 32 г, но 22.4 л','Для жидкостей Vm не работает']},
-particles:{title:'N = n · Nᴀ',desc:'Число частиц = n × 6.02×10²³',body:'Один моль = 6.02×10²³ частиц. Огромное число — как «дюжина» для атомов.',tips:['Nᴀ=6.02×10²³ — Авогадро','n=N/Nᴀ','Nₐ, N_A — то же самое']},
-fraction:{title:'w = m₁/m₂ × 100%',desc:'Массовая доля',body:'Куб — раствор. Голубые (вода) и жёлтые (вещество) точки. w — доля вещества.',tips:['m(р-ра) = m(в-ва)+m(воды)','5% = 5 г в 100 г раствора','В долях: 0.05 = 5%']}
-};
-const ATOM_STYLE={H:{color:'#f0f0f0',radius:14,label:'H'},C:{color:'#3a3a3a',radius:22,label:'C'},N:{color:'#3050e0',radius:22,label:'N'},O:{color:'#e63b2e',radius:21,label:'O'},Cl:{color:'#3dc44e',radius:27,label:'Cl'},S:{color:'#f2d024',radius:26,label:'S'}};
-const MOLECULES={
-H2O:{atoms:[{el:'O',x:0,y:0,z:0},{el:'H',x:-55,y:-55,z:0},{el:'H',x:55,y:-55,z:0}],bonds:[[0,1],[0,2]],info:{title:'Вода H₂O',body:'Угловая, угол ≈104.5°.',tips:['104.5°','Полярная','Водородные связи','O II, H I']}},
-CO2:{atoms:[{el:'C',x:0,y:0,z:0},{el:'O',x:-85,y:0,z:0},{el:'O',x:85,y:0,z:0}],bonds:[[0,1],[0,2]],info:{title:'CO₂',body:'Линейная, 180°.',tips:['180°','Две C=O','Неполярная','C IV']}},
-NH3:{atoms:[{el:'N',x:0,y:0,z:0},{el:'H',x:-70,y:40,z:0},{el:'H',x:70,y:40,z:0},{el:'H',x:0,y:0,z:-70}],bonds:[[0,1],[0,2],[0,3]],info:{title:'NH₃',body:'Пирамидальная.',tips:['Пирамида','≈107°','Неподелённая пара','NH₄⁺']}},
-CH4:{atoms:[{el:'C',x:0,y:0,z:0},{el:'H',x:60,y:60,z:60},{el:'H',x:60,y:-60,z:-60},{el:'H',x:-60,y:60,z:-60},{el:'H',x:-60,y:-60,z:60}],bonds:[[0,1],[0,2],[0,3],[0,4]],info:{title:'CH₄',body:'Тетраэдр, 109.5°.',tips:['109.5°','Одинарные C–H','sp³','Природный газ']}},
-HCl:{atoms:[{el:'H',x:-55,y:0,z:0},{el:'Cl',x:55,y:0,z:0}],bonds:[[0,1]],info:{title:'HCl',body:'Линейная полярная.',tips:['Линейная','Сильная кислота','Cl⁻ + Ag⁺','H I, Cl I']}},
-O2:{atoms:[{el:'O',x:-55,y:0,z:0},{el:'O',x:55,y:0,z:0}],bonds:[[0,1]],info:{title:'O₂',body:'Двойная O=O.',tips:['O=O','21% воздуха','Горение','O⁰']}},
-N2:{atoms:[{el:'N',x:-55,y:0,z:0},{el:'N',x:55,y:0,z:0}],bonds:[[0,1]],info:{title:'N₂',body:'Тройная N≡N.',tips:['N≡N','78%','Прочная','N⁰']}},
-SO2:{atoms:[{el:'S',x:0,y:0,z:0},{el:'O',x:-70,y:-45,z:0},{el:'O',x:70,y:-45,z:0}],bonds:[[0,1],[0,2]],info:{title:'SO₂',body:'Угловая, кислотный оксид.',tips:['≈119°','Кислотный','H₂SO₃','S +4']}},
-C6H6:{atoms:[...Array.from({length:6},(_,i)=>{const a=i*Math.PI/3;return{el:'C',x:Math.cos(a)*70,y:Math.sin(a)*70,z:0}}),...Array.from({length:6},(_,i)=>{const a=i*Math.PI/3;return{el:'H',x:Math.cos(a)*115,y:Math.sin(a)*115,z:0}})],bonds:[[0,1],[1,2],[2,3],[3,4],[4,5],[5,0],[0,6],[1,7],[2,8],[3,9],[4,10],[5,11]],info:{title:'C₆H₆',body:'Плоское кольцо.',tips:['Плоское','Ароматическая','120°','6C+6H']}}
-};
-const CRYSTALS={
-nacl:{make:()=>{const atoms=[],bonds=[];const N=2,step=60;for(let x=-N;x<=N;x++)for(let y=-N;y<=N;y++)for(let z=-N;z<=N;z++){if(Math.abs(x)+Math.abs(y)+Math.abs(z)>N+1)continue;const isNa=(x+y+z)%2===0;atoms.push({el:isNa?'Na':'Cl',x:x*step,y:y*step,z:z*step,color:isNa?'#8b6bff':'#3dc44e',radius:isNa?12:16,label:isNa?'Na⁺':'Cl⁻'})}return{atoms,bonds,info:{title:'NaCl',body:'Ионы Na⁺ и Cl⁻ в кубической решётке.',tips:['Чередование','Кубическая','Ионная связь','Проводит в растворе']}}}},
-diamond:{make:()=>{const atoms=[{el:'C',x:0,y:0,z:0,color:'#a8f0ff',radius:18,label:'C'}];const dirs=[[1,1,1],[1,-1,-1],[-1,1,-1],[-1,-1,1]];dirs.forEach(([dx,dy,dz])=>atoms.push({el:'C',x:dx*70,y:dy*70,z:dz*70,color:'#a8f0ff',radius:16,label:'C'}));const bonds=[[0,1],[0,2],[0,3],[0,4]];return{atoms,bonds,info:{title:'Алмаз',body:'sp³, тетраэдр, самый твёрдый.',tips:['sp³','Тетраэдр','Самый твёрдый','Не проводит ток']}}}},
-graphite:{make:()=>{const atoms=[],bonds=[];for(let layer=0;layer<2;layer++){const z=(layer-0.5)*80;for(let i=0;i<6;i++){const a=i*Math.PI/3;atoms.push({el:'C',x:Math.cos(a)*55,y:Math.sin(a)*55,z,color:'#c8a8ff',radius:14,label:'C'})}for(let i=0;i<6;i++)bonds.push([layer*6+i,layer*6+(i+1)%6])}return{atoms,bonds,info:{title:'Графит',body:'Слои из шестиугольников.',tips:['sp²','Плоские слои','Легко расслаивается','Проводит вдоль слоя']}}}},
-metal:{make:()=>{const atoms=[],bonds=[];const N=2,step=55;for(let x=-N;x<=N;x++)for(let y=-N;y<=N;y++)for(let z=-N;z<=N;z++){if(Math.abs(x)+Math.abs(y)+Math.abs(z)>N+1)continue;atoms.push({el:'M',x:x*step,y:y*step,z:z*step,color:'#f2d024',radius:13,label:''})}return{atoms,bonds,info:{title:'Металл',body:'Металлическая решётка.',tips:['Свободные e⁻','Проводит ток','Ковкость','Металл. связь']}}}}
-};
+const TASK_TEMPLATES=[
+{gen:()=>{const s=[{f:'H₂O',M:18,O:16},{f:'CO₂',M:44,O:32},{f:'H₂SO₄',M:98,O:64},{f:'KMnO₄',M:158,O:64},{f:'CaCO₃',M:100,O:48}];const x=s[Math.floor(Math.random()*s.length)];const real=Math.round(x.O/x.M*100);return {q:`w(O) в ${x.f}?`,a:real,unit:'%',opts:[real,real+5,Math.max(1,real-7),real+12],expl:`M=${x.M} г/моль, w(O)=${x.O}/${x.M}×100%≈${real}%`};}},
+{gen:()=>{const s=[{f:'H₂O',M:18},{f:'CO₂',M:44},{f:'NaOH',M:40},{f:'NaCl',M:58.5},{f:'CaCO₃',M:100}];const x=s[Math.floor(Math.random()*s.length)];const m=[9,18,20,40,100,50,80][Math.floor(Math.random()*7)];const n=+(m/x.M).toFixed(2);return {q:`n в ${m} г ${x.f}?`,a:n,unit:'моль',opts:[n,+(n*2).toFixed(2),+(n/2).toFixed(2),+(n+1).toFixed(2)],expl:`n=m/M=${m}/${x.M}≈${n} моль`};}},
+{gen:()=>{const n=[1,2,0.5,0.25,3][Math.floor(Math.random()*5)];const v=+(n*22.4).toFixed(1);return {q:`V газа для ${n} моль (н.у.)?`,a:v,unit:'л',opts:[v,+(n*11.2).toFixed(1),+(n*44.8).toFixed(1),+(v+10).toFixed(1)],expl:`V=n×22.4=${n}×22.4=${v} л`};}},
+{gen:()=>{const s=[{f:'H₂O',M:18},{f:'CO₂',M:44},{f:'NaOH',M:40},{f:'CaCO₃',M:100}];const x=s[Math.floor(Math.random()*s.length)];const n=[1,2,0.5,3][Math.floor(Math.random()*4)];const m=+(n*x.M).toFixed(1);return {q:`m ${n} моль ${x.f}?`,a:m,unit:'г',opts:[m,+(m*2).toFixed(1),+(m/2).toFixed(1),+(m+5).toFixed(1)],expl:`m=n×M=${n}×${x.M}=${m} г`};}},
+{gen:()=>{const mSol=[100,200,150,50][Math.floor(Math.random()*4)];const mSub=[10,20,5,15][Math.floor(Math.random()*4)];const w=Math.round(mSub/mSol*100);return {q:`В ${mSol} г раствора ${mSub} г соли. w=?`,a:w,unit:'%',opts:[w,w+5,Math.max(1,w-5),w+10],expl:`w=${mSub}/${mSol}×100%=${w}%`};}}
+];
+const QUALITATIVE=[
+{q:'В трёх пробирках: NaCl, Na₂SO₄, Na₂CO₃. Чем распознать Na₂CO₃ (газ)?',opts:['HCl','AgNO₃','BaCl₂','Лакмус'],correct:'HCl',expl:'Na₂CO₃ + 2HCl → 2NaCl + H₂O + CO₂↑'},
+{q:'NaCl, NaBr, NaI — чем распознать все три?',opts:['AgNO₃','BaCl₂','HCl','NaOH'],correct:'AgNO₃',expl:'AgCl — белый, AgBr — светло-жёлтый, AgI — жёлтый.'},
+{q:'NaCl и Na₂SO₄ — как распознать Na₂SO₄?',opts:['BaCl₂','AgNO₃','HCl','NaOH'],correct:'BaCl₂',expl:'BaSO₄↓ — белый, не растворяется в кислотах.'},
+{q:'Как распознать ион аммония NH₄⁺?',opts:['NaOH (при нагревании)','HCl','BaCl₂','AgNO₃'],correct:'NaOH (при нагревании)',expl:'NH₄⁺ + OH⁻ → NH₃↑ + H₂O — запах аммиака.'},
+{q:'Как распознать Cu²⁺?',opts:['NaOH','HCl','BaCl₂','AgNO₃'],correct:'NaOH',expl:'Cu²⁺ + 2OH⁻ → Cu(OH)₂↓ (голубой).'},
+{q:'Как распознать Fe³⁺?',opts:['NaOH','HCl','BaCl₂','AgNO₃'],correct:'NaOH',expl:'Fe³⁺ + 3OH⁻ → Fe(OH)₃↓ (бурый).'}
+];
+const ODD_ONE=[
+{items:['Na₂O','CaO','CuO','CO₂'],odd:'CO₂',why:'Кислотный, остальные основные.'},
+{items:['Al(OH)₃','Zn(OH)₂','Cr(OH)₃','NaOH'],odd:'NaOH',why:'Растворимое основание (щёлочь).'},
+{items:['AgCl','BaSO₄','CaCO₃','CuS'],odd:'CuS',why:'Чёрный, остальные белые.'},
+{items:['HCl','H₂SO₄','HNO₃','NaOH'],odd:'NaOH',why:'Основание, остальные кислоты.'},
+{items:['Fe(OH)₂','Fe(OH)₃','Cu(OH)₂','NaOH'],odd:'NaOH',why:'Растворим, остальные — нерастворимые.'},
+{items:['SO₂','CO₂','P₂O₅','CaO'],odd:'CaO',why:'Основный, остальные кислотные.'},
+{items:['CuSO₄','NaCl','KNO₃','BaSO₄'],odd:'BaSO₄',why:'Нерастворим.'},
+{items:['AgNO₃','BaCl₂','NaOH','HCl'],odd:'AgNO₃',why:'Даёт осадок с Cl⁻, остальные — нет.'}
+];
+const CHAINS=[
+{start:'Cu → CuO → CuCl₂ → Cu(OH)₂',steps:[{q:'Чем подействовать на Cu, чтобы получить CuO?',opts:['O₂ (при нагревании)','H₂O','HCl','NaOH'],correct:'O₂ (при нагревании)',eq:'2Cu + O₂ → 2CuO'},{q:'Чем подействовать на CuO, чтобы получить CuCl₂?',opts:['HCl','NaCl','H₂O','O₂'],correct:'HCl',eq:'CuO + 2HCl → CuCl₂ + H₂O'},{q:'Чем подействовать на CuCl₂, чтобы получить Cu(OH)₂?',opts:['NaOH','HCl','H₂O','O₂'],correct:'NaOH',eq:'CuCl₂ + 2NaOH → Cu(OH)₂↓ + 2NaCl'}]},
+{start:'Fe → FeCl₃ → Fe(OH)₃ → Fe₂O₃',steps:[{q:'Чем подействовать на Fe, чтобы получить FeCl₃?',opts:['Cl₂ (при нагревании)','HCl (разб.)','H₂O','NaOH'],correct:'Cl₂ (при нагревании)',eq:'2Fe + 3Cl₂ → 2FeCl₃'},{q:'Чем подействовать на FeCl₃, чтобы получить Fe(OH)₃?',opts:['NaOH','HCl','H₂O','O₂'],correct:'NaOH',eq:'FeCl₃ + 3NaOH → Fe(OH)₃↓ + 3NaCl'},{q:'Как из Fe(OH)₃ получить Fe₂O₃?',opts:['Нагревание','Охлаждение','HCl','NaOH'],correct:'Нагревание',eq:'2Fe(OH)₃ → Fe₂O₃ + 3H₂O'}]},
+{start:'Al → Al₂O₃ → AlCl₃ → Al(OH)₃',steps:[{q:'Чем подействовать на Al, чтобы получить Al₂O₃?',opts:['O₂ (нагрев)','H₂O','HCl','NaOH'],correct:'O₂ (нагрев)',eq:'4Al + 3O₂ → 2Al₂O₃'},{q:'Чем подействовать на Al₂O₃, чтобы получить AlCl₃?',opts:['HCl','NaCl','H₂O','O₂'],correct:'HCl',eq:'Al₂O₃ + 6HCl → 2AlCl₃ + 3H₂O'},{q:'Чем подействовать на AlCl₃, чтобы получить Al(OH)₃?',opts:['NaOH (недостаток)','HCl','H₂O','O₂'],correct:'NaOH (недостаток)',eq:'AlCl₃ + 3NaOH → Al(OH)₃↓ + 3NaCl'}]},
+{start:'Na → NaOH → Na₂CO₃ → CO₂',steps:[{q:'Чем подействовать на Na, чтобы получить NaOH?',opts:['H₂O','HCl','CO₂','O₂'],correct:'H₂O',eq:'2Na + 2H₂O → 2NaOH + H₂↑'},{q:'Чем подействовать на NaOH, чтобы получить Na₂CO₃?',opts:['CO₂','HCl','H₂O','O₂'],correct:'CO₂',eq:'2NaOH + CO₂ → Na₂CO₃ + H₂O'},{q:'Чем подействовать на Na₂CO₃, чтобы получить CO₂?',opts:['HCl','NaOH','H₂O','O₂'],correct:'HCl',eq:'Na₂CO₃ + 2HCl → 2NaCl + H₂O + CO₂↑'}]}
+];
+const BALANCE=[
+{eq:'Fe + O₂ → Fe₂O₃',answer:'4, 3, 2',opts:['4, 3, 2','2, 3, 1','4, 2, 2','3, 2, 1'],hint:'Fe: 4, O: 6'},
+{eq:'Al + HCl → AlCl₃ + H₂',answer:'2, 6, 2, 3',opts:['2, 6, 2, 3','1, 3, 1, 2','2, 3, 2, 3','1, 6, 1, 3'],hint:'Al: 2, H: 6, Cl: 6'},
+{eq:'KClO₃ → KCl + O₂',answer:'2, 2, 3',opts:['2, 2, 3','1, 1, 2','2, 1, 3','1, 2, 3'],hint:'K: 2, Cl: 2, O: 6'},
+{eq:'H₂ + O₂ → H₂O',answer:'2, 1, 2',opts:['2, 1, 2','1, 1, 2','2, 2, 1','1, 2, 2'],hint:'H: 4, O: 2'},
+{eq:'Na + H₂O → NaOH + H₂',answer:'2, 2, 2, 1',opts:['2, 2, 2, 1','1, 1, 1, 1','2, 1, 2, 1','1, 2, 1, 2'],hint:'Na: 2, H: 4, O: 2'},
+{eq:'Fe₂O₃ + CO → Fe + CO₂',answer:'1, 3, 2, 3',opts:['1, 3, 2, 3','1, 2, 2, 3','2, 3, 4, 3','1, 3, 1, 3'],hint:'Fe: 2, O: 3, C: 3'}
+];
 
 /* ============ УТИЛИТЫ ============ */
 const $=s=>document.querySelector(s);const $$=s=>document.querySelectorAll(s);
@@ -931,7 +827,21 @@ function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show'
 
 /* ============ НАВИГАЦИЯ ============ */
 function go(id){$$('.screen').forEach(s=>s.classList.toggle('active',s.id===id));$$('#nav button').forEach(b=>b.classList.toggle('active',b.dataset.screen===id));window.scrollTo({top:0,behavior:'smooth'})}
-$$('#nav button').forEach(b=>b.onclick=()=>{const s=b.dataset.screen;go(s);if(s==='theory')renderTheory();if(s==='stats')renderStats();if(s==='formulas')renderFormulas();if(s==='reactions')renderReactions();if(s==='lab')initLab();if(s==='atom')initAtom();if(s==='formulas3d')openFormulas3d();if(s==='molecules3d')openMolecules3d();if(s==='crystals3d')openCrystals3d()});
+$$('#nav button').forEach(b=>b.onclick=()=>{
+const s=b.dataset.screen;go(s);
+if(s==='textbook')renderTextbook(8);
+if(s==='theory')renderTheory();
+if(s==='stats')renderStats();
+if(s==='formulas')renderFormulas();
+if(s==='reactions')renderReactions();
+if(s==='lab')initLab();
+if(s==='atom')initAtom();
+if(s==='orbital3d')openOrbital3d();
+if(s==='electrolysis3d')openElectrolysis3d();
+if(s==='formulas3d')openFormulas3d();
+if(s==='molecules3d')openMolecules3d();
+if(s==='crystals3d')openCrystals3d();
+});
 
 /* ============ СТАТИСТИКА ============ */
 function updateStat(type,correct){const stats=Store.get('stats',{});if(!stats[type])stats[type]={c:0,t:0};stats[type].t++;if(correct)stats[type].c++;Store.set('stats',stats)}
@@ -943,30 +853,20 @@ function refreshHome(){$('#homeBest').textContent=Store.get('best',0);const dail
 function renderDaily(){const daily=Store.get('daily',{streak:0,date:'',done:false});const today=new Date().toISOString().slice(0,10);const isDone=daily.date===today&&daily.done;$('#dailyBanner').innerHTML=`<div class="settings-row" style="border-color:var(--accent-2)"><div><div class="lbl">${isDone?'✅ Вызов пройден':'🔥 Ежедневный вызов'}</div><div class="sub">${isDone?`Стрик: ${daily.streak} дн.`:'5 вопросов — поддержи серию!'}</div></div><button class="btn small" ${isDone?'disabled style="opacity:.5"':''} onclick="startDaily()">${isDone?'Готово':'Начать'}</button></div>`}
 function renderProgressMap(){const types=[{k:'precipitate',n:'Осадки'},{k:'oxide',n:'Оксиды'},{k:'ionic',n:'Ионы'},{k:'redox',n:'ОВР'},{k:'exception',n:'Исключения'}];$('#progressMap').innerHTML=types.map(t=>{const a=getAccuracy(t.k);return `<div class="pm-item"><div class="pm-top"><span class="pm-name">${t.n}</span><span>${a}%</span></div><div class="pm-bar"><div style="width:${a}%"></div></div></div>`}).join('')}
 
+/* ============ УЧЕБНИК ============ */
+function renderTextbook(grade){
+$$('#gradeTabs button').forEach(b=>b.classList.toggle('active',parseInt(b.dataset.g)===grade));
+const data=TEXTBOOK.find(t=>t.grade===grade);
+$('#textbookList').innerHTML=data.chapters.map(c=>`<div class="book-card"><div class="sub">${c.title}</div><p>${c.desc}</p></div>`).join('');
+}
+$$('#gradeTabs button').forEach(b=>b.onclick=()=>renderTextbook(parseInt(b.dataset.g)));
+
 /* ============ ТЕОРИЯ ============ */
 function renderTheory(){const filter=$('#theoryFilter').value;const q=($('#theorySearch').value||'').toLowerCase().trim();const list=$('#theoryList');
-if(filter==='mnemonic'){list.innerHTML=MNEMONICS.map(m=>`<div class="mnemonic"><b>${m.f}</b><br>${m.r}<br><span style="color:var(--muted);font-size:12px">💡 ${m.n}</span></div>`).join('');return}
-if(filter==='mistake'){list.innerHTML=MISTAKES.map(m=>`<div class="mnemonic" style="border-left-color:var(--err)"><b>${m.f}</b><br>${m.r}<br><span style="color:var(--muted);font-size:12px">💡 ${m.n}</span></div>`).join('');return}
-if(filter==='checklist'){const saved=Store.get('checklist',{});list.innerHTML=CHECKLIST.map(c=>`<label class="checklist-item ${saved[c.id]?'done':''}"><input type="checkbox" ${saved[c.id]?'checked':''} onchange="toggleCheck('${c.id}',this.checked)"><span>${c.text}</span></label>`).join('');return}
 let items=ALL_ITEMS;if(filter!=='all')items=items.filter(d=>d.type===filter);
 if(q)items=items.filter(d=>(d.f||'').toLowerCase().includes(q)||(d.c||'').toLowerCase().includes(q)||(d.r||'').toLowerCase().includes(q)||(d.n||'').toLowerCase().includes(q));
 if(!items.length){list.innerHTML='<div class="empty">Ничего не найдено 🤷</div>';return}
 list.innerHTML=items.map(d=>`<div class="theory-card"><div class="t-swatch" style="background:${COLORS[d.c]||'#555'}"></div><div class="t-body"><div class="t-top"><span class="t-formula">${d.f}</span>${d.c?`<span class="t-color">${d.c}</span>`:''}${d.kind?`<span class="t-color">${d.kind}</span>`:''}${d.ox?`<span class="t-color">Ок: ${d.ox}</span>`:''}</div><div class="t-reaction">${d.r}</div><div class="t-note">💡 ${d.n}</div></div></div>`).join('')}
-function toggleCheck(id,val){const saved=Store.get('checklist',{});saved[id]=val;Store.set('checklist',saved)}
-
-/* ============ КАРТОЧКИ ============ */
-const flash={deck:[],idx:0,type:'precipitate',bookmarks:[]};
-function startFlash(type='precipitate'){flash.type=type;flash.bookmarks=Store.get('bookmarks',[]);let pool=ALL_ITEMS;if(type==='bookmarks'){pool=ALL_ITEMS.filter(d=>flash.bookmarks.includes(d.f));if(!pool.length){toast('Нет закладок ⭐');return}}else if(type!=='mix'){pool=pool.filter(d=>d.type===type)}flash.deck=shuffle(pool);flash.idx=0;go('flash');$('#flashType').value=type;renderFlash()}
-function renderFlash(){const card=flash.deck[flash.idx];if(!card)return;$('#flashCounter').textContent=`${flash.idx+1} / ${flash.deck.length}`;$('#flashProgress').style.width=`${(flash.idx/flash.deck.length)*100}%`;$('#flashcard').classList.remove('flipped');$('#flashFormula').textContent=card.f;let hint='Вспомни';if(card.type==='precipitate')hint='Какого цвета?';if(card.type==='oxide')hint='Какой оксид?';if(card.type==='ionic')hint='Ионное уравнение?';if(card.type==='redox')hint='Ок/вос?';if(card.type==='exception')hint='В чём исключение?';$('#flashHint').textContent=hint;
-const sw=$('#flashColorSwatch');if(card.c&&COLORS[card.c]&&card.c!=='—'&&card.c!=='газ'){sw.style.display='block';sw.style.background=COLORS[card.c]}else sw.style.display='none';
-let answer=card.c||card.kind||'—';if(card.type==='redox')answer=`Ок: ${card.ox} | Вос: ${card.red}`;
-$('#flashAnswer').textContent=answer;$('#flashReaction').textContent=card.r;$('#flashNote').textContent='💡 '+card.n;
-$('#bookmarkBtn').classList.toggle('active',flash.bookmarks.includes(card.f))}
-function toggleBookmark(){const card=flash.deck[flash.idx];if(!card)return;const arr=Store.get('bookmarks',[]);const i=arr.indexOf(card.f);if(i>=0)arr.splice(i,1);else arr.push(card.f);Store.set('bookmarks',arr);flash.bookmarks=arr;$('#bookmarkBtn').classList.toggle('active',arr.includes(card.f));toast(arr.includes(card.f)?'⭐ Добавлено':'Убрано')}
-function flipCard(){$('#flashcard').classList.toggle('flipped');beep(600,.04,'triangle')}
-function nextFlash(){flash.idx=(flash.idx+1)%flash.deck.length;renderFlash()}
-function prevFlash(){flash.idx=(flash.idx-1+flash.deck.length)%flash.deck.length;renderFlash()}
-function speakCard(){const card=flash.deck[flash.idx];if(!card||!('speechSynthesis'in window))return;const u=new SpeechSynthesisUtterance(`${card.f}. ${card.r}. ${card.n}`);u.lang='ru-RU';u.rate=0.9;speechSynthesis.cancel();speechSynthesis.speak(u)}
 
 /* ============ ТЕСТ ============ */
 const Q={questions:[],idx:0,score:0,streak:0,maxStreak:0,mode:'mix',answered:false,wrong:[]};
@@ -1061,13 +961,6 @@ $('#oddScore').textContent=O.score;const fb=$('#oddFeedback');fb.classList.add('
 $('#oddNext').style.display='inline-block'}
 function nextOdd(){O.idx++;if(O.idx>=O.list.length){toast(`Готово! Верно: ${O.score} из ${O.list.length}`);go('home');return}renderOdd()}
 
-/* ============ ПАЛИТРА ============ */
-function renderPalette(){const groups={};PRECIPITATES.forEach(p=>{if(!groups[p.c])groups[p.c]=[];groups[p.c].push(p.f)});const order=['белый','светло-жёлтый','жёлтый','голубой','серо-зелёный','бурый','чёрный','кирпично-красный','красный'];
-$('#paletteGrid').innerHTML=order.filter(c=>groups[c]).map(c=>`<div class="pal-item" onclick="showPaletteGroup('${c}')"><div class="pal-swatch" style="background:${COLORS[c]}"></div><div class="pal-label">${c}<br><span style="color:var(--muted);font-weight:600">${groups[c].length}</span></div></div>`).join('')}
-function showPaletteGroup(color){const items=PRECIPITATES.filter(p=>p.c===color);const modal=document.createElement('div');modal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:999;display:flex;align-items:center;justify-content:center;padding:20px';
-modal.innerHTML=`<div style="background:var(--card);border-radius:20px;padding:20px;max-width:420px;width:100%;max-height:80vh;overflow:auto"><div style="display:flex;align-items:center;gap:10px;margin-bottom:12px"><div style="width:30px;height:30px;border-radius:8px;background:${COLORS[color]};border:1px solid rgba(139,107,255,.3)"></div><b style="font-size:16px">${color}</b></div>${items.map(p=>`<div style="margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(139,107,255,.1)"><div style="font-weight:800;font-size:15px">${p.f}</div><div style="font-size:12px;color:var(--muted);font-family:monospace">${p.r}</div><div style="font-size:11px;color:var(--muted);margin-top:2px">${p.n}</div></div>`).join('')}<button class="btn small" style="width:100%;margin-top:8px" onclick="this.closest('div[style*=fixed]').remove()">Закрыть</button></div>`;
-modal.onclick=e=>{if(e.target===modal)modal.remove()};document.body.appendChild(modal)}
-
 /* ============ БЛИЦ ============ */
 const BL={score:0,timer:null,timeLeft:60,active:false};
 function startBlitz(){BL.score=0;BL.timeLeft=60;BL.active=true;$('#blitzScore').textContent=0;$('#blitzTimer').textContent=60;$('#blitzTimer').classList.remove('warn');go('blitz');nextBlitz();clearInterval(BL.timer);
@@ -1145,6 +1038,148 @@ stage.addEventListener('pointerup',()=>V3.dragging=false);stage.addEventListener
 function v3StartLoop(renderFn,screenId){if(V3.raf)cancelAnimationFrame(V3.raf);const loop=()=>{const active=document.getElementById(screenId)?.classList.contains('active');if(!active){V3.raf=null;return}if(!V3.dragging)V3.rotY+=0.006;renderFn();V3.raf=requestAnimationFrame(loop)};loop()}
 function v3ResetRot(){V3.rotX=-0.25;V3.rotY=0.3}
 
+/* ============ ОРБИТАЛИ 3D ============ */
+let orbitalMode = 's';
+function setOrbital(mode, btn){
+  orbitalMode = mode;
+  document.querySelectorAll('.orbital-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  const titles = {
+    's': 's-орбиталь',
+    'p': 'p-орбиталь',
+    'd': 'd-орбиталь'
+  };
+  const descs = {
+    's': 'Форма — сфера. В ней помещается максимум 2 электрона. Это самая простая орбиталь, она есть у всех элементов.',
+    'p': 'Форма — гантель (два лепестка). Состоит из трёх орбиталей (px, py, pz), расположенных по осям. Вмещает до 6 электронов.',
+    'd': 'Форма — четырёхлепестковая розетка (и другие). Состоит из пяти орбиталей. Вмещает до 10 электронов.'
+  };
+  document.getElementById('orbitalInfo').innerHTML = `<div class="v3-info-title">${titles[mode]}</div><div class="v3-info-body">${descs[mode]}</div>`;
+}
+function renderOrbitalScene(){
+  const svg=document.getElementById('orbitalSVG'); if(!svg) return;
+  const cx=200, cy=200;
+  let pts=[];
+  if(orbitalMode==='s'){
+    for(let i=0;i<400;i++){
+      const theta=Math.random()*Math.PI*2, phi=Math.acos(2*Math.random()-1), r=80;
+      pts.push({x:r*Math.sin(phi)*Math.cos(theta), y:r*Math.sin(phi)*Math.sin(theta), z:r*Math.cos(phi), r:2.5, color:'#8b6bff'});
+    }
+  } else if(orbitalMode==='p'){
+    for(let i=0;i<400;i++){
+      const sign = Math.random()<0.5?1:-1;
+      const theta=Math.random()*Math.PI*2, phi=Math.acos(2*Math.random()-1);
+      const rad = Math.random()*80;
+      const x = rad*Math.sin(phi)*Math.cos(theta) + sign*40;
+      const y = rad*Math.sin(phi)*Math.sin(theta);
+      const z = rad*Math.cos(phi);
+      // Flatten into lobes
+      pts.push({x: x*1.5, y: y*0.8, z: z*0.8, r:2.5, color: sign>0?'#4dd6c1':'#ff5a6e'});
+    }
+  } else if(orbitalMode==='d'){
+    for(let i=0;i<600;i++){
+      const theta=Math.random()*Math.PI*2, phi=Math.acos(2*Math.random()-1);
+      const rad = Math.random()*80;
+      const x = rad*Math.sin(phi)*Math.cos(theta);
+      const y = rad*Math.sin(phi)*Math.sin(theta);
+      const z = rad*Math.cos(phi);
+      // 4 lobes in xy plane
+      const lobe = Math.floor(Math.random()*4);
+      const ang = lobe * Math.PI/2;
+      const lx = Math.cos(ang)*60, ly = Math.sin(ang)*60;
+      pts.push({x: lx + x*0.6, y: ly + y*0.6, z: z*0.4, r:2.5, color: lobe%2===0?'#f2d024':'#a88cff'});
+    }
+  }
+  const projected = pts.map(p => {
+    const r = rotate3d(p, V3.rotX, V3.rotY);
+    return { ...p, ...project3d(r, cx, cy) };
+  }).sort((a,b)=>b.z-a.z);
+  let html='';
+  projected.forEach(p=>{
+    const rad = p.r * p.scale;
+    html += `<circle cx="${p.x}" cy="${p.y}" r="${rad}" fill="${p.color}" opacity="0.6"/>`;
+  });
+  svg.innerHTML = html;
+}
+function openOrbital3d(){go('orbital3d');v3ResetRot();v3BindStage('orbitalStage');v3StartLoop(renderOrbitalScene,'orbital3d')}
+
+/* ============ ЭЛЕКТРОЛИЗ 3D ============ */
+let elecParticles = [];
+function initElec(){
+  elecParticles = [];
+  for(let i=0;i<30;i++){
+    elecParticles.push({
+      x: 100 + Math.random()*200,
+      y: 50 + Math.random()*200,
+      vx: (Math.random()-0.5)*2,
+      vy: (Math.random()-0.5)*2,
+      charge: Math.random()<0.5?1:-1, // 1 = cation (+, goes to cathode), -1 = anion (goes to anode)
+      color: Math.random()<0.5?'#4dd6c1':'#ff5a6e'
+    });
+  }
+}
+function renderElectrolysisScene(){
+  const svg=document.getElementById('elecSVG'); if(!svg) return;
+  let html = '';
+  // Beaker
+  html += `<rect x="80" y="30" width="240" height="240" fill="none" stroke="#8b6bff" stroke-width="4" rx="10"/>`;
+  // Solution background
+  html += `<rect x="82" y="32" width="236" height="236" fill="rgba(139,107,255,0.1)" rx="8"/>`;
+  
+  // Electrodes
+  // Cathode (-)
+  html += `<rect x="110" y="30" width="10" height="200" fill="#3ddc97"/>`;
+  html += `<text x="115" y="260" text-anchor="middle" fill="#3ddc97" font-size="16" font-weight="bold">— Катод</text>`;
+  // Anode (+)
+  html += `<rect x="280" y="30" width="10" height="200" fill="#ff5a6e"/>`;
+  html += `<text x="285" y="260" text-anchor="middle" fill="#ff5a6e" font-size="16" font-weight="bold">+ Анод</text>`;
+
+  // Particles
+  elecParticles.forEach(p => {
+    // Attraction
+    if(p.charge === 1) { // Cation -> Cathode (left)
+      p.vx += (115 - p.x) * 0.001;
+    } else { // Anion -> Anode (right)
+      p.vx += (285 - p.x) * 0.001;
+    }
+    // Random jitter
+    p.vx += (Math.random()-0.5)*0.5;
+    p.vy += (Math.random()-0.5)*0.5;
+    
+    // Dampen
+    p.vx *= 0.98;
+    p.vy *= 0.98;
+    
+    p.x += p.vx;
+    p.y += p.vy;
+    
+    // Bounce off walls
+    if(p.x < 90) { p.x = 90; p.vx *= -1; }
+    if(p.x > 310) { p.x = 310; p.vx *= -1; }
+    if(p.y < 40) { p.y = 40; p.vy *= -1; }
+    if(p.y > 260) { p.y = 260; p.vy *= -1; }
+
+    const rad = p.charge===1?6:6;
+    html += `<circle cx="${p.x}" cy="${p.y}" r="${rad}" fill="${p.color}" opacity="0.8"/>`;
+    if(p.charge===1) {
+       html += `<text x="${p.x}" y="${p.y+4}" text-anchor="middle" fill="white" font-size="10" font-weight="bold">+</text>`;
+    } else {
+       html += `<text x="${p.x}" y="${p.y+4}" text-anchor="middle" fill="white" font-size="10" font-weight="bold">-</text>`;
+    }
+  });
+  svg.innerHTML = html;
+}
+function openElectrolysis3d(){
+  go('electrolysis3d');
+  initElec();
+  function loop(){
+    if(!document.getElementById('electrolysis3d').classList.contains('active')) return;
+    renderElectrolysisScene();
+    requestAnimationFrame(loop);
+  }
+  loop();
+}
+
 /* ============ ФОРМУЛЫ 3D ============ */
 function renderFormulaScene(){const svg=document.getElementById('formulaSVG');if(!svg)return;const key=document.querySelector('#formulaTabs button.active')?.dataset.f||'mass';const cx=200,cy=200;
 const S=90;const corners=[];for(let dx of[-1,1])for(let dy of[-1,1])for(let dz of[-1,1])corners.push({x:dx*S,y:dy*S,z:dz*S});
@@ -1198,6 +1233,7 @@ function openCrystals3d(){go('crystals3d');v3ResetRot();v3BindStage('crystalStag
 function renderStats(){const types=[{k:'precipitate',n:'Осадки'},{k:'oxide',n:'Оксиды'},{k:'ionic',n:'Ионные'},{k:'redox',n:'ОВР'},{k:'exception',n:'Исключения'}];
 $('#statsBody').innerHTML=types.map(t=>{const a=getAccuracy(t.k);const s=Store.get('stats',{})[t.k]||{c:0,t:0};return `<div class="settings-row"><div><div class="lbl">${t.n}</div><div class="sub">${s.c}/${s.t}</div></div><div style="font-size:20px;font-weight:800;color:${a>=70?'var(--ok)':a>=40?'var(--accent-2)':'var(--err)'}">${a}%</div></div>`}).join('');
 const saved=Store.get('checklist',{});$('#checklistBody').innerHTML=CHECKLIST.map(c=>`<label class="checklist-item ${saved[c.id]?'done':''}"><input type="checkbox" ${saved[c.id]?'checked':''} onchange="toggleCheck('${c.id}',this.checked)"><span>${c.text}</span></label>`).join('')}
+function toggleCheck(id,val){const saved=Store.get('checklist',{});saved[id]=val;Store.set('checklist',saved)}
 
 /* ============ НАСТРОЙКИ ============ */
 function applySettings(){const theme=Store.get('theme','dark');document.body.dataset.theme=theme;$('#themeSwitch').classList.toggle('on',theme==='light');const font=Store.get('font','normal');document.body.dataset.font=font;$('#fontSwitch').classList.toggle('on',font!=='normal');$('#soundSwitch').classList.toggle('on',Store.get('sound',true));$('#vibeSwitch').classList.toggle('on',Store.get('vibe',true))}
@@ -1210,9 +1246,6 @@ function importProgress(e){const file=e.target.files[0];if(!file)return;const r=
 function shareResult(){const best=Store.get('best',0);const text=`🧪 Я набрал ${best}/10 в ХимОГЭ — тренажёре по химии для 8–9 класса!`;if(navigator.share)navigator.share({title:'ХимОГЭ',text}).catch(()=>{});else navigator.clipboard.writeText(text).then(()=>toast('🔗 Скопировано')).catch(()=>toast(text))}
 function resetAll(){if(!confirm('Сбросить весь прогресс?'))return;['best','stats','bookmarks','daily','checklist'].forEach(k=>Store.del(k));applySettings();refreshHome();renderStats();toast('🗑️ Сброшено')}
 
-/* ============ PWA ============ */
-(function(){const manifest={name:'ХимОГЭ',short_name:'ХимОГЭ',start_url:'.',display:'standalone',background_color:'#0d1020',theme_color:'#8b6bff',icons:[{src:'data:image/svg+xml;base64,'+btoa('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><rect fill="#8b6bff" width="192" height="192" rx="40"/><text x="96" y="130" font-size="100" text-anchor="middle" fill="white">🧪</text></svg>'),sizes:'192x192',type:'image/svg+xml'}]};const blob=new Blob([JSON.stringify(manifest)],{type:'application/json'});const link=document.createElement('link');link.rel='manifest';link.href=URL.createObjectURL(blob);document.head.appendChild(link)})();
-
 /* ============ КЛАВИАТУРА ============ */
 document.addEventListener('keydown',e=>{
 if($('#quiz').classList.contains('active')){const n=parseInt(e.key);if(n>=1&&n<=4&&!Q.answered){const btns=$$('#quizOptions .opt');if(btns[n-1])btns[n-1].click()}if((e.key==='Enter'||e.key===' ')&&$('#nextBtn').style.display!=='none'){e.preventDefault();nextQuestion()}}
@@ -1224,4 +1257,4 @@ refreshHome();
 renderStats();
 </script>
 </body>
-</html>
+  </html>
